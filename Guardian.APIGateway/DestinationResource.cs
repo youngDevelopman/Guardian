@@ -30,20 +30,6 @@ namespace Guardian.APIGateway
             RequiresAuthentication = false;
         }
 
-        private string CreateDestinationUri(HttpRequest request)
-        {
-            string requestPath = request.Path.ToString();
-            string queryString = request.QueryString.ToString();
-
-            string endpoint = "";
-            string[] endpointSplit = requestPath.Substring(1).Split('/');
-
-            if (endpointSplit.Length > 1)
-                endpoint = endpointSplit[1];
-
-            return Uri + endpoint + queryString;
-        }
-
         public async Task<HttpResponseMessage> SendRequest(HttpRequest request)
         {
             string requestContent;
@@ -55,7 +41,7 @@ namespace Guardian.APIGateway
                 }
             }
 
-            using (var newRequest = new HttpRequestMessage(new HttpMethod(request.Method), CreateDestinationUri(request)))
+            using (var newRequest = new HttpRequestMessage(new HttpMethod(request.Method), this.Uri))
             {
                 newRequest.Content = new StringContent(requestContent, Encoding.UTF8, request.ContentType);
                 var response = await client.SendAsync(newRequest);

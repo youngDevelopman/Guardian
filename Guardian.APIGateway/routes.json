@@ -13,6 +13,13 @@
         "uri": "https://geo.qualaroo.com/json/",
         "requiresAuthentication": "false"
       }
+    },
+    {
+      "endpoint": "/test/post",
+      "destination": {
+        "uri": "https://postman-echo.com/post",
+        "requiresAuthentication": "false"
+      }
     }
   ],
   "authenticationService": {

@@ -26,8 +26,7 @@ namespace Guardian.APIGateway
         }
         public async Task<HttpResponseMessage> RouteRequest(HttpRequest request)
         {
-            string path = request.Path.ToString();
-            string basePath = '/' + path.Split('/')[1];
+            string basePath = request.Path.Value;
 
             DestinationResource destination;
             try
