@@ -37,8 +37,8 @@ namespace Guardian.APIGateway
             app.Run(async (context) =>
             {
                 var response = await router.RouteRequest(context.Request);
-
-                await context.Response.WriteAsync(await response.Content.ReadAsStringAsync());
+                var content = await response.Content.ReadAsStringAsync();
+                await context.Response.WriteAsync(content);
             });
         }
     }

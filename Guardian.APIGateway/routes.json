@@ -1,16 +1,16 @@
 {
   "routes": [
     {
-      "endpoint": "/movies",
+      "endpoint": "/todos",
       "destination": {
-        "uri": "http://localhost:8090/movies/",
+        "uri": "https://jsonplaceholder.typicode.com/todos/1",
         "requiresAuthentication": "true"
       }
     },
     {
-      "endpoint": "/songs",
+      "endpoint": "/geo",
       "destination": {
-        "uri": "http://localhost:8091/songs/",
+        "uri": "https://geo.qualaroo.com/json/",
         "requiresAuthentication": "false"
       }
     }
