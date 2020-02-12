@@ -1,0 +1,21 @@
+{
+  "routes": [
+    {
+      "endpoint": "/todos",
+      "destination": {
+        "uri": "https://jsonplaceholder.typicode.com/todos/1",
+        "requiresAuthentication": "true"
+      }
+    },
+    {
+      "endpoint": "/geo",
+      "destination": {
+        "uri": "https://geo.qualaroo.com/json/",
+        "requiresAuthentication": "false"
+      }
+    }
+  ],
+  "authenticationService": {
+    "uri": "http://localhost:8080/api/auth/"
+  }
+}
