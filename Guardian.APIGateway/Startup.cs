@@ -32,14 +32,13 @@ namespace Guardian.APIGateway
                     await context.Response.WriteAsync("Hello World!");
                 });
             });
-
+            
+            Router router = new Router("routes.json");
             app.Run(async (context) =>
             {
-               var httpClient = new HttpClient();
-               var httpRequestMessage = new HttpRequestMessage(new HttpMethod(HttpMethod.Get.Method), "https://jsonplaceholder.typicode.com/todos/1");
-               var response = await httpClient.SendAsync(httpRequestMessage);
-               
-               await context.Response.WriteAsync(await response.Content.ReadAsStringAsync());
+                var response = await router.RouteRequest(context.Request);
+
+                await context.Response.WriteAsync(await response.Content.ReadAsStringAsync());
             });
         }
     }
