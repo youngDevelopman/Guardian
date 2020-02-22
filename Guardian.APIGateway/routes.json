@@ -1,10 +1,10 @@
 {
   "routes": [
     {
-      "endpoint": "/todos",
+      "endpoint": "/login",
       "destination": {
-        "uri": "https://jsonplaceholder.typicode.com/todos/1",
-        "requiresAuthentication": "true"
+        "uri": "https://localhost:5003/Authorization/login",
+        "requiresAuthentication": "false"
       }
     },
     {
