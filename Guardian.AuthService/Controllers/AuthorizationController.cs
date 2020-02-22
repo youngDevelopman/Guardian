@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Guardian.AuthorizationService;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -19,9 +20,21 @@ namespace Guardian.AuthService.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Login(User user)
         {
-            return Ok("LOGIN");
+            User u = new UserRepository().GetUser(user.Username);
+            if (u == null)
+            {
+                return Unauthorized();
+            }
+            bool credentials = u.Password.Equals(user.Password);
+            if (!credentials)
+            {
+                return Unauthorized();
+            }
+            var tokenManager = new TokenManager();
+            var token = tokenManager.GenerateToken(user.Username);
+            return Ok(token);
         }
     }
 }
