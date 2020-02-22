@@ -18,7 +18,7 @@ namespace Guardian.AuthorizationService
             hmac = new HMACSHA256();
             secret = Convert.ToBase64String(hmac.Key);
         }
-        public string GenerateToken(string username)
+        public OAuthTokenResponse GenerateToken(string username)
         {
             byte[] key = Convert.FromBase64String(secret);
             var securityKey = new SymmetricSecurityKey(key);
@@ -33,11 +33,17 @@ namespace Guardian.AuthorizationService
             };
 
             var handler = new JwtSecurityTokenHandler();
+            JwtSecurityToken tokenDescriptor = handler.CreateJwtSecurityToken(descriptor);
 
-            JwtSecurityToken token = handler.CreateJwtSecurityToken(descriptor);
+            string accessToken = handler.WriteToken(tokenDescriptor);
+            var authTokenResponse = new OAuthTokenResponse()
+            {
+                AccessToken = accessToken,
+                ExpiresIn = descriptor.Expires.Value,
+                RefreshToken = "TEMP",
+            };
 
-
-            return handler.WriteToken(token);
+            return authTokenResponse;
         }
     }
 }

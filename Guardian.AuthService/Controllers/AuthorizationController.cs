@@ -32,9 +32,11 @@ namespace Guardian.AuthService.Controllers
             {
                 return Unauthorized();
             }
+            
             var tokenManager = new TokenManager();
-            var token = tokenManager.GenerateToken(user.Username);
-            return Ok(token);
+            OAuthTokenResponse authTokenResponse = tokenManager.GenerateToken(user.Username);
+            
+            return Ok(authTokenResponse);
         }
     }
 }
