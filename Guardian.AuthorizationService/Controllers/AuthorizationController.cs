@@ -2,34 +2,41 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using Guardian.AuthorizationService;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
-namespace Guardian.AuthorizationService.Controllers
+namespace Guardian.AuthService.Controllers
 {
     [ApiController]
     [Route("[controller]")]
     public class AuthorizationController : ControllerBase
     {
-        public AuthorizationController()
+        private readonly ILogger<AuthorizationController> _logger;
+
+        public AuthorizationController(ILogger<AuthorizationController> logger)
         {
-            Console.WriteLine();
-        }
-        [HttpPost]
-        public async Task<IActionResult> Login()
-        {
-            return Ok("LOGIN");
+            _logger = logger;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Register()
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(User user)
         {
-            return Ok("REGISTER");
-        }
-        [HttpGet]
-        public async Task<IActionResult> Test()
-        {
-            return Ok("GET 111");
+            User u = new UserRepository().GetUser(user.Username);
+            if (u == null)
+            {
+                return Unauthorized();
+            }
+            bool credentials = u.Password.Equals(user.Password);
+            if (!credentials)
+            {
+                return Unauthorized();
+            }
+            
+            var tokenManager = new TokenManager();
+            OAuthTokenResponse authTokenResponse = tokenManager.GenerateToken(user.Username);
+            
+            return Ok(authTokenResponse);
         }
     }
 }
