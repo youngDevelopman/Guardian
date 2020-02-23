@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Guardian.AuthorizationService
 {
-    public class UserRepository
+    public class UserRepository : IUserRepository
     {
         public List<User> TestUsers;
         public UserRepository()

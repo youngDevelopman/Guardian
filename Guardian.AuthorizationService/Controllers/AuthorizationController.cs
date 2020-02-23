@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Guardian.AuthorizationService;
+using Guardian.AuthorizationService.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -13,16 +14,18 @@ namespace Guardian.AuthService.Controllers
     public class AuthorizationController : ControllerBase
     {
         private readonly ILogger<AuthorizationController> _logger;
+        private readonly IUserRepository _userRepository;
 
-        public AuthorizationController(ILogger<AuthorizationController> logger)
+        public AuthorizationController(ILogger<AuthorizationController> logger, IUserRepository userRepository)
         {
             _logger = logger;
+            _userRepository = userRepository;
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(User user)
         {
-            User u = new UserRepository().GetUser(user.Username);
+            User u = _userRepository.GetUser(user.Username);
             if (u == null)
             {
                 return Unauthorized();
@@ -37,6 +40,22 @@ namespace Guardian.AuthService.Controllers
             OAuthTokenResponse authTokenResponse = tokenManager.GenerateToken(user.Username);
             
             return Ok(authTokenResponse);
+        }
+
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(UserForRegisterModel user)
+        {
+            string password = user.Password;
+            var userToAdd = new User()
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                Username = user.Username
+            };
+
+            _userRepository.CreateUser(userToAdd, password);
+            return Ok($"User {userToAdd.Username} has been added");
         }
     }
 }
