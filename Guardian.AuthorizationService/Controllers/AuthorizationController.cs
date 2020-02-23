@@ -23,21 +23,16 @@ namespace Guardian.AuthService.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(User user)
+        public async Task<IActionResult> Login(UserForLoginModel user)
         {
-            User u = _userRepository.GetUser(user.Username);
-            if (u == null)
+            User authenticatedUser = _userRepository.Authenticate(user.Username, user.Password);
+            if (authenticatedUser == null)
             {
-                return Unauthorized();
-            }
-            bool credentials = u.PasswordHash.Equals(user.PasswordHash);
-            if (!credentials)
-            {
-                return Unauthorized();
+                return Unauthorized("Password or username is incorrect");
             }
             
             var tokenManager = new TokenManager();
-            OAuthTokenResponse authTokenResponse = tokenManager.GenerateToken(user.Username);
+            OAuthTokenResponse authTokenResponse = tokenManager.GenerateToken(authenticatedUser.UserId.ToString());
             
             return Ok(authTokenResponse);
         }

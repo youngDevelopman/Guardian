@@ -3,6 +3,6 @@
     public interface IUserRepository
     {
         public User CreateUser(User user, string password);
-        public User GetUser(string username);
+        public User Authenticate(string username, string password);
     }
 }
