@@ -11,13 +11,15 @@ namespace Guardian.AuthorizationService
 {
     public class TokenManager
     {
-        HMACSHA256 hmac;
-        string secret;
+        private readonly HMACSHA256 hmac;
+        private readonly string secret;
+
         public TokenManager()
         {
             hmac = new HMACSHA256();
             secret = Convert.ToBase64String(hmac.Key);
         }
+
         public OAuthTokenResponse GenerateToken(string userId)
         {
             byte[] key = Convert.FromBase64String(secret);

@@ -15,11 +15,13 @@ namespace Guardian.AuthService.Controllers
     {
         private readonly ILogger<AuthorizationController> _logger;
         private readonly IUserRepository _userRepository;
+        private readonly TokenManager _tokenManager;
 
-        public AuthorizationController(ILogger<AuthorizationController> logger, IUserRepository userRepository)
+        public AuthorizationController(ILogger<AuthorizationController> logger, IUserRepository userRepository, TokenManager tokenManager)
         {
             _logger = logger;
             _userRepository = userRepository;
+            _tokenManager = tokenManager;
         }
 
         [HttpPost("login")]
@@ -31,8 +33,7 @@ namespace Guardian.AuthService.Controllers
                 return Unauthorized("Password or username is incorrect");
             }
             
-            var tokenManager = new TokenManager();
-            OAuthTokenResponse authTokenResponse = tokenManager.GenerateToken(authenticatedUser.UserId.ToString());
+            OAuthTokenResponse authTokenResponse = _tokenManager.GenerateToken(authenticatedUser.UserId.ToString());
             
             return Ok(authTokenResponse);
         }

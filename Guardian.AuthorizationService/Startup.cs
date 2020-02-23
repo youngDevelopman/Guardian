@@ -27,7 +27,7 @@ namespace Guardian.AuthService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AuthorizationServiceDbContext>();
-
+            services.AddScoped<TokenManager>();
             services.AddScoped<IUserRepository, UserRepository>();
 
             services.AddControllers();
