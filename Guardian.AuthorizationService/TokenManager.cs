@@ -11,14 +11,16 @@ namespace Guardian.AuthorizationService
 {
     public class TokenManager
     {
-        HMACSHA256 hmac;
-        string secret;
+        private readonly HMACSHA256 hmac;
+        private readonly string secret;
+
         public TokenManager()
         {
             hmac = new HMACSHA256();
             secret = Convert.ToBase64String(hmac.Key);
         }
-        public OAuthTokenResponse GenerateToken(string username)
+
+        public OAuthTokenResponse GenerateToken(string userId)
         {
             byte[] key = Convert.FromBase64String(secret);
             var securityKey = new SymmetricSecurityKey(key);
@@ -26,7 +28,7 @@ namespace Guardian.AuthorizationService
             var descriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[] {
-                      new Claim(ClaimTypes.Name, username)}),
+                      new Claim(ClaimTypes.Name, userId)}),
                 Expires = DateTime.UtcNow.AddMinutes(30),
                 SigningCredentials = new SigningCredentials(securityKey,
                   SecurityAlgorithms.HmacSha256Signature)
