@@ -26,8 +26,9 @@ namespace Guardian.AuthService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // TODO: Change to transient/scoped when integration with real database will be finished.
-            services.AddSingleton<IUserRepository, UserRepository>();
+            services.AddDbContext<AuthorizationServiceDbContext>();
+
+            services.AddScoped<IUserRepository, UserRepository>();
 
             services.AddControllers();
         }
