@@ -27,7 +27,7 @@ namespace Guardian.AuthService.Controllers
             {
                 return Unauthorized();
             }
-            bool credentials = u.Password.Equals(user.Password);
+            bool credentials = u.PasswordHash.Equals(user.PasswordHash);
             if (!credentials)
             {
                 return Unauthorized();
