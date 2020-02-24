@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Guardian.AuthorizationService;
+﻿using Guardian.AuthorizationService;
 using Guardian.AuthorizationService.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace Guardian.AuthService.Controllers
 {
@@ -33,7 +30,7 @@ namespace Guardian.AuthService.Controllers
                 return Unauthorized("Password or username is incorrect");
             }
             
-            OAuthTokenResponse authTokenResponse = _tokenManager.GenerateToken(authenticatedUser.UserId.ToString());
+            OAuthTokenModel authTokenResponse = _tokenManager.GenerateToken(authenticatedUser.UserId.ToString());
             
             return Ok(authTokenResponse);
         }
@@ -52,6 +49,19 @@ namespace Guardian.AuthService.Controllers
 
             _userRepository.CreateUser(userToAdd, password);
             return Ok($"User {userToAdd.Username} has been added");
+        }
+
+        [HttpPost("validate")]
+        public async Task<IActionResult> ValidateToken(OAuthTokenModel user)
+        {
+            bool isValid = _tokenManager.ValidateToken(user.AccessToken);
+
+            if (!isValid)
+            {
+                return Unauthorized(isValid);
+            }
+
+            return Ok(isValid);
         }
     }
 }

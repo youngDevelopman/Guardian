@@ -5,6 +5,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Guardian.AuthorizationService
@@ -20,7 +21,7 @@ namespace Guardian.AuthorizationService
             secret = Convert.ToBase64String(hmac.Key);
         }
 
-        public OAuthTokenResponse GenerateToken(string userId)
+        public OAuthTokenModel GenerateToken(string userId)
         {
             byte[] key = Convert.FromBase64String(secret);
             var securityKey = new SymmetricSecurityKey(key);
@@ -38,7 +39,7 @@ namespace Guardian.AuthorizationService
             JwtSecurityToken tokenDescriptor = handler.CreateJwtSecurityToken(descriptor);
 
             string accessToken = handler.WriteToken(tokenDescriptor);
-            var authTokenResponse = new OAuthTokenResponse()
+            var authTokenResponse = new OAuthTokenModel()
             {
                 AccessToken = accessToken,
                 ExpiresIn = descriptor.Expires.Value,
@@ -46,6 +47,30 @@ namespace Guardian.AuthorizationService
             };
 
             return authTokenResponse;
+        }
+
+        public bool ValidateToken(string token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            byte[] key = Convert.FromBase64String(secret);
+            var mySecurityKey = new SymmetricSecurityKey(key);
+            try
+            {
+                tokenHandler.ValidateToken(token, new TokenValidationParameters
+                {
+                    ValidateAudience = false,
+                    ValidateIssuer = false,
+                    ValidateActor = false,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = mySecurityKey,
+                }, out SecurityToken validatedToken);
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }
