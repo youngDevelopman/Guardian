@@ -3,14 +3,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace Guardian.ResourceService.Controllers
 {
-    public class ResourceController : Controller
+    [ApiController]
+    [Route("[controller]")]
+    public class ResourceController : ControllerBase
     {
-        public IActionResult Index()
+        IMongoDatabase _database;
+        public ResourceController()
         {
-            return View();
+            string connectionString = "mongodb://localhost:27017";
+            MongoClient client = new MongoClient(connectionString);
+            _database = client.GetDatabase("guardian");
+        }
+        public async Task<IActionResult> Index()
+        {
+           var collection = _database.GetCollection<ResourceModel>("resources");
+           var filter = Builders<ResourceModel>.Filter.Empty;
+
+           var cursor  = await collection.FindAsync<ResourceModel>(filter);
+           
+           var list = await cursor.ToListAsync();
+
+
+           return Ok(list);
         }
     }
 }
