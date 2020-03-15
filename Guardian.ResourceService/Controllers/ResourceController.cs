@@ -28,7 +28,6 @@ namespace Guardian.ResourceService.Controllers
            
            var list = await cursor.ToListAsync();
 
-
            return Ok(list);
         }
     }
