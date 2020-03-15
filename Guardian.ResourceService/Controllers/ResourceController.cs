@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿
 using System.Threading.Tasks;
+using Guardian.ResourceService.Services;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
-using MongoDB.Driver;
 
 namespace Guardian.ResourceService.Controllers
 {
@@ -12,23 +9,16 @@ namespace Guardian.ResourceService.Controllers
     [Route("[controller]")]
     public class ResourceController : ControllerBase
     {
-        IMongoDatabase _database;
-        public ResourceController()
+        private readonly IResourceService _resourceService;
+        public ResourceController(IResourceService resourceService)
         {
-            string connectionString = "mongodb://localhost:27017";
-            MongoClient client = new MongoClient(connectionString);
-            _database = client.GetDatabase("guardian");
+            _resourceService = resourceService;
         }
+
         public async Task<IActionResult> Index()
         {
-           var collection = _database.GetCollection<ResourceModel>("resources");
-           var filter = Builders<ResourceModel>.Filter.Empty;
-
-           var cursor  = await collection.FindAsync<ResourceModel>(filter);
-           
-           var list = await cursor.ToListAsync();
-
-           return Ok(list);
+            var resources = await _resourceService.GetResources();
+            return Ok(resources);
         }
     }
 }
