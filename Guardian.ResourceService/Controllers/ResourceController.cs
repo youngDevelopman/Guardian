@@ -15,7 +15,8 @@ namespace Guardian.ResourceService.Controllers
             _resourceService = resourceService;
         }
 
-        public async Task<IActionResult> Index()
+        [HttpPost]
+        public async Task<IActionResult> GetResources()
         {
             var resources = await _resourceService.GetResources();
             return Ok(resources);

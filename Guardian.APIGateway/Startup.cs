@@ -1,4 +1,5 @@
 using System.Net.Http;
+using Guardian.APIGateway.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -13,6 +14,10 @@ namespace Guardian.APIGateway
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpClient<IResourceService, ResourceService>(client => 
+            {
+                client.BaseAddress = new System.Uri("https://localhost:5001");
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
