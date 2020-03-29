@@ -18,7 +18,7 @@ namespace Guardian.APIGateway.Services
             _httpClient = httpClient;
         }
 
-        public async Task<ResourceServiceResponse> GetResources(string url)
+        public async Task<ResourceServiceResponse> GetResource(string url)
         {
             var resourceServiceRequest = new ResourceServiceRequest()
             {
