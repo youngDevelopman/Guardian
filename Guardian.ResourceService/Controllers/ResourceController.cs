@@ -1,6 +1,7 @@
 ﻿
 using System.Threading.Tasks;
 using Guardian.ResourceService.Services;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Guardian.ResourceService.Controllers
@@ -15,11 +16,13 @@ namespace Guardian.ResourceService.Controllers
             _resourceService = resourceService;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> GetResources()
+        [HttpGet("{url}")]
+        public async Task<IActionResult> GetResources(string url)
         {
             var resources = await _resourceService.GetResources();
-            return Ok(resources);
+
+            // TODO: Change 
+            return Ok(resources.First());
         }
     }
 }
