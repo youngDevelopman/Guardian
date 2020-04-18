@@ -4,6 +4,8 @@ using Guardian.ResourceService.Services;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Guardian.ResourceService.Models;
+using System;
+using Microsoft.AspNetCore.Http;
 
 namespace Guardian.ResourceService.Controllers
 {
@@ -22,7 +24,21 @@ namespace Guardian.ResourceService.Controllers
         {
             var resource = await _resourceService.GetResource(request);
 
-            return Ok(resource);
+            if(resource == null)
+            {
+                return BadRequest("Resource not found.");
+            }
+
+            var resourceServiceResponse = new ResourceServiceResponse()
+            {
+                UserPoolId = Guid.NewGuid(),
+                IsAuthenticationRequired = resource.Destination.RequiresAuthentication,
+                IsProxyDefined = true,
+                SourceUrl = request.BasePath + request.Path,
+                ProxyUrl = resource.Destination.Uri,
+            };
+
+            return Ok(resourceServiceResponse);
         }
     }
 }
