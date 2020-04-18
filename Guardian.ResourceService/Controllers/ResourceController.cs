@@ -3,26 +3,26 @@ using System.Threading.Tasks;
 using Guardian.ResourceService.Services;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Guardian.ResourceService.Models;
 
 namespace Guardian.ResourceService.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ResourceController : ControllerBase
+    public class ResourcesController : ControllerBase
     {
         private readonly IResourceService _resourceService;
-        public ResourceController(IResourceService resourceService)
+        public ResourcesController(IResourceService resourceService)
         {
             _resourceService = resourceService;
         }
 
-        [HttpGet("{url}")]
-        public async Task<IActionResult> GetResources(string url)
+        [HttpPost]
+        public async Task<IActionResult> FindResource(ResourceServiceRequest request)
         {
-            var resources = await _resourceService.GetResources();
+            var resource = await _resourceService.GetResource(request);
 
-            // TODO: Change 
-            return Ok(resources.First());
+            return Ok(resource);
         }
     }
 }

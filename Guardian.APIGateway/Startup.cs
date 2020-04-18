@@ -14,9 +14,13 @@ namespace Guardian.APIGateway
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpClient<IAuthorizationService, AuthorizationService>(client =>
+            {
+                client.BaseAddress = new System.Uri("https://localhost:5002");
+            });
             services.AddHttpClient<IResourceService, ResourceService>(client => 
             {
-                client.BaseAddress = new System.Uri("https://localhost:5001");
+                client.BaseAddress = new System.Uri("https://localhost:5003");
             });
         }
 
@@ -37,6 +41,8 @@ namespace Guardian.APIGateway
                     await context.Response.WriteAsync("Hello World!");
                 });
             });
+            
+            app.UseMiddleware<GuardianAuthorizationMiddleware>();
             
             Router router = new Router("routes.json");
             app.Run(async (context) =>

@@ -7,6 +7,7 @@ namespace Guardian.APIGateway.Models
 {
     public class ResourceServiceRequest
     {
-        public string Url { get; set; }
+        public string BasePath { get; set; }
+        public string Path { get; set; }
     }
 }

@@ -1,8 +1,5 @@
 ﻿using Guardian.APIGateway.Models;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,13 +15,9 @@ namespace Guardian.APIGateway.Services
             _httpClient = httpClient;
         }
 
-        public async Task<ResourceServiceResponse> GetResource(string url)
+        public async Task<ResourceServiceResponse> GetResource(ResourceServiceRequest request)
         {
-            var resourceServiceRequest = new ResourceServiceRequest()
-            {
-                Url = url,
-            };
-            var serializedObj = JsonConvert.SerializeObject(resourceServiceRequest);
+            var serializedObj = JsonConvert.SerializeObject(request);
 
             var httpResponse = await _httpClient.PostAsync(_resourcesUrl, new StringContent(serializedObj, Encoding.Default, "application/json"));
             var resourceServiceResponse = JsonConvert.DeserializeObject<ResourceServiceResponse>(await httpResponse.Content.ReadAsStringAsync());

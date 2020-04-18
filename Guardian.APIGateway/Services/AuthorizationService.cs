@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Guardian.APIGateway.Services
 {
-    public class AuthorizationService
+    public class AuthorizationService : IAuthorizationService
     {
         private readonly HttpClient _httpClient;
         private const string _validateTokenUrl = "/validate";

@@ -1,4 +1,5 @@
-﻿using Guardian.APIGateway.Services;
+﻿using Guardian.APIGateway.Models;
+using Guardian.APIGateway.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 using System;
@@ -19,7 +20,13 @@ namespace Guardian.APIGateway
 
         public async Task Invoke(HttpContext httpContext, IResourceService resourceService, IAuthorizationService authorizationService)
         {
-            var resource = await resourceService.GetResource(httpContext.Request.Path.Value);
+            var resourceServiceRequest = new ResourceServiceRequest()
+            {
+                BasePath = httpContext.Request.Host.Value,
+                Path = httpContext.Request.Path.Value,
+            };
+
+            var resource = await resourceService.GetResource(resourceServiceRequest);
 
             if (resource.IsAuthenticationRequired)
             {
