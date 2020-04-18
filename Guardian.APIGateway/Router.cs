@@ -27,6 +27,7 @@ namespace Guardian.APIGateway
         public async Task<HttpResponseMessage> RouteRequest(HttpRequest request)
         {
             string basePath = request.Path.Value;
+            string baseUrl = request.PathBase.ToUriComponent();
 
             DestinationResource destination;
             try
