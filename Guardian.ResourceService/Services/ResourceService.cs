@@ -32,7 +32,8 @@ namespace Guardian.ResourceService.Services
             var resourceList = await cursor.ToListAsync();
 
             var urlTreeSearch = new UrlTreeSearch();
-            urlTreeSearch.IsPathExists(resourceList, segments);
+
+            string resultUrl = urlTreeSearch.GenerateProxyUrl(resourceList, segments);
 
             return resourceList.First();
         }
