@@ -1,6 +1,5 @@
 ﻿using Guardian.ResourceService.Models;
 using MongoDB.Driver;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,17 +18,23 @@ namespace Guardian.ResourceService.Services
 
         public async Task<ResourceModel> GetResource(ResourceServiceRequest request)
         {
+            //string[] parts = Regex.Split(request.Path, @"(?<=[/])");
+            var segments = request.Path.Split('/')
+                .Select(x => string.Concat('/', x))
+                .ToList();
             // TODO: First, find user pool id that assosiated with request.BasePath
+            string rootEndpoint = segments.First();
 
-            var filter = Builders<ResourceModel>.Filter.Eq(x => x.Endpoint, request.Path);
+            var filter = Builders<ResourceModel>.Filter.Eq(x => x.Endpoint, rootEndpoint);
 
             var cursor = await _resourceCollection.FindAsync<ResourceModel>(filter);
 
-            var list = await cursor.ToListAsync();
+            var resourceList = await cursor.ToListAsync();
 
-            var resourse = list.FirstOrDefault();
+            var urlTreeSearch = new UrlTreeSearch();
+            urlTreeSearch.IsPathExists(resourceList, segments);
 
-            return resourse;
+            return resourceList.First();
         }
 
         public async Task<IEnumerable<ResourceModel>> GetResources(ResourceServiceRequest request)
