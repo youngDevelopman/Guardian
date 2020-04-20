@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Guardian.ResourceService
@@ -19,9 +20,10 @@ namespace Guardian.ResourceService
             {
                 fullRelativePath += proxyResource.Endpoint;
             }
-
-            string fullPath = baseUrl + fullRelativePath;
-            return fullPath;
+            fullRelativePath = Regex.Replace(fullRelativePath, @"/+", @"/");
+            var baseUri = new Uri(baseUrl);
+            var fullUri = new Uri(baseUri, fullRelativePath);
+            return fullUri.ToString();
         }
 
         private Queue<ResourceModel> BFS(List<ResourceModel> resources, List<string> paths)
@@ -41,7 +43,7 @@ namespace Guardian.ResourceService
                 {
                     resultQueue.Enqueue(currentSegment);
                     pipeline.Clear();
-                    
+
                     var proxyElement = currentSegment.ResourceBranches.Find(x => x.Endpoint == proxyString);
                     foreach (var adjElement in currentSegment.ResourceBranches)
                     {
@@ -56,6 +58,11 @@ namespace Guardian.ResourceService
                         pipeline.AddFirst(proxyElement);
                     }
                     pathCounter++;
+
+                    if (currentSegment.ResourceBranches.Count == 0 && paths.Count != pathCounter)
+                    {
+                        throw new Exception("Exact path is not found 222");
+                    }
                 }
                 else if(pipeline.Count == 0 && currentSegment.Endpoint == proxyString)
                 {
