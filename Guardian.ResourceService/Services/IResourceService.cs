@@ -8,7 +8,18 @@ namespace Guardian.ResourceService.Services
 {
     public interface IResourceService
     {
-        Task<IEnumerable<ResourceModel>> GetResources(ResourceServiceRequest request);
-        Task<ResourceModel> GetResource(ResourceServiceRequest request);
+        /// <summary>
+        /// Retrieves all API Gateway resources for the given base path
+        /// </summary>
+        /// <param name="request">Request obj that contains information about source base path and relative path.</param>
+        /// <returns>All resources that match to the given base path.</returns>
+        Task<IEnumerable<Resource>> GetResources(ResourceServiceRequest request);
+        
+        /// <summary>
+        /// Generates proxy for given request
+        /// </summary>
+        /// <param name="request">Request obj that contains information about source base path and relative path.</param>
+        /// <returns></returns>
+        Task<ResourceServiceResponse> GenerateProxy(ResourceServiceRequest request);
     }
 }

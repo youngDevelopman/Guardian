@@ -10,33 +10,50 @@ namespace Guardian.ResourceService.Services
     public class ResourceService : IResourceService
     {
         // Collection (table) that stores information about endpoints
-        private readonly IMongoCollection<ResourceModel> _resourceCollection;
+        private readonly IMongoCollection<Resource> _resourceCollection;
 
         public ResourceService(IMongoDatabase mongoDatabase)
         {
-            _resourceCollection = mongoDatabase.GetCollection<ResourceModel>("resources");
+            _resourceCollection = mongoDatabase.GetCollection<Resource>("resources");
         }
 
-        public async Task<ResourceModel> GetResource(ResourceServiceRequest request)
+        public async Task<ResourceServiceResponse> GenerateProxy(ResourceServiceRequest request)
         {
+            // Split user requested url by shashes into array of segments.
+            var segments = request.Path.Split('/')
+                .Select(x => string.Concat('/', x))
+                .ToList();
+
             // TODO: First, find user pool id that assosiated with request.BasePath
+            string rootEndpoint = segments.First();
 
-            var filter = Builders<ResourceModel>.Filter.Eq(x => x.Endpoint, request.Path);
+            var filter = Builders<Resource>.Filter.Eq(x => x.Endpoint, rootEndpoint);
 
-            var cursor = await _resourceCollection.FindAsync<ResourceModel>(filter);
+            var cursor = await _resourceCollection.FindAsync<Resource>(filter);
 
-            var list = await cursor.ToListAsync();
+            var resourceList = await cursor.ToListAsync();
 
-            var resourse = list.FirstOrDefault();
+            var urlTreeSearch = new UrlTreeSearch();
 
-            return resourse;
+            Destination destination = urlTreeSearch.GenerateProxyDestination(resourceList, segments);
+
+            var resourceServiceResponse = new ResourceServiceResponse()
+            {
+                UserPoolId = Guid.NewGuid(),
+                IsAuthenticationRequired = destination.RequiresAuthentication,
+                IsProxyDefined = true,
+                SourceUrl = request.BasePath + request.Path,
+                ProxyUrl = destination.Uri
+            };
+
+            return resourceServiceResponse;
         }
 
-        public async Task<IEnumerable<ResourceModel>> GetResources(ResourceServiceRequest request)
+        public async Task<IEnumerable<Resource>> GetResources(ResourceServiceRequest request)
         {
-            var filter = Builders<ResourceModel>.Filter.Empty;
+            var filter = Builders<Resource>.Filter.Empty;
 
-            var cursor = await _resourceCollection.FindAsync<ResourceModel>(filter);
+            var cursor = await _resourceCollection.FindAsync<Resource>(filter);
 
             var list = await cursor.ToListAsync();
 
