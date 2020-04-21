@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Guardian.ResourceService.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -8,31 +9,72 @@ namespace Guardian.ResourceService
 {
     public class UrlTreeSearch
     {
+        /// <summary>
+        /// Proxy keyword
+        /// </summary>
         private const string proxyString = "{proxy+}";
-        public string GenerateProxyUrl(List<ResourceModel> resources, List<string> paths)
+        
+        /// <summary>
+        /// Genmerates proxy destination by mathing resources and paths using Breadth-First Search 
+        /// </summary>
+        /// <param name="resources">Configured API Gateway resources.</param>
+        /// <param name="paths">User requested url splitted by shashes.</param>
+        /// <returns>Mathing proxy destination.</returns>
+        public Destination GenerateProxyDestination(List<Resource> resources, List<string> paths)
         {
+            // Remove slash at the end of the requested path if exists.
+            var lastSegment = paths.Last();
+            if (lastSegment.EndsWith('/'))
+            {
+                paths.RemoveAt(paths.Count - 1);
+            }
+
+            // Perform Breadth-First Search for mathing API Gateway resources and User requested path
             var result = this.BFS(resources, paths).ToList();
-            var baseUrl = result.Last().Destination.Uri;
             
+            // Take the last found resource in order to gather information about base uri and whether authentication needed.
+            var lastResource = result.Last();
+           
+            var baseUrl = lastResource.Destination.Uri;
+            var isAuthRequired = lastResource.Destination.RequiresAuthentication;
+            
+            // Concat all mathing resources
             string fullRelativePath = string.Empty;
             
             foreach (var proxyResource in result)
             {
                 fullRelativePath += proxyResource.Endpoint;
             }
+            
+            // Replace more that one shashes in url to one shash
             fullRelativePath = Regex.Replace(fullRelativePath, @"/+", @"/");
+
+            // Concat base url and relative path.
             var baseUri = new Uri(baseUrl);
             var fullUri = new Uri(baseUri, fullRelativePath);
-            return fullUri.ToString();
+
+            var destinationProxy = new Destination()
+            {
+                Uri = fullUri.ToString(),
+                RequiresAuthentication = isAuthRequired,
+            };
+
+            return destinationProxy;
         }
 
-        private Queue<ResourceModel> BFS(List<ResourceModel> resources, List<string> paths)
+        /// <summary>
+        /// Performs Breadth-First Search for API Gateway resources and User requested path.
+        /// </summary>
+        /// <param name="resources">Configured API Gateway resources.</param>
+        /// <param name="paths">User requested url splitted by shashes.</param>
+        /// <returns>Mathing resources as a queue in the right order.</returns>
+        private Queue<Resource> BFS(List<Resource> resources, List<string> paths)
         {
             var rootElement = resources.First();
-            var pipeline = new LinkedList<ResourceModel>();
+            var pipeline = new LinkedList<Resource>();
 
             pipeline.AddLast(rootElement);
-            var resultQueue = new Queue<ResourceModel>();
+            var resultQueue = new Queue<Resource>();
 
             int pathCounter = 0;
             while (pipeline.Count > 0 && paths.Count != pathCounter)

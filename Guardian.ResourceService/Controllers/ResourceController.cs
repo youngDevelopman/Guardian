@@ -20,25 +20,16 @@ namespace Guardian.ResourceService.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> FindResource(ResourceServiceRequest request)
+        public async Task<IActionResult> GenerateProxy(ResourceServiceRequest request)
         {
-            var resource = await _resourceService.GetResource(request);
+            var proxy = await _resourceService.GenerateProxy(request);
 
-            if(resource == null)
+            if(proxy == null)
             {
                 return BadRequest("Resource not found.");
             }
 
-            var resourceServiceResponse = new ResourceServiceResponse()
-            {
-                UserPoolId = Guid.NewGuid(),
-                IsAuthenticationRequired = resource.Destination.RequiresAuthentication,
-                IsProxyDefined = true,
-                SourceUrl = request.BasePath + request.Path,
-                ProxyUrl = resource.Destination.Uri,
-            };
-
-            return Ok(resourceServiceResponse);
+            return Ok(proxy);
         }
     }
 }
