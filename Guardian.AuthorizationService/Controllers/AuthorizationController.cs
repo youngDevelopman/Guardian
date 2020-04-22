@@ -24,7 +24,7 @@ namespace Guardian.AuthService.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginModel user)
         {
-            User authenticatedUser = _userRepository.Authenticate(user.Username, user.Password);
+            User authenticatedUser = _userRepository.Authenticate(user.UserPoolId, user.Username, user.Password);
             if (authenticatedUser == null)
             {
                 return Unauthorized("Password or username is incorrect");
