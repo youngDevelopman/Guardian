@@ -59,7 +59,7 @@ namespace Guardian.AuthorizationService
             var mySecurityKey = new SymmetricSecurityKey(key);
             try
             {
-                tokenHandler.ValidateToken(token, new TokenValidationParameters
+                var claims = tokenHandler.ValidateToken(token, new TokenValidationParameters
                 {
                     ValidateAudience = false,
                     ValidateIssuer = false,
