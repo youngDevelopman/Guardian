@@ -5,13 +5,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Guardian.AuthorizationService
+namespace Guardian.AuthorizationService.Models
 {
     public class User
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid UserId { get; set; }
+
+        public Guid UserPoolId { get; set; }
 
         public string FirstName { get; set; }
 

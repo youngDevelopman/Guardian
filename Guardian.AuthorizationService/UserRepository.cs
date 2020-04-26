@@ -1,8 +1,6 @@
 ﻿using Guardian.AuthorizationService.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Guardian.AuthorizationService
 {
@@ -14,12 +12,18 @@ namespace Guardian.AuthorizationService
             _context = context;
         }
 
-        public User Authenticate(string username, string password)
+        public User Authenticate(Guid userPoolId, string username, string password)
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                 return null;
 
-            var user = _context.Users.SingleOrDefault(x => x.Username == username);
+            var userPool = _context.UserPool.SingleOrDefault(x => x.UserPoolId == userPoolId);
+            User user = null;
+            
+            if(userPool != null)
+            {
+                user = _context.Users.SingleOrDefault(x => x.Username == username);
+            }
 
             if (user == null)
                 return null;
