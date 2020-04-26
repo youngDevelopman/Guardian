@@ -12,6 +12,9 @@ namespace Guardian.AuthorizationService
 {
     public class TokenManager
     {
+        private const string USER_ID_CLAIM = "User_Id";
+        private const string USER_POOL_ID_CLAIM = "User_PoolId";
+
         private readonly HMACSHA256 hmac;
         private readonly string secret;
 
@@ -21,7 +24,7 @@ namespace Guardian.AuthorizationService
             secret = Convert.ToBase64String(hmac.Key);
         }
 
-        public OAuthTokenModel GenerateToken(string userId)
+        public OAuthTokenModel GenerateToken(string userId, string userPoolId)
         {
             byte[] key = Convert.FromBase64String(secret);
             var securityKey = new SymmetricSecurityKey(key);
@@ -29,7 +32,7 @@ namespace Guardian.AuthorizationService
             var descriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[] {
-                      new Claim(ClaimTypes.Name, userId)}),
+                      new Claim(USER_ID_CLAIM, userId), new Claim(USER_POOL_ID_CLAIM, userPoolId)}),
                 Expires = DateTime.UtcNow.AddMinutes(30),
                 SigningCredentials = new SigningCredentials(securityKey,
                   SecurityAlgorithms.HmacSha256Signature)

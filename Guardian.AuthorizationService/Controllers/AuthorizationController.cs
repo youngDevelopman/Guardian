@@ -30,7 +30,9 @@ namespace Guardian.AuthService.Controllers
                 return Unauthorized("Password, username or User pool Id is incorrect");
             }
             
-            OAuthTokenModel authTokenResponse = _tokenManager.GenerateToken(authenticatedUser.UserId.ToString());
+            OAuthTokenModel authTokenResponse = _tokenManager.GenerateToken(
+                authenticatedUser.UserId.ToString(), 
+                authenticatedUser.UserPoolId.ToString());
             
             return Ok(authTokenResponse);
         }
