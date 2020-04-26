@@ -27,7 +27,7 @@ namespace Guardian.AuthService.Controllers
             User authenticatedUser = _userRepository.Authenticate(user.UserPoolId, user.Username, user.Password);
             if (authenticatedUser == null)
             {
-                return Unauthorized("Password or username is incorrect");
+                return Unauthorized("Password, username or User pool Id is incorrect");
             }
             
             OAuthTokenModel authTokenResponse = _tokenManager.GenerateToken(authenticatedUser.UserId.ToString());
@@ -41,6 +41,7 @@ namespace Guardian.AuthService.Controllers
             string password = user.Password;
             var userToAdd = new User()
             {
+                UserPoolId = user.UserPoolId,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
