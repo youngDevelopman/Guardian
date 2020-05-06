@@ -2,6 +2,7 @@
 using Guardian.AuthorizationService.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
 
 namespace Guardian.AuthService.Controllers
@@ -11,28 +12,27 @@ namespace Guardian.AuthService.Controllers
     public class AuthorizationController : ControllerBase
     {
         private readonly ILogger<AuthorizationController> _logger;
-        private readonly IUserRepository _userRepository;
+        private readonly IUserService _userService;
         private readonly TokenManager _tokenManager;
 
-        public AuthorizationController(ILogger<AuthorizationController> logger, IUserRepository userRepository, TokenManager tokenManager)
+        public AuthorizationController(ILogger<AuthorizationController> logger, IUserService userService, TokenManager tokenManager)
         {
             _logger = logger;
-            _userRepository = userRepository;
+            _userService = userService;
             _tokenManager = tokenManager;
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginModel user)
         {
-            User authenticatedUser = _userRepository.Authenticate(user.UserPoolId, user.Username, user.Password);
+            User authenticatedUser = _userService.Authenticate(user.UserPoolId, user.Username, user.Password);
             if (authenticatedUser == null)
             {
                 return Unauthorized("Password, username or User pool Id is incorrect");
             }
             
             OAuthTokenModel authTokenResponse = _tokenManager.GenerateToken(
-                authenticatedUser.UserId.ToString(), 
-                authenticatedUser.UserPoolId.ToString());
+                authenticatedUser.UserId.ToString());
             
             return Ok(authTokenResponse);
         }
@@ -43,28 +43,29 @@ namespace Guardian.AuthService.Controllers
             string password = user.Password;
             var userToAdd = new User()
             {
-                UserPoolId = user.UserPoolId,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
                 Username = user.Username
             };
 
-            _userRepository.CreateUser(userToAdd, password);
+            _userService.CreateUser(userToAdd, password);
             return Ok($"User {userToAdd.Username} has been added");
         }
 
         [HttpPost("validate")]
-        public async Task<IActionResult> ValidateToken(OAuthTokenModel user)
+        public async Task<IActionResult> ValidateToken(ValidationRequest request)
         {
-            bool isValid = _tokenManager.ValidateToken(user.AccessToken);
+            bool isTokenValid = _tokenManager.ValidateToken(request.AccessToken, out Guid userId);
 
-            if (!isValid)
+            bool isBelongsToPool = _userService.ValidateUserDomain(userId, request.Domain);
+
+            if (!isTokenValid && !isBelongsToPool)
             {
-                return Unauthorized(isValid);
+                return Unauthorized("Failed to validate token.");
             }
 
-            return Ok(isValid);
+            return Ok("Token is valid");
         }
     }
 }

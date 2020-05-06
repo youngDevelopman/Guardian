@@ -14,7 +14,5 @@ namespace Guardian.AuthorizationService.Models
         public string Name { get; set; }
 
         public DateTime CreationDate { get; set; }
-
-        public virtual ICollection<User> Users { get; set; }
     }
 }

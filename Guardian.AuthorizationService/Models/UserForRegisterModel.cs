@@ -8,8 +8,6 @@ namespace Guardian.AuthorizationService.Models
 {
     public class UserForRegisterModel
     {
-        [Required]
-        public Guid UserPoolId { get; set; }
 
         [Required]
         public string FirstName { get; set; }

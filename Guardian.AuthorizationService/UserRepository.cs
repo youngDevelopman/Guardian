@@ -4,10 +4,10 @@ using System.Linq;
 
 namespace Guardian.AuthorizationService
 {
-    public class UserRepository : IUserRepository
+    public class UserService : IUserService
     {
         private AuthorizationServiceDbContext _context;
-        public UserRepository(AuthorizationServiceDbContext context)
+        public UserService(AuthorizationServiceDbContext context)
         {
             _context = context;
         }
@@ -57,6 +57,36 @@ namespace Guardian.AuthorizationService
             _context.SaveChanges();
 
             return user;
+        }
+
+        public bool IsUserBelongsToPool(Guid userId, Guid userPoolId)
+        {
+            var user  = _context.PoolUsers
+                .Where(u => u.UserId == userId && u.UserPoolId == userPoolId)
+                .FirstOrDefault();
+
+            if(user == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool ValidateUserDomain(Guid userId, string domain)
+        {
+            var userPoolDomain = _context.UserPoolDomain
+                .Where(u => u.Domain == domain)
+                .FirstOrDefault();
+
+            if (userPoolDomain == null)
+            {
+                return false;
+            }
+
+            bool isBelongsToPool = this.IsUserBelongsToPool(userId, userPoolDomain.UserPoolId);
+
+            return isBelongsToPool;
         }
 
         private static void CreatePasswordHash(string password, out string passwordHash, out string passwordSalt)

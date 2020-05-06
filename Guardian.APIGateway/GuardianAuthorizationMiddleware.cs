@@ -1,11 +1,7 @@
 ﻿using Guardian.APIGateway.Models;
 using Guardian.APIGateway.Services;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Primitives;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Guardian.APIGateway

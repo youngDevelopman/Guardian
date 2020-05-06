@@ -1,6 +1,5 @@
 CREATE TABLE [dbo].[Users](
 	[UserId] uniqueidentifier NOT NULL primary key,
-	[UserPoolId] uniqueidentifier references dbo.UserPool (UserPoolId) on delete cascade, 
 	[Username] varchar(50) NOT NULL unique,
 	[FirstName] varchar(50) NOT NULL,
 	[LastName] varchar(50) NOT NULL,

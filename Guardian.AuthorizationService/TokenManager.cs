@@ -13,7 +13,6 @@ namespace Guardian.AuthorizationService
     public class TokenManager
     {
         private const string USER_ID_CLAIM = "User_Id";
-        private const string USER_POOL_ID_CLAIM = "User_PoolId";
 
         private readonly HMACSHA256 hmac;
         private readonly string secret;
@@ -24,7 +23,7 @@ namespace Guardian.AuthorizationService
             secret = Convert.ToBase64String(hmac.Key);
         }
 
-        public OAuthTokenModel GenerateToken(string userId, string userPoolId)
+        public OAuthTokenModel GenerateToken(string userId)
         {
             byte[] key = Convert.FromBase64String(secret);
             var securityKey = new SymmetricSecurityKey(key);
@@ -32,7 +31,7 @@ namespace Guardian.AuthorizationService
             var descriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[] {
-                      new Claim(USER_ID_CLAIM, userId), new Claim(USER_POOL_ID_CLAIM, userPoolId)}),
+                      new Claim(USER_ID_CLAIM, userId) }),
                 Expires = DateTime.UtcNow.AddMinutes(30),
                 SigningCredentials = new SigningCredentials(securityKey,
                   SecurityAlgorithms.HmacSha256Signature)
@@ -52,14 +51,15 @@ namespace Guardian.AuthorizationService
             return authTokenResponse;
         }
 
-        public bool ValidateToken(string token)
+        public bool ValidateToken(string token, out Guid userId)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             byte[] key = Convert.FromBase64String(secret);
             var mySecurityKey = new SymmetricSecurityKey(key);
+
             try
             {
-                var claims = tokenHandler.ValidateToken(token, new TokenValidationParameters
+                var claimsPrincipal = tokenHandler.ValidateToken(token, new TokenValidationParameters
                 {
                     ValidateAudience = false,
                     ValidateIssuer = false,
@@ -68,11 +68,15 @@ namespace Guardian.AuthorizationService
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = mySecurityKey,
                 }, out SecurityToken validatedToken);
+
+                userId = Guid.Parse(claimsPrincipal.Claims.First(x => x.Type == USER_ID_CLAIM).Value);
             }
             catch(Exception ex)
             {
+                userId = Guid.Empty;
                 return false;
             }
+
             return true;
         }
     }
