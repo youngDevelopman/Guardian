@@ -60,7 +60,7 @@ namespace Guardian.AuthService.Controllers
 
             bool isBelongsToPool = _userService.ValidateUserDomain(userId, request.Domain);
 
-            if (!isTokenValid && !isBelongsToPool)
+            if (!isTokenValid || !isBelongsToPool)
             {
                 return Unauthorized("Failed to validate token.");
             }

@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Guardian.AuthorizationService.Models
+namespace Guardian.ResourceService.Models
 {
-    public class PoolUser
+    public class DomainUserPool
     {
-        public Guid PoolUsersId { get; set; }
-
-        public Guid UserId { get; set; }
+        public string Domain { get; set; }
 
         public Guid UserPoolId { get; set; }
     }

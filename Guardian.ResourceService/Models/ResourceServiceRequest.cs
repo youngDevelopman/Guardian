@@ -2,7 +2,7 @@
 {
     public class ResourceServiceRequest
     {
-        public string BasePath { get; set; }
-        public string Path { get; set; }
+        public string Domain { get; set; }
+        public string RelativePath { get; set; }
     }
 }

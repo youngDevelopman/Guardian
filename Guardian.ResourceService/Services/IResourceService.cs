@@ -9,6 +9,13 @@ namespace Guardian.ResourceService.Services
     public interface IResourceService
     {
         /// <summary>
+        /// Retrieve UserPoolId
+        /// </summary>
+        /// <param name="domain">Domain of the resource.</param>
+        /// <returns>Id of the resource.</returns>
+        Task<DomainUserPool> GetUserPoolFromDomain(string domain);
+
+        /// <summary>
         /// Retrieves all API Gateway resources for the given base path
         /// </summary>
         /// <param name="request">Request obj that contains information about source base path and relative path.</param>

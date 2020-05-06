@@ -17,33 +17,54 @@ namespace Guardian.ResourceService.Services
             _resourceCollection = mongoDatabase.GetCollection<Resource>("resources");
         }
 
+        public async Task<DomainUserPool> GetUserPoolFromDomain(string domain)
+        {
+            var filter = Builders<Resource>.Filter.Eq(x => x.Domain, domain);
+
+            var cursor = await _resourceCollection.FindAsync<Resource>(filter);
+
+            var resourceList = await cursor.ToListAsync();
+
+            var resource = resourceList.FirstOrDefault();
+
+            var response = new DomainUserPool()
+            {
+                Domain = resource.Domain,
+                UserPoolId = resource.UserPoolId
+            };
+
+            return response;
+        }
+
         public async Task<ResourceServiceResponse> GenerateProxy(ResourceServiceRequest request)
         {
             // Split user requested url by shashes into array of segments.
-            var segments = request.Path.Split('/')
+            var segments = request.RelativePath.Split('/')
                 .Select(x => string.Concat('/', x))
                 .ToList();
 
             // TODO: First, find user pool id that assosiated with request.BasePath
             string rootEndpoint = segments.First();
 
-            var filter = Builders<Resource>.Filter.Eq(x => x.Endpoint, rootEndpoint);
+            var filter = Builders<Resource>.Filter.Eq(x => x.Domain, rootEndpoint);
 
             var cursor = await _resourceCollection.FindAsync<Resource>(filter);
 
             var resourceList = await cursor.ToListAsync();
 
+            var resource = resourceList.FirstOrDefault();
+            
             var urlTreeSearch = new UrlTreeSearch();
 
-            Destination destination = urlTreeSearch.GenerateProxyDestination(resourceList, segments);
+            Destination destination = urlTreeSearch.GenerateProxyDestination(resource.Resources, segments);
 
             var resourceServiceResponse = new ResourceServiceResponse()
             {
                 UserPoolId = Guid.NewGuid(),
                 IsAuthenticationRequired = destination.RequiresAuthentication,
                 IsProxyDefined = true,
-                SourceUrl = request.BasePath + request.Path,
-                ProxyUrl = destination.Uri
+                SourceUrl = request.Domain + request.RelativePath,
+                ProxyUrl = destination.FullPath
             };
 
             return resourceServiceResponse;

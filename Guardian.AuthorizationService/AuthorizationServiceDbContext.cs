@@ -23,7 +23,7 @@ namespace Guardian.AuthorizationService
         {
             // configures one-to-many relationship
             modelBuilder.Entity<PoolUser>()
-                .HasMany(p => p.Users);
+                .HasKey(x => new { x.UserPoolId, x.UserId });
         }
     }
 }

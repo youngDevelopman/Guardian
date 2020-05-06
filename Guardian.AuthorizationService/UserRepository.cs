@@ -17,14 +17,10 @@ namespace Guardian.AuthorizationService
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                 return null;
 
-            var userPool = _context.UserPool.SingleOrDefault(x => x.UserPoolId == userPoolId);
-            User user = null;
-            
-            if(userPool != null)
-            {
-                user = _context.Users.SingleOrDefault(x => x.Username == username);
-            }
+            var userPool = _context.PoolUsers.Where(x => x.UserPoolId == userPoolId);
 
+            User user = userPool.SelectMany(x => _context.Users.Where(u => u.UserId == x.UserId && u.Username == username)).FirstOrDefault();
+            
             if (user == null)
                 return null;
 
