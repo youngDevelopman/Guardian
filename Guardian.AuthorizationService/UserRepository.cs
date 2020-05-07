@@ -69,22 +69,6 @@ namespace Guardian.AuthorizationService
             return true;
         }
 
-        public bool ValidateUserDomain(Guid userId, string domain)
-        {
-            var userPoolDomain = _context.UserPoolDomain
-                .Where(u => u.Domain == domain)
-                .FirstOrDefault();
-
-            if (userPoolDomain == null)
-            {
-                return false;
-            }
-
-            bool isBelongsToPool = this.IsUserBelongsToPool(userId, userPoolDomain.UserPoolId);
-
-            return isBelongsToPool;
-        }
-
         private static void CreatePasswordHash(string password, out string passwordHash, out string passwordSalt)
         {
             if (password == null) throw new ArgumentNullException("password");

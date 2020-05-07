@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Guardian.AuthorizationService.Models
+namespace Guardian.APIGateway.Models
 {
     public class ValidationRequest
     {

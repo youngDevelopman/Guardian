@@ -27,9 +27,9 @@ namespace Guardian.ResourceService.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> GenerateProxy(ResourceServiceRequest request)
+        public async Task<IActionResult> FindResource(ResourceServiceRequest request)
         {
-            var proxy = await _resourceService.GenerateProxy(request);
+            var proxy = await _resourceService.GetResource(request);
 
             if(proxy == null)
             {

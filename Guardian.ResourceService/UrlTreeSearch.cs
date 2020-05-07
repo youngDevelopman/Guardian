@@ -20,7 +20,7 @@ namespace Guardian.ResourceService
         /// <param name="resources">Configured API Gateway resources.</param>
         /// <param name="paths">User requested url splitted by shashes.</param>
         /// <returns>Mathing proxy destination.</returns>
-        public Destination GenerateProxyDestination(List<ResourceBranch> resources, List<string> paths)
+        public Destination GenerateProxyDestination(List<ResourceSegment> segments, List<string> paths)
         {
             // Remove slash at the end of the requested path if exists.
             var lastSegment = paths.Last();
@@ -30,7 +30,7 @@ namespace Guardian.ResourceService
             }
 
             // Perform Breadth-First Search for mathing API Gateway resources and User requested path
-            var result = this.BFS(resources, paths).ToList();
+            var result = this.BFS(segments, paths).ToList();
             
             // Take the last found resource in order to gather information about base uri and whether authentication needed.
             var lastResource = result.Last();
@@ -68,13 +68,13 @@ namespace Guardian.ResourceService
         /// <param name="resources">Configured API Gateway resources.</param>
         /// <param name="paths">User requested url splitted by shashes.</param>
         /// <returns>Mathing resources as a queue in the right order.</returns>
-        private Queue<ResourceBranch> BFS(List<ResourceBranch> resources, List<string> paths)
+        private Queue<ResourceSegment> BFS(List<ResourceSegment> segments, List<string> paths)
         {
-            var rootElement = resources.First();
-            var pipeline = new LinkedList<ResourceBranch>();
+            var rootElement = segments.First();
+            var pipeline = new LinkedList<ResourceSegment>();
 
             pipeline.AddLast(rootElement);
-            var resultQueue = new Queue<ResourceBranch>();
+            var resultQueue = new Queue<ResourceSegment>();
 
             int pathCounter = 0;
             while (pipeline.Count > 0 && paths.Count != pathCounter)
@@ -86,8 +86,8 @@ namespace Guardian.ResourceService
                     resultQueue.Enqueue(currentSegment);
                     pipeline.Clear();
 
-                    var proxyElement = currentSegment.ChildBranches.Find(x => x.ResourceName == proxyString);
-                    foreach (var adjElement in currentSegment.ChildBranches)
+                    var proxyElement = currentSegment.ChildSegments.Find(x => x.ResourceName == proxyString);
+                    foreach (var adjElement in currentSegment.ChildSegments)
                     {
                         if(adjElement != proxyElement)
                         {
@@ -101,7 +101,7 @@ namespace Guardian.ResourceService
                     }
                     pathCounter++;
 
-                    if (currentSegment.ChildBranches.Count == 0 && paths.Count != pathCounter)
+                    if (currentSegment.ChildSegments.Count == 0 && paths.Count != pathCounter)
                     {
                         throw new Exception("Exact path is not found 222");
                     }

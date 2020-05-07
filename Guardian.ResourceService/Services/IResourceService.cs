@@ -27,6 +27,6 @@ namespace Guardian.ResourceService.Services
         /// </summary>
         /// <param name="request">Request obj that contains information about source base path and relative path.</param>
         /// <returns></returns>
-        Task<ResourceServiceResponse> GenerateProxy(ResourceServiceRequest request);
+        Task<ResourceServiceResponse> GetResource(ResourceServiceRequest request);
     }
 }

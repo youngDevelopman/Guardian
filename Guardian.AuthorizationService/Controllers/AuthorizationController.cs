@@ -58,7 +58,7 @@ namespace Guardian.AuthService.Controllers
         {
             bool isTokenValid = _tokenManager.ValidateToken(request.AccessToken, out Guid userId);
 
-            bool isBelongsToPool = _userService.ValidateUserDomain(userId, request.Domain);
+            bool isBelongsToPool = _userService.IsUserBelongsToPool(userId, request.UserPoolId);
 
             if (!isTokenValid || !isBelongsToPool)
             {

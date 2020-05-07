@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Guardian.APIGateway.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,13 +18,9 @@ namespace Guardian.APIGateway.Services
             _httpClient = httpClient;
         }
 
-        public async Task<bool> ValidateToken(string token)
+        public async Task<bool> ValidateToken(ValidationRequest request)
         {
-            var validateTokenRequest = new 
-            {
-                AccessToken = token,
-            };
-            var serializedObj = JsonConvert.SerializeObject(validateTokenRequest);
+            var serializedObj = JsonConvert.SerializeObject(request);
 
             var httpResponse = await _httpClient.PostAsync(_validateTokenUrl, new StringContent(serializedObj, Encoding.Default, "application/json"));
 

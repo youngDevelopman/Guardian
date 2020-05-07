@@ -18,8 +18,8 @@ namespace Guardian.APIGateway
         {
             var resourceServiceRequest = new ResourceServiceRequest()
             {
-                BasePath = httpContext.Request.Host.Value,
-                Path = httpContext.Request.Path.Value,
+                Domain = httpContext.Request.Host.Value,
+                RelativePath = httpContext.Request.Path.Value,
             };
 
             var resource = await resourceService.GetResource(resourceServiceRequest);
@@ -28,7 +28,13 @@ namespace Guardian.APIGateway
             {
                 string token = httpContext.Request.Headers["token"];
 
-                bool isValid  = await authorizationService.ValidateToken(token);
+                var validationRequest = new ValidationRequest()
+                {
+                    AccessToken = token,
+                    UserPoolId = resource.UserPoolId,
+                };
+
+                bool isValid  = await authorizationService.ValidateToken(validationRequest);
 
                 if (!isValid)
                 {

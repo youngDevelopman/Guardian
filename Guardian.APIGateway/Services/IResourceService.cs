@@ -8,6 +8,8 @@ namespace Guardian.APIGateway.Services
 {
     public interface IResourceService
     {
+        Task<DomainUserPool> GetUserPool(DomainUserPool request);
+
         Task<ResourceServiceResponse> GetResource(ResourceServiceRequest request);
     }
 }

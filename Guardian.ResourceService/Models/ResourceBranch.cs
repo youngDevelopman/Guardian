@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Guardian.ResourceService.Models
 {
-    public class ResourceBranch
+    public class ResourceSegment
     {
         [BsonElement("resourceName")]
         public string ResourceName { get; set; }
@@ -17,7 +17,7 @@ namespace Guardian.ResourceService.Models
         [BsonElement("requiresAuthentication")]
         public bool RequiresAuthentication { get; set; }
 
-        [BsonElement("childBranches")]
-        public List<ResourceBranch> ChildBranches { get; set; }
+        [BsonElement("childSegments")]
+        public List<ResourceSegment> ChildSegments { get; set; }
     }
 }

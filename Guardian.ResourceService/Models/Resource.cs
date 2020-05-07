@@ -16,10 +16,7 @@ namespace Guardian.ResourceService.Models
         [BsonElement("domain")]
         public string Domain { get; set; }
 
-        [BsonElement("destination")]
-        public Destination Destination { get; set; }
-
-        [BsonElement("resources")]
-        public List<ResourceBranch> Resources { get; set; }
+        [BsonElement("segments")]
+        public List<ResourceSegment> Segments { get; set; }
     }
 }

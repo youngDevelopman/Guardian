@@ -10,9 +10,20 @@ namespace Guardian.APIGateway.Services
     {
         private readonly HttpClient _httpClient;
         private const string _resourcesUrl = "/resources";
+        private const string _domainUserPoolUrl = "/resources/domain-user-pool";
         public ResourceService(HttpClient httpClient)
         {
             _httpClient = httpClient;
+        }
+
+        public async Task<DomainUserPool> GetUserPool(DomainUserPool request)
+        {
+            var serializedObj = JsonConvert.SerializeObject(request);
+
+            var httpResponse = await _httpClient.PostAsync(_domainUserPoolUrl, new StringContent(serializedObj, Encoding.Default, "application/json"));
+            var domainUserPoolResponse = JsonConvert.DeserializeObject<DomainUserPool>(await httpResponse.Content.ReadAsStringAsync());
+
+            return domainUserPoolResponse;
         }
 
         public async Task<ResourceServiceResponse> GetResource(ResourceServiceRequest request)

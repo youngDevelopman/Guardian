@@ -36,17 +36,14 @@ namespace Guardian.ResourceService.Services
             return response;
         }
 
-        public async Task<ResourceServiceResponse> GenerateProxy(ResourceServiceRequest request)
+        public async Task<ResourceServiceResponse> GetResource(ResourceServiceRequest request)
         {
             // Split user requested url by shashes into array of segments.
             var segments = request.RelativePath.Split('/')
                 .Select(x => string.Concat('/', x))
                 .ToList();
 
-            // TODO: First, find user pool id that assosiated with request.BasePath
-            string rootEndpoint = segments.First();
-
-            var filter = Builders<Resource>.Filter.Eq(x => x.Domain, rootEndpoint);
+            var filter = Builders<Resource>.Filter.Eq(x => x.Domain, request.Domain);
 
             var cursor = await _resourceCollection.FindAsync<Resource>(filter);
 
@@ -56,7 +53,7 @@ namespace Guardian.ResourceService.Services
             
             var urlTreeSearch = new UrlTreeSearch();
 
-            Destination destination = urlTreeSearch.GenerateProxyDestination(resource.Resources, segments);
+            Destination destination = urlTreeSearch.GenerateProxyDestination(resource.Segments, segments);
 
             var resourceServiceResponse = new ResourceServiceResponse()
             {
