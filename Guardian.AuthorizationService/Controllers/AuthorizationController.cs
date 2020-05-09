@@ -39,7 +39,7 @@ namespace Guardian.AuthService.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(UserForRegisterModel user)
+        public async Task<IActionResult> Register(UserForRegister user)
         {
             string password = user.Password;
             var userToAdd = new User()
