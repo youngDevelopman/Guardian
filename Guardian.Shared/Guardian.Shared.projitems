@@ -12,5 +12,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\GetResourceRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\GetResourceResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\TokenValidationRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\UserForLogin.cs" />
   </ItemGroup>
 </Project>

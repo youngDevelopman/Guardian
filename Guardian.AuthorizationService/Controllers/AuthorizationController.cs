@@ -24,7 +24,7 @@ namespace Guardian.AuthService.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(UserForLoginModel user)
+        public async Task<IActionResult> Login(UserForLogin user)
         {
             User authenticatedUser = _userService.Authenticate(user.UserPoolId, user.Username, user.Password);
             if (authenticatedUser == null)
