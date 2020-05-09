@@ -1,5 +1,4 @@
-﻿using Guardian.APIGateway.Models;
-using Guardian.Shared.Models;
+﻿using Guardian.Shared.Models;
 using System.Threading.Tasks;
 
 namespace Guardian.APIGateway.Services

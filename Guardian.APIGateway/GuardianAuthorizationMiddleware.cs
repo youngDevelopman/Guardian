@@ -1,5 +1,4 @@
-﻿using Guardian.APIGateway.Models;
-using Guardian.APIGateway.Services;
+﻿using Guardian.APIGateway.Services;
 using Guardian.Shared.Models;
 using Microsoft.AspNetCore.Http;
 using System;
