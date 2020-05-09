@@ -1,7 +1,7 @@
 ﻿using System;
 using Guardian.AuthorizationService.Models;
 
-namespace Guardian.AuthorizationService
+namespace Guardian.Services.AuthorizationService
 {
     public interface IUserService
     {

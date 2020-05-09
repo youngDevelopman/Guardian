@@ -1,8 +1,9 @@
-﻿using Guardian.AuthorizationService.Models;
+﻿using Guardian.AuthorizationService;
+using Guardian.AuthorizationService.Models;
 using System;
 using System.Linq;
 
-namespace Guardian.AuthorizationService
+namespace Guardian.Services.AuthorizationService
 {
     public class UserService : IUserService
     {
