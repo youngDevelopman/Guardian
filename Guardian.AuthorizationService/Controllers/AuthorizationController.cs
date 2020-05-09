@@ -1,5 +1,6 @@
 ﻿using Guardian.AuthorizationService;
 using Guardian.AuthorizationService.Models;
+using Guardian.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -54,7 +55,7 @@ namespace Guardian.AuthService.Controllers
         }
 
         [HttpPost("validate")]
-        public async Task<IActionResult> ValidateToken(ValidationRequest request)
+        public async Task<IActionResult> ValidateToken(TokenValidationRequest request)
         {
             bool isTokenValid = _tokenManager.ValidateToken(request.AccessToken, out Guid userId);
 

@@ -1,12 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace Guardian.APIGateway.Models
+namespace Guardian.Shared.Models
 {
-    public class ValidationRequest
+    public class TokenValidationRequest
     {
         [JsonProperty("access_token")]
         public string AccessToken { get; set; }

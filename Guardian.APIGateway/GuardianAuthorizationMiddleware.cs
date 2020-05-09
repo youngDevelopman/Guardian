@@ -29,7 +29,7 @@ namespace Guardian.APIGateway
             {
                 string token = httpContext.Request.Headers["token"];
 
-                var validationRequest = new ValidationRequest()
+                var validationRequest = new TokenValidationRequest()
                 {
                     AccessToken = token,
                     UserPoolId = resource.UserPoolId,

@@ -1,13 +1,10 @@
-﻿using Guardian.APIGateway.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Guardian.Shared.Models;
 using System.Threading.Tasks;
 
 namespace Guardian.APIGateway.Services
 {
     public interface IAuthorizationService
     {
-        Task<bool> ValidateToken(ValidationRequest request);
+        Task<bool> ValidateToken(TokenValidationRequest request);
     }
 }
