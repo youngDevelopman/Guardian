@@ -7,7 +7,12 @@ namespace Guardian.AuthorizationService
     public class AuthorizationServiceDbContext : DbContext
     {
         public DbSet<User> Users { get; set; }
+
         public DbSet<UserPool> UserPool { get; set; }
+
+        public DbSet<UserPoolDomain> UserPoolDomain { get; set; }
+
+        public DbSet<PoolUser> PoolUsers { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -17,8 +22,8 @@ namespace Guardian.AuthorizationService
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // configures one-to-many relationship
-            modelBuilder.Entity<UserPool>()
-                .HasMany(p => p.Users);
+            modelBuilder.Entity<PoolUser>()
+                .HasKey(x => new { x.UserPoolId, x.UserId });
         }
     }
 }

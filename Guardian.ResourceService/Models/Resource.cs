@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.Collections.Generic;
 
 namespace Guardian.ResourceService.Models
@@ -9,14 +10,13 @@ namespace Guardian.ResourceService.Models
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
 
-        [BsonElement("endpoint")]
-        public string Endpoint { get; set; }
+        [BsonElement("userPoolId")]
+        public Guid UserPoolId { get; set; }
 
-        [BsonElement("destination")]
-        public Destination Destination { get; set; }
+        [BsonElement("domain")]
+        public string Domain { get; set; }
 
-        [BsonElement("resourceBranches")]
-        public List<Resource> ResourceBranches { get; set; }
+        [BsonElement("segments")]
+        public List<ResourceSegment> Segments { get; set; }
     }
-
 }

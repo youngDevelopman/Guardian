@@ -4,10 +4,10 @@ using System.Linq;
 
 namespace Guardian.AuthorizationService
 {
-    public class UserRepository : IUserRepository
+    public class UserService : IUserService
     {
         private AuthorizationServiceDbContext _context;
-        public UserRepository(AuthorizationServiceDbContext context)
+        public UserService(AuthorizationServiceDbContext context)
         {
             _context = context;
         }
@@ -17,14 +17,10 @@ namespace Guardian.AuthorizationService
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                 return null;
 
-            var userPool = _context.UserPool.SingleOrDefault(x => x.UserPoolId == userPoolId);
-            User user = null;
-            
-            if(userPool != null)
-            {
-                user = _context.Users.SingleOrDefault(x => x.Username == username);
-            }
+            var userPool = _context.PoolUsers.Where(x => x.UserPoolId == userPoolId);
 
+            User user = userPool.SelectMany(x => _context.Users.Where(u => u.UserId == x.UserId && u.Username == username)).FirstOrDefault();
+            
             if (user == null)
                 return null;
 
@@ -57,6 +53,20 @@ namespace Guardian.AuthorizationService
             _context.SaveChanges();
 
             return user;
+        }
+
+        public bool IsUserBelongsToPool(Guid userId, Guid userPoolId)
+        {
+            var user  = _context.PoolUsers
+                .Where(u => u.UserId == userId && u.UserPoolId == userPoolId)
+                .FirstOrDefault();
+
+            if(user == null)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         private static void CreatePasswordHash(string password, out string passwordHash, out string passwordSalt)

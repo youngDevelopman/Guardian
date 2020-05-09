@@ -20,7 +20,7 @@ namespace Guardian.ResourceService
         /// <param name="resources">Configured API Gateway resources.</param>
         /// <param name="paths">User requested url splitted by shashes.</param>
         /// <returns>Mathing proxy destination.</returns>
-        public Destination GenerateProxyDestination(List<Resource> resources, List<string> paths)
+        public Destination GenerateProxyDestination(List<ResourceSegment> segments, List<string> paths)
         {
             // Remove slash at the end of the requested path if exists.
             var lastSegment = paths.Last();
@@ -30,20 +30,20 @@ namespace Guardian.ResourceService
             }
 
             // Perform Breadth-First Search for mathing API Gateway resources and User requested path
-            var result = this.BFS(resources, paths).ToList();
+            var result = this.BFS(segments, paths).ToList();
             
             // Take the last found resource in order to gather information about base uri and whether authentication needed.
             var lastResource = result.Last();
-           
-            var baseUrl = lastResource.Destination.Uri;
-            var isAuthRequired = lastResource.Destination.RequiresAuthentication;
+
+            var baseUrl = lastResource.BasePath;
+            var isAuthRequired = lastResource.RequiresAuthentication;
             
             // Concat all mathing resources
             string fullRelativePath = string.Empty;
             
             foreach (var proxyResource in result)
             {
-                fullRelativePath += proxyResource.Endpoint;
+                fullRelativePath += proxyResource.ResourceName;
             }
             
             // Replace more that one shashes in url to one shash
@@ -55,7 +55,7 @@ namespace Guardian.ResourceService
 
             var destinationProxy = new Destination()
             {
-                Uri = fullUri.ToString(),
+                FullPath = fullUri.ToString(),
                 RequiresAuthentication = isAuthRequired,
             };
 
@@ -68,26 +68,26 @@ namespace Guardian.ResourceService
         /// <param name="resources">Configured API Gateway resources.</param>
         /// <param name="paths">User requested url splitted by shashes.</param>
         /// <returns>Mathing resources as a queue in the right order.</returns>
-        private Queue<Resource> BFS(List<Resource> resources, List<string> paths)
+        private Queue<ResourceSegment> BFS(List<ResourceSegment> segments, List<string> paths)
         {
-            var rootElement = resources.First();
-            var pipeline = new LinkedList<Resource>();
+            var rootElement = segments.First();
+            var pipeline = new LinkedList<ResourceSegment>();
 
             pipeline.AddLast(rootElement);
-            var resultQueue = new Queue<Resource>();
+            var resultQueue = new Queue<ResourceSegment>();
 
             int pathCounter = 0;
             while (pipeline.Count > 0 && paths.Count != pathCounter)
             {
                 var currentSegment = pipeline.Last.Value;
                 pipeline.RemoveLast();
-                if (currentSegment.Endpoint == paths[pathCounter])
+                if (currentSegment.ResourceName == paths[pathCounter])
                 {
                     resultQueue.Enqueue(currentSegment);
                     pipeline.Clear();
 
-                    var proxyElement = currentSegment.ResourceBranches.Find(x => x.Endpoint == proxyString);
-                    foreach (var adjElement in currentSegment.ResourceBranches)
+                    var proxyElement = currentSegment.ChildSegments.Find(x => x.ResourceName == proxyString);
+                    foreach (var adjElement in currentSegment.ChildSegments)
                     {
                         if(adjElement != proxyElement)
                         {
@@ -101,12 +101,12 @@ namespace Guardian.ResourceService
                     }
                     pathCounter++;
 
-                    if (currentSegment.ResourceBranches.Count == 0 && paths.Count != pathCounter)
+                    if (currentSegment.ChildSegments.Count == 0 && paths.Count != pathCounter)
                     {
                         throw new Exception("Exact path is not found 222");
                     }
                 }
-                else if(pipeline.Count == 0 && currentSegment.Endpoint == proxyString)
+                else if(pipeline.Count == 0 && currentSegment.ResourceName == proxyString)
                 {
                     var proxySegment = currentSegment;
                     string leftPath = string.Empty;
@@ -114,7 +114,7 @@ namespace Guardian.ResourceService
                     {
                         leftPath += paths[i];
                     }
-                    proxySegment.Endpoint = leftPath;
+                    proxySegment.ResourceName = leftPath;
                     
                     resultQueue.Enqueue(currentSegment);
                     pipeline.Clear();

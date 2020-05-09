@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Guardian.APIGateway.Models
+namespace Guardian.ResourceService.Models
 {
-    public class ResourceServiceRequest
+    public class DomainUserPool
     {
         public string Domain { get; set; }
-        public string RelativePath { get; set; }
+
+        public Guid UserPoolId { get; set; }
     }
 }

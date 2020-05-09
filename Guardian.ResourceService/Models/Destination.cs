@@ -8,10 +8,8 @@ namespace Guardian.ResourceService.Models
 {
     public class Destination
     {
-        [BsonElement("uri")]
-        public string Uri { get; set; }
+        public string FullPath { get; set; }
 
-        [BsonElement("requiresAuthentication")]
         public bool RequiresAuthentication { get; set; }
     }
 }

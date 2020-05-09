@@ -18,11 +18,18 @@ namespace Guardian.ResourceService.Controllers
         {
             _resourceService = resourceService;
         }
+        
+        [HttpPost("domain-user-pool")]
+        public async Task<IActionResult> GetUserPool(DomainUserPool request)
+        {
+            var response = await _resourceService.GetUserPoolFromDomain(request.Domain);
+            return Ok(response);
+        }
 
         [HttpPost]
-        public async Task<IActionResult> GenerateProxy(ResourceServiceRequest request)
+        public async Task<IActionResult> FindResource(ResourceServiceRequest request)
         {
-            var proxy = await _resourceService.GenerateProxy(request);
+            var proxy = await _resourceService.GetResource(request);
 
             if(proxy == null)
             {

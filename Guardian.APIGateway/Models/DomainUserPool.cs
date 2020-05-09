@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 
 namespace Guardian.APIGateway.Models
 {
-    public class ResourceServiceRequest
+    public class DomainUserPool
     {
         public string Domain { get; set; }
-        public string RelativePath { get; set; }
+
+        public Guid UserPoolId { get; set; }
     }
 }

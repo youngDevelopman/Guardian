@@ -13,8 +13,6 @@ namespace Guardian.AuthorizationService.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid UserId { get; set; }
 
-        public Guid UserPoolId { get; set; }
-
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
