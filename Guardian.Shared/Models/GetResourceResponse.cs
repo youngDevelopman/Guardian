@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace Guardian.ResourceService.Models
+namespace Guardian.Shared.Models
 {
-    public class ResourceServiceResponse
+    public class GetResourceResponse
     {
         public Guid UserPoolId { get; set; }
         public string SourceUrl { get; set; }

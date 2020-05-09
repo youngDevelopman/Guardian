@@ -9,5 +9,7 @@
     <PackageReference Include="MongoDB.Driver" Version="2.10.2" />
   </ItemGroup>
 
+  <Import Project="..\Guardian.Shared\Guardian.Shared.projitems" Label="Shared" />
+
 
 </Project>

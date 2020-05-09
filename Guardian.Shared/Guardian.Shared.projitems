@@ -9,5 +9,7 @@
     <Import_RootNamespace>Guardian.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Models\GetResourceRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\GetResourceResponse.cs" />
   </ItemGroup>
 </Project>

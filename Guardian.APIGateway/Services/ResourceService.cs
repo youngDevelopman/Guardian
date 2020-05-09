@@ -1,4 +1,5 @@
 ﻿using Guardian.APIGateway.Models;
+using Guardian.Shared.Models;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Text;
@@ -26,12 +27,12 @@ namespace Guardian.APIGateway.Services
             return domainUserPoolResponse;
         }
 
-        public async Task<ResourceServiceResponse> GetResource(ResourceServiceRequest request)
+        public async Task<GetResourceResponse> GetResource(GetResourceRequest request)
         {
             var serializedObj = JsonConvert.SerializeObject(request);
 
             var httpResponse = await _httpClient.PostAsync(_resourcesUrl, new StringContent(serializedObj, Encoding.Default, "application/json"));
-            var resourceServiceResponse = JsonConvert.DeserializeObject<ResourceServiceResponse>(await httpResponse.Content.ReadAsStringAsync());
+            var resourceServiceResponse = JsonConvert.DeserializeObject<GetResourceResponse>(await httpResponse.Content.ReadAsStringAsync());
 
             return resourceServiceResponse;
         }

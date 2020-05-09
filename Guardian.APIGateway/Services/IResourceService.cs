@@ -1,15 +1,11 @@
 ﻿using Guardian.APIGateway.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Guardian.Shared.Models;
 using System.Threading.Tasks;
 
 namespace Guardian.APIGateway.Services
 {
     public interface IResourceService
     {
-        Task<DomainUserPool> GetUserPool(DomainUserPool request);
-
-        Task<ResourceServiceResponse> GetResource(ResourceServiceRequest request);
+        Task<GetResourceResponse> GetResource(GetResourceRequest request);
     }
 }

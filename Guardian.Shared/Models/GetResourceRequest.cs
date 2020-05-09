@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace Guardian.APIGateway.Models
+namespace Guardian.Shared.Models
 {
-    public class ResourceServiceRequest
+    public class GetResourceRequest
     {
         public string Domain { get; set; }
+
         public string RelativePath { get; set; }
     }
 }
