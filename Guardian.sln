@@ -7,9 +7,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Guardian.APIGateway", "Guar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Guardian.AuthorizationService", "Guardian.AuthorizationService\Guardian.AuthorizationService.csproj", "{BA9E7310-DD58-4122-9A72-74D6E7AA8171}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Guardian.ResourceService", "Guardian.ResourceService\Guardian.ResourceService.csproj", "{8C2FE5BB-8BB3-4225-A46A-3A09685F740E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Guardian.ResourceService", "Guardian.ResourceService\Guardian.ResourceService.csproj", "{8C2FE5BB-8BB3-4225-A46A-3A09685F740E}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Guardian.Shared", "Guardian.Shared\Guardian.Shared.shproj", "{D357C79B-E483-4910-96F7-FA9D76F690B3}"
 EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Guardian.Shared\Guardian.Shared.projitems*{d357c79b-e483-4910-96f7-fa9d76f690b3}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU

@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace Guardian.AuthorizationService.Models
+namespace Guardian.Shared.Models
 {
-    public class UserForLoginModel
+    public class UserForLogin
     {
         [Required]
         public Guid UserPoolId { get; set; }

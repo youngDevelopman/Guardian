@@ -1,5 +1,5 @@
-﻿using Guardian.APIGateway.Models;
-using Guardian.APIGateway.Services;
+﻿using Guardian.APIGateway.Services;
+using Guardian.Shared.Models;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Threading.Tasks;
@@ -16,7 +16,7 @@ namespace Guardian.APIGateway
 
         public async Task Invoke(HttpContext httpContext, IResourceService resourceService, IAuthorizationService authorizationService)
         {
-            var resourceServiceRequest = new ResourceServiceRequest()
+            var resourceServiceRequest = new GetResourceRequest()
             {
                 Domain = httpContext.Request.Host.Value,
                 RelativePath = httpContext.Request.Path.Value,
@@ -28,7 +28,7 @@ namespace Guardian.APIGateway
             {
                 string token = httpContext.Request.Headers["token"];
 
-                var validationRequest = new ValidationRequest()
+                var validationRequest = new TokenValidationRequest()
                 {
                     AccessToken = token,
                     UserPoolId = resource.UserPoolId,

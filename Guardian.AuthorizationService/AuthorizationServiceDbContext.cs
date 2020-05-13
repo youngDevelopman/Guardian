@@ -10,8 +10,6 @@ namespace Guardian.AuthorizationService
 
         public DbSet<UserPool> UserPool { get; set; }
 
-        public DbSet<UserPoolDomain> UserPoolDomain { get; set; }
-
         public DbSet<PoolUser> PoolUsers { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Guardian.AuthorizationService.Models
+namespace Guardian.Shared.Models
 {
-    public class UserForRegisterModel
+    public class UserForRegister
     {
-
         [Required]
         public string FirstName { get; set; }
 

@@ -1,5 +1,8 @@
 ﻿using Guardian.AuthorizationService;
 using Guardian.AuthorizationService.Models;
+using Guardian.Models.AuthorizationService;
+using Guardian.Services.AuthorizationService;
+using Guardian.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -23,7 +26,7 @@ namespace Guardian.AuthService.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(UserForLoginModel user)
+        public async Task<IActionResult> Login(UserForLogin user)
         {
             User authenticatedUser = _userService.Authenticate(user.UserPoolId, user.Username, user.Password);
             if (authenticatedUser == null)
@@ -38,7 +41,7 @@ namespace Guardian.AuthService.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(UserForRegisterModel user)
+        public async Task<IActionResult> Register(UserForRegister user)
         {
             string password = user.Password;
             var userToAdd = new User()
@@ -54,7 +57,7 @@ namespace Guardian.AuthService.Controllers
         }
 
         [HttpPost("validate")]
-        public async Task<IActionResult> ValidateToken(ValidationRequest request)
+        public async Task<IActionResult> ValidateToken(TokenValidationRequest request)
         {
             bool isTokenValid = _tokenManager.ValidateToken(request.AccessToken, out Guid userId);
 
