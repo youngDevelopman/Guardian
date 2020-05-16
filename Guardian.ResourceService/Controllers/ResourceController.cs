@@ -20,14 +20,6 @@ namespace Guardian.ResourceService.Controllers
             _resourceService = resourceService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetGateways()
-        {
-            var resources = await _resourceService.GetGateways();
-
-            return Ok(resources);
-        }
-
         [HttpPost]
         public async Task<IActionResult> GetResource(GetResourceRequest request)
         {
