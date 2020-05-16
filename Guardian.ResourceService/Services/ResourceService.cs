@@ -18,6 +18,26 @@ namespace Guardian.ResourceService.Services
             _resourceCollection = mongoDatabase.GetCollection<Resource>("resources");
         }
 
+        public async Task<GetGatewaysResponse> GetGateways()
+        {
+            var filter = Builders<Resource>.Filter.Empty;
+            var projection = Builders<Resource>.Projection.Expression(p => 
+                new GatewayShortInfo { Name = p.Name, CreationDate = p.CreationDate, Description = p.Description, Id = p.Id });
+            var options = new FindOptions<Resource, GatewayShortInfo>();
+            options.Projection = projection;
+
+            var cursor = await _resourceCollection.FindAsync(filter, options);
+
+            var resourceList = await cursor.ToListAsync();
+
+            var response = new GetGatewaysResponse()
+            {
+                Gateways = resourceList
+            };
+
+            return response;
+        }
+
         public async Task<GetResourceResponse> GetResource(GetResourceRequest request)
         {
             // Split user requested url by shashes into array of segments.
