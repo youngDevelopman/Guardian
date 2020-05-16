@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ApiGatewayChoiceComponent } from './api-gateway-choice/api-gateway-choice.component';
+import { ApiGatewayTableComponent } from './api-gateway-table/api-gateway-table.component';
 
 const routes: Routes = [
-  { path: 'api-gateway', component: ApiGatewayChoiceComponent }
+  { path: 'api-gateway', component: ApiGatewayTableComponent }
 ];
 
 @NgModule({

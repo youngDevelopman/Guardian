@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ApiGatewayChoiceComponent } from './api-gateway-choice.component';
+import { ApiGatewayTableComponent } from './api-gateway-table.component';
 
 describe('ApiGatewayChoiceComponent', () => {
-  let component: ApiGatewayChoiceComponent;
-  let fixture: ComponentFixture<ApiGatewayChoiceComponent>;
+  let component: ApiGatewayTableComponent;
+  let fixture: ComponentFixture<ApiGatewayTableComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ApiGatewayChoiceComponent ]
+      declarations: [ ApiGatewayTableComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ApiGatewayChoiceComponent);
+    fixture = TestBed.createComponent(ApiGatewayTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

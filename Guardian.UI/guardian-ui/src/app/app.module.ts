@@ -7,13 +7,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ApiGatewayChoiceComponent } from './api-gateway-choice/api-gateway-choice.component';
+import { ApiGatewayTableComponent } from './api-gateway-table/api-gateway-table.component';
 import { MatTableModule } from '@angular/material/table'  
 import { MatPaginatorModule } from '@angular/material/paginator';
 @NgModule({
   declarations: [
     AppComponent,
-    ApiGatewayChoiceComponent
+    ApiGatewayTableComponent
   ],
   imports: [
     BrowserModule,

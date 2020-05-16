@@ -5,10 +5,10 @@ import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'api-gateway-choice',
-  templateUrl: './api-gateway-choice.component.html',
-  styleUrls: ['./api-gateway-choice.component.css']
+  templateUrl: './api-gateway-table.component.html',
+  styleUrls: ['./api-gateway-table.component.css']
 })
-export class ApiGatewayChoiceComponent implements OnInit {
+export class ApiGatewayTableComponent implements OnInit {
   displayedColumns: string[] = ['name', 'gatewayId', 'creationDate', 'description'];
   dataSource = new MatTableDataSource<ApiGatewayTableItem>(ELEMENT_DATA);
 
