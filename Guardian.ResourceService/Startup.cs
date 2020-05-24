@@ -27,6 +27,7 @@ namespace Guardian.ResourceService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddControllers();
 
             services.AddSingleton<IMongoClient>(x =>
@@ -56,6 +57,7 @@ namespace Guardian.ResourceService
 
             app.UseHttpsRedirection();
 
+            app.UseCors(builder => builder.AllowAnyOrigin());
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
