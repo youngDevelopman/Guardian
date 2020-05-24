@@ -6,7 +6,7 @@ namespace Guardian.Shared.Models
 {
     public class GatewayShortInfo
     {
-        public string Id { get; set; }
+        public string GatewayId { get; set; }
 
         public string Name { get; set; }
 

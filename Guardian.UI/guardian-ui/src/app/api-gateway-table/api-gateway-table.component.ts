@@ -15,16 +15,20 @@ import { ResourceService } from '../services/resource-service.service';
 
 export class ApiGatewayTableComponent implements OnInit {
   displayedColumns: string[] = ['name', 'gatewayId', 'creationDate', 'description'];
-  dataSource = new MatTableDataSource<ApiGatewayTableItem>(this.resourceService.getGateways());
+  dataSource: MatTableDataSource<ApiGatewayTableItem>;
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   constructor(private resourceService: ResourceService){ }
 
   ngOnInit(): void {
-    this.dataSource.paginator = this.paginator;
+    this.resourceService.getGateways()
+      .subscribe(data =>
+        { 
+          this.dataSource = new MatTableDataSource<ApiGatewayTableItem>(data);
+          this.dataSource.paginator = this.paginator;
+        });
   }
-
 }
 
 
