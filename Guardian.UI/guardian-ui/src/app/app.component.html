@@ -1,0 +1,15 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <h1>Guardian</h1>
+    <span class="menu-spacer"></span>
+    <div>
+      <a mat-button [routerLink]="'/api-gateway'"> API Gateway </a>
+      <a mat-button [routerLink]="'/authorizer'"> Authorizer </a>
+      <a mat-button [routerLink]="'/statistics'"> Statistics </a>
+
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<router-outlet></router-outlet>
+

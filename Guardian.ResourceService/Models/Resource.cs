@@ -13,6 +13,15 @@ namespace Guardian.ResourceService.Models
         [BsonElement("userPoolId")]
         public Guid UserPoolId { get; set; }
 
+        [BsonElement("name")]
+        public string Name { get; set; }
+
+        [BsonElement("creationDate")]
+        public DateTime CreationDate { get; set; }
+
+        [BsonElement("description")]
+        public string Description { get; set; }
+
         [BsonElement("domain")]
         public string Domain { get; set; }
 
