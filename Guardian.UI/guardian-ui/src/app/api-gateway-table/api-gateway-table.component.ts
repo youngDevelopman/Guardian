@@ -2,17 +2,24 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { ApiGatewayTableItem } from './api-gateway-table-item.interface';
 import { MatTableDataSource } from '@angular/material/table';
+import { ResourceService } from '../services/resource-service.service';
 
 @Component({
   selector: 'api-gateway-choice',
   templateUrl: './api-gateway-table.component.html',
-  styleUrls: ['./api-gateway-table.component.css']
+  styleUrls: ['./api-gateway-table.component.css'],
+  providers:[
+    ResourceService
+  ]
 })
+
 export class ApiGatewayTableComponent implements OnInit {
   displayedColumns: string[] = ['name', 'gatewayId', 'creationDate', 'description'];
-  dataSource = new MatTableDataSource<ApiGatewayTableItem>(ELEMENT_DATA);
+  dataSource = new MatTableDataSource<ApiGatewayTableItem>(this.resourceService.getGateways());
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+
+  constructor(private resourceService: ResourceService){ }
 
   ngOnInit(): void {
     this.dataSource.paginator = this.paginator;
@@ -20,7 +27,4 @@ export class ApiGatewayTableComponent implements OnInit {
 
 }
 
-const ELEMENT_DATA: ApiGatewayTableItem[] = [
-  {name: 'My first API Gateway', gatewayId: 3123, creationDate: 1.0079, description: 'H'},
-  {name: 'test gateway', gatewayId: 228, creationDate: 4.0026, description: 'He'},
-];
+
