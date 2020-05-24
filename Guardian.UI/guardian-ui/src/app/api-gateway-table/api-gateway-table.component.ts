@@ -3,9 +3,10 @@ import { MatPaginator } from '@angular/material/paginator';
 import { ApiGatewayTableItem } from './api-gateway-table-item.interface';
 import { MatTableDataSource } from '@angular/material/table';
 import { ResourceService } from '../services/resource-service.service';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'api-gateway-choice',
+  selector: 'api-gateway-table',
   templateUrl: './api-gateway-table.component.html',
   styleUrls: ['./api-gateway-table.component.css'],
   providers:[
@@ -19,7 +20,7 @@ export class ApiGatewayTableComponent implements OnInit {
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  constructor(private resourceService: ResourceService){ }
+  constructor(private resourceService: ResourceService, private router: Router){ }
 
   ngOnInit(): void {
     this.resourceService.getGateways()
@@ -28,6 +29,12 @@ export class ApiGatewayTableComponent implements OnInit {
           this.dataSource = new MatTableDataSource<ApiGatewayTableItem>(data);
           this.dataSource.paginator = this.paginator;
         });
+  }
+
+  
+  onGatewayClick(gatewayId: string){
+    this.router.navigate(['/api-gateway', gatewayId]);
+    console.log(gatewayId);
   }
 }
 
