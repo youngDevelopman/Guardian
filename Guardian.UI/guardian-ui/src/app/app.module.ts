@@ -11,11 +11,13 @@ import { ApiGatewayTableComponent } from './api-gateway-table/api-gateway-table.
 import { MatTableModule } from '@angular/material/table'  
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { HttpClientModule } from '@angular/common/http';
+import { GatewayComponent } from './gateway/gateway.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ApiGatewayTableComponent
+    ApiGatewayTableComponent,
+    GatewayComponent
   ],
   imports: [
     BrowserModule,
