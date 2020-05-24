@@ -30,12 +30,6 @@ export class ApiGatewayTableComponent implements OnInit {
           this.dataSource.paginator = this.paginator;
         });
   }
-
-  
-  onGatewayClick(gatewayId: string){
-    this.router.navigate(['/api-gateway', gatewayId]);
-    console.log(gatewayId);
-  }
 }
 
 
