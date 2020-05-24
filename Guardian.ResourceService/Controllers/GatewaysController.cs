@@ -21,5 +21,13 @@ namespace Guardian.ResourceService.Controllers
 
             return Ok(resources);
         }
+
+        [HttpGet("{gatewayId}")]
+        public async Task<IActionResult> GetGateway(string gatewayId)
+        {
+            var gateway = await _resourceService.GetGateway(gatewayId);
+
+            return Ok(gateway);
+        }
     }
 }
