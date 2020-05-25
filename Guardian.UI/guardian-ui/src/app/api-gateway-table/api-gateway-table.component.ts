@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { ApiGatewayTableItem } from './api-gateway-table-item.interface';
+import { ApiGatewayTableItem } from '../interfaces/api-gateway-table-item.interface';
 import { MatTableDataSource } from '@angular/material/table';
 import { ResourceService } from '../services/resource-service.service';
 import { Router } from '@angular/router';

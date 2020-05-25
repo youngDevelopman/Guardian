@@ -12,12 +12,15 @@ import { MatTableModule } from '@angular/material/table'
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { HttpClientModule } from '@angular/common/http';
 import { GatewayComponent } from './gateway/gateway.component';
+import {MatTreeModule} from '@angular/material/tree';
+import { GatewayTreeViewComponent } from './gateway-tree-view/gateway-tree-view.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ApiGatewayTableComponent,
-    GatewayComponent
+    GatewayComponent,
+    GatewayTreeViewComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +32,8 @@ import { GatewayComponent } from './gateway/gateway.component';
     MatButtonModule,
     MatIconModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatTreeModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
