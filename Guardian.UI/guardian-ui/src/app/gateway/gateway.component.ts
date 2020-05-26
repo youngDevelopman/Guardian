@@ -3,6 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { ResourceService } from '../services/resource-service.service';
 import { ApiGatewayItem } from '../interfaces/api-gateway-item.interface';
 import { Observable } from 'rxjs';
+import { ApiGatewaySegment } from '../interfaces/api-gateway-segment-interface';
+import { switchMap } from 'rxjs/operators';
+import { ApiGatewaySegmentFlatNode } from '../interfaces/api-gateway-flat-node.interface';
 
 @Component({
   selector: 'gateway',
@@ -12,19 +15,29 @@ import { Observable } from 'rxjs';
     ResourceService
   ]
 })
-export class GatewayComponent implements OnInit {
+export class GatewayComponent implements OnInit, AfterViewInit {
 
   gatewayId: string;
-  gateway: Observable<ApiGatewayItem>;
+  gateway: ApiGatewayItem;
   constructor(
     private resourceService: ResourceService, 
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute) 
+    { }
 
   ngOnInit(): void {
-    this.route.params.subscribe(params =>{
-      this.gatewayId = params['gatewayId']
-    })
+    this.route.paramMap.pipe(
+      switchMap(params => {
+        this.gatewayId = params.get('gatewayId');
+        return this.resourceService.getGateway(this.gatewayId)
+      })).subscribe(item => {
+        this.gateway = item;
+      });
+  }
+  
+  ngAfterViewInit(){
+  }
 
-    this.gateway = this.resourceService.getGateway(this.gatewayId);
+  showNode(node: ApiGatewaySegmentFlatNode){
+    console.log('show node() in gateway component', node)
   }
 }
