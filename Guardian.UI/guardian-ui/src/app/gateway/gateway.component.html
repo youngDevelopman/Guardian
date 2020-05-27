@@ -1,4 +1,8 @@
-<p>{{gatewayId}}</p>
-<gateway-tree-view [gatewaySegments] = 'gateway.segments' (nodeSelected)="showNode($event)"></gateway-tree-view>
+    <mat-sidenav-container class="example-container">
+        <mat-sidenav class="example-sidenav" mode="side" opened [fixedInViewport]="false">
+            <gateway-tree-view [gatewaySegments] = 'gateway.segments' (nodeSelected)="showNode($event)"></gateway-tree-view></mat-sidenav>
+        <mat-sidenav-content autosize>
+            <gateway-details [selectedSegment] = 'selectedSegment'></gateway-details>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
 
-<gateway-details [selectedSegment] = 'selectedSegment' ></gateway-details>

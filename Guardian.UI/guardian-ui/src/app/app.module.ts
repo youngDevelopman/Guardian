@@ -12,7 +12,8 @@ import { MatTableModule } from '@angular/material/table'
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { HttpClientModule } from '@angular/common/http';
 import { GatewayComponent } from './gateway/gateway.component';
-import {MatTreeModule} from '@angular/material/tree';
+import { MatTreeModule } from '@angular/material/tree';
+import { MatSidenavModule, MatDrawer } from '@angular/material/sidenav';
 import { GatewayTreeViewComponent } from './gateway-tree-view/gateway-tree-view.component';
 import { GatewayDetailsComponent } from './gateway-details/gateway-details.component';
 
@@ -36,6 +37,7 @@ import { GatewayDetailsComponent } from './gateway-details/gateway-details.compo
     MatTableModule,
     MatPaginatorModule,
     MatTreeModule,
+    MatSidenavModule
   ],
   providers: [],
   bootstrap: [AppComponent]
