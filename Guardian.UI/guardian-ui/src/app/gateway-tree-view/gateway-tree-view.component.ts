@@ -23,7 +23,7 @@ export class GatewayTreeViewComponent implements OnInit{
   private _transformer = (node: ApiGatewaySegment, level: number) => {
     return {
       expandable: !!node.childSegments && node.childSegments.length > 0,
-      name: node.resourceName,
+      item: node,
       level: level,
     };
   }
@@ -47,7 +47,7 @@ export class GatewayTreeViewComponent implements OnInit{
 
   onNodeSelected(node: ApiGatewaySegmentFlatNode){
     this.selectedNode = node;
-    console.log(node);
+    console.log('tree view node', node);
     this.nodeSelected.emit(node);
   }
 }
