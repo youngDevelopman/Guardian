@@ -1,0 +1,5 @@
+<p>gateway-details works!</p>
+
+<div *ngIf="!isNullOrUndefined(selectedSegment); then showSegmentDetails else noSegmentSelected"></div>
+<ng-template #showSegmentDetails>{{selectedSegment | json}}</ng-template>
+<ng-template #noSegmentSelected>No segment selected to be displayed.</ng-template>

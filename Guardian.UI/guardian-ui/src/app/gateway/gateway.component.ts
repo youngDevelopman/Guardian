@@ -14,8 +14,11 @@ import { isNull, isNullOrUndefined } from 'util';
   providers: [ResourceService],
 })
 export class GatewayComponent implements OnInit, AfterViewInit {
+  
   gatewayId: string;
   gateway: ApiGatewayItem;
+  selectedSegment: ApiGatewaySegment;
+
   constructor(
     private resourceService: ResourceService,
     private route: ActivatedRoute
@@ -38,8 +41,11 @@ export class GatewayComponent implements OnInit, AfterViewInit {
 
   showNode(node: ApiGatewaySegmentFlatNode) {
     let foundNode: ApiGatewaySegment = this.getNodeFromFlattened(node);
-    foundNode.resourceName = "/CHANGED"
-    console.log('changed node', this.gateway)
+
+    if(!isNullOrUndefined(foundNode)){
+      console.log('found node', foundNode)
+      this.selectedSegment = { ...foundNode };
+    }
   }
 
   getNodeFromFlattened(node: ApiGatewaySegmentFlatNode): ApiGatewaySegment {

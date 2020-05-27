@@ -14,13 +14,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { GatewayComponent } from './gateway/gateway.component';
 import {MatTreeModule} from '@angular/material/tree';
 import { GatewayTreeViewComponent } from './gateway-tree-view/gateway-tree-view.component';
+import { GatewayDetailsComponent } from './gateway-details/gateway-details.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ApiGatewayTableComponent,
     GatewayComponent,
-    GatewayTreeViewComponent
+    GatewayTreeViewComponent,
+    GatewayDetailsComponent
   ],
   imports: [
     BrowserModule,

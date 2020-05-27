@@ -1,2 +1,4 @@
 <p>{{gatewayId}}</p>
 <gateway-tree-view [gatewaySegments] = 'gateway.segments' (nodeSelected)="showNode($event)"></gateway-tree-view>
+
+<gateway-details [selectedSegment] = 'selectedSegment' ></gateway-details>
