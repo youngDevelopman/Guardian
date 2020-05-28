@@ -20,6 +20,7 @@ import { GatewayDetailsComponent } from './gateway-details/gateway-details.compo
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { GatewayDetailsHeaderComponent } from './gateway-details-header/gateway-details-header.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     ApiGatewayTableComponent,
     GatewayComponent,
     GatewayTreeViewComponent,
-    GatewayDetailsComponent
+    GatewayDetailsComponent,
+    GatewayDetailsHeaderComponent
   ],
   imports: [
     BrowserModule,
