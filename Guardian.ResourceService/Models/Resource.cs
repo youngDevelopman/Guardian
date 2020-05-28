@@ -11,6 +11,7 @@ namespace Guardian.ResourceService.Models
         public string Id { get; set; }
 
         [BsonElement("userPoolId")]
+        [BsonRepresentation(BsonType.String)]
         public Guid UserPoolId { get; set; }
 
         [BsonElement("name")]

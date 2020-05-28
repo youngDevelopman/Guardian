@@ -18,6 +18,26 @@ namespace Guardian.ResourceService.Services
             _resourceCollection = mongoDatabase.GetCollection<Resource>("resources");
         }
 
+        public async  Task<GetGatewayResponse> GetGateway(string gatewayId)
+        {
+            var filter = Builders<Resource>.Filter.Eq(x => x.Id, gatewayId);
+            var findResult =  await _resourceCollection.FindAsync(filter);
+
+            var gateway = findResult.ToListAsync().Result.FirstOrDefault();
+
+            if (gateway == null)
+            {
+                throw new Exception($"Gateway with {gatewayId} does not exist.");
+            }
+
+            var response = new GetGatewayResponse()
+            {
+                Gateway = gateway,
+            };
+
+            return response;
+        }
+
         public async Task<GetGatewaysResponse> GetGateways()
         {
             var filter = Builders<Resource>.Filter.Empty;
@@ -67,6 +87,18 @@ namespace Guardian.ResourceService.Services
             };
 
             return resourceServiceResponse;
+        }
+
+        public async Task<bool> UpdateGateway(UpdateGatewayRequest request)
+        {
+            var result = await _resourceCollection.ReplaceOneAsync(x => x.Id == request.GatewayToUpdate.Id, request.GatewayToUpdate);
+            
+            if(!result.IsAcknowledged)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

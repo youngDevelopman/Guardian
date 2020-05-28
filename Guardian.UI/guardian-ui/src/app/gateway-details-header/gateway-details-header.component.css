@@ -1,0 +1,10 @@
+.example-header {
+    position: static;
+    top: 20px;
+    left: 0;
+    right: 0;
+}
+
+.span {
+  margin: auto;
+}

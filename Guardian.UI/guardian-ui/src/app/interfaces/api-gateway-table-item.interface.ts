@@ -3,4 +3,4 @@ export interface ApiGatewayTableItem {
     gatewayId: number;
     creationDate: number;
     description: string;
-  }
+}

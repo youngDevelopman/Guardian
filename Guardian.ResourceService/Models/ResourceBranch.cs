@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,10 @@ namespace Guardian.ResourceService.Models
 {
     public class ResourceSegment
     {
+        [BsonRepresentation(BsonType.ObjectId)]
+        [BsonElement("segmentId")]
+        public string SegmentId { get; set; }
+
         [BsonElement("resourceName")]
         public string ResourceName { get; set; }
 
