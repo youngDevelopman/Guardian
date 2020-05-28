@@ -25,4 +25,9 @@ export class ResourceService {
         map(response => response['gateway'] as ApiGatewayItem)
       );
   }
+
+  updateGateway(gateway: ApiGatewayItem): Observable<any>{
+    console.log('update gateway', gateway)
+    return this.http.post("https://localhost:5003/gateways", { gatewayToUpdate: gateway });
+  }
 }

@@ -57,7 +57,12 @@ namespace Guardian.ResourceService
 
             app.UseHttpsRedirection();
 
-            app.UseCors(builder => builder.AllowAnyOrigin());
+            app.UseCors(builder => {
+                builder.AllowAnyOrigin();
+                builder.AllowAnyMethod();
+                builder.AllowAnyHeader();
+            });
+
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>

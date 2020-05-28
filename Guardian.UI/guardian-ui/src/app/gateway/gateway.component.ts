@@ -54,10 +54,11 @@ export class GatewayComponent implements OnInit, AfterViewInit {
 
   saveSettings(nodeSettings: ApiGatewaySegment){
     let foundNode: ApiGatewaySegment = this.getNodeFromFlattened(nodeSettings.segmentId);
-    console.log(foundNode)
     foundNode.resourceName = nodeSettings.resourceName;
     foundNode.basePath = nodeSettings.basePath;
     foundNode.requiresAuthentication = nodeSettings.requiresAuthentication;
+    this.resourceService.updateGateway(this.gateway).subscribe();
+    this.selectedSegment = foundNode;
   }
 
   getNodeFromFlattened(segmentId: string): ApiGatewaySegment {

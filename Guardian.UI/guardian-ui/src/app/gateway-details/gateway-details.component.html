@@ -2,7 +2,7 @@
   <span class="fill-remaining-space">{{selectedSegment.resourceName}} settings: </span>
 </mat-toolbar>
 
-<div class="container" *ngIf="!post; else forminfo" novalidate>
+<div class="container" novalidate>
   <form
     [formGroup]="formGroup"
     (ngSubmit)="onSubmit(formGroup.value)"
@@ -35,9 +35,3 @@
 
   </form>
 </div>
-
-<ng-template #forminfo>
-  <div class="container">
-    {{ post | json }}
-  </div>
-</ng-template>

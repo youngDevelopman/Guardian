@@ -14,13 +14,13 @@ export class GatewayDetailsComponent implements OnInit, OnChanges {
   @Input() selectedSegment: ApiGatewaySegment; 
   @Output() saveSegmentSettings = new EventEmitter();
 
+  headerText: string;
   isNullOrUndefined(obj): boolean{
     return isNullOrUndefined(obj);
   }
 
   formGroup: FormGroup;
   titleAlert: string = 'This field is required';
-  post: any = '';
 
   constructor(private formBuilder: FormBuilder) { console.log('constructor') }
 
@@ -29,8 +29,7 @@ export class GatewayDetailsComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(){
-    this.post = ''
-    console.log('on changes')
+    console.log('on changes resource name', this.selectedSegment.resourceName)
     if(!isNullOrUndefined(this.formGroup)){
       this.formGroup.setValue({
         resourceName: this.selectedSegment.resourceName,
