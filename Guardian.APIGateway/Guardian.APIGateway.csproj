@@ -9,6 +9,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Guardian.ResourceService\Guardian.ResourceService.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Update="routes.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

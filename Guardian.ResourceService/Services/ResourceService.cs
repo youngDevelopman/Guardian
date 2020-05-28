@@ -88,5 +88,17 @@ namespace Guardian.ResourceService.Services
 
             return resourceServiceResponse;
         }
+
+        public async Task<bool> UpdateGateway(UpdateGatewayRequest request)
+        {
+            var result = await _resourceCollection.ReplaceOneAsync(x => x.Id == request.GatewayToUpdate.Id, request.GatewayToUpdate);
+            
+            if(!result.IsAcknowledged)
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }

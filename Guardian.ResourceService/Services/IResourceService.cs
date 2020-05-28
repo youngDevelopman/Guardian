@@ -29,5 +29,12 @@ namespace Guardian.ResourceService.Services
         /// <param name="request">Request obj that contains information about source base path and relative path.</param>
         /// <returns></returns>
         Task<GetGatewayResponse> GetGateway(string gatewayId);
+
+        /// <summary>
+        /// Generates proxy for given request
+        /// </summary>
+        /// <param name="request">Request obj that contains information about source base path and relative path.</param>
+        /// <returns></returns>
+        Task<bool> UpdateGateway(UpdateGatewayRequest request);
     }
 }

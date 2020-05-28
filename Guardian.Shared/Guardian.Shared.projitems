@@ -15,6 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\GetResourceResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\GatewayShortInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\TokenValidationRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\UpdateGatewayRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\UserForLogin.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\UserForRegister.cs" />
   </ItemGroup>
