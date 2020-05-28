@@ -15,13 +15,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { GatewayComponent } from './gateway/gateway.component';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatSidenavModule, MatDrawer } from '@angular/material/sidenav';
-import { GatewayTreeViewComponent } from './gateway-tree-view/gateway-tree-view.component';
-import { GatewayDetailsComponent } from './gateway-details/gateway-details.component';
+import { GatewayTreeViewComponent } from './gateway/gateway-tree-view/gateway-tree-view.component';
+import { GatewayDetailsComponent } from './/gateway/gateway-details/gateway-details.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { GatewayDetailsHeaderComponent } from './gateway-details-header/gateway-details-header.component';
+import { GatewayDetailsHeaderComponent } from './gateway/gateway-details-header/gateway-details-header.component';
 
 @NgModule({
   declarations: [

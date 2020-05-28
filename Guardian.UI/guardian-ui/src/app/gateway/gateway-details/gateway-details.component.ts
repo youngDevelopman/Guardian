@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, Input, AfterContentChecked, AfterContentInit, AfterViewChecked, AfterViewInit, OnChanges, EventEmitter } from '@angular/core';
-import { ApiGatewaySegment } from '../interfaces/api-gateway-segment-interface';
+import { ApiGatewaySegment } from '../../interfaces/api-gateway-segment-interface';
 import { isNullOrUndefined } from 'util';
 import { FormGroup, Validators, FormControl, FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';
