@@ -47,7 +47,6 @@ export class GatewayTreeViewComponent implements OnInit{
 
   onNodeSelected(node: ApiGatewaySegmentFlatNode){
     this.selectedNode = node;
-    console.log('tree view node', node);
     this.nodeSelected.emit(node);
   }
 }

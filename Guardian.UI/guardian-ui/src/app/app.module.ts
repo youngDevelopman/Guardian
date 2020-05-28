@@ -10,12 +10,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ApiGatewayTableComponent } from './api-gateway-table/api-gateway-table.component';
 import { MatTableModule } from '@angular/material/table'  
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { GatewayComponent } from './gateway/gateway.component';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatSidenavModule, MatDrawer } from '@angular/material/sidenav';
 import { GatewayTreeViewComponent } from './gateway-tree-view/gateway-tree-view.component';
 import { GatewayDetailsComponent } from './gateway-details/gateway-details.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -30,6 +34,8 @@ import { GatewayDetailsComponent } from './gateway-details/gateway-details.compo
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
     MatToolbarModule,
     MatListModule,
     MatButtonModule,
@@ -37,7 +43,10 @@ import { GatewayDetailsComponent } from './gateway-details/gateway-details.compo
     MatTableModule,
     MatPaginatorModule,
     MatTreeModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule
   ],
   providers: [],
   bootstrap: [AppComponent]

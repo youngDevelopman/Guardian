@@ -2,7 +2,11 @@
         <mat-sidenav class="example-sidenav" mode="side" opened [fixedInViewport]="false">
             <gateway-tree-view [gatewaySegments] = 'gateway.segments' (nodeSelected)="showNode($event)"></gateway-tree-view></mat-sidenav>
         <mat-sidenav-content autosize>
-            <gateway-details [selectedSegment] = 'selectedSegment'></gateway-details>
+            <div *ngIf="!isNullOrUndefined(selectedSegment); then showGatewayDetails else noSegmentSelected"></div>
+            <ng-template #showGatewayDetails>
+                <gateway-details [selectedSegment] = 'selectedSegment' (saveSegmentSettings)="saveSettings($event)"></gateway-details>
+            </ng-template>
+            <ng-template #noSegmentSelected>No segment selected to be displayed.</ng-template>
         </mat-sidenav-content>
     </mat-sidenav-container>
 
