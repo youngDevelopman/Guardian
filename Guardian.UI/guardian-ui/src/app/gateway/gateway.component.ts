@@ -6,6 +6,7 @@ import { switchMap } from 'rxjs/operators';
 import { ApiGatewaySegmentFlatNode } from '../interfaces/api-gateway-flat-node.interface';
 import { ApiGatewaySegment } from '../interfaces/api-gateway-segment-interface';
 import { isNull, isNullOrUndefined } from 'util';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'gateway',
@@ -22,7 +23,8 @@ export class GatewayComponent implements OnInit, AfterViewInit {
   constructor(
     private resourceService: ResourceService,
     private route: ActivatedRoute,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
+    private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -59,6 +61,7 @@ export class GatewayComponent implements OnInit, AfterViewInit {
     foundNode.requiresAuthentication = nodeSettings.requiresAuthentication;
     this.resourceService.updateGateway(this.gateway).subscribe();
     this.selectedSegment = foundNode;
+    this.openSnackBar('Settings are saved', 'Close')
   }
 
   getNodeFromFlattened(segmentId: string): ApiGatewaySegment {
@@ -81,5 +84,12 @@ export class GatewayComponent implements OnInit, AfterViewInit {
     }
 
     return null;
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 2000,
+      horizontalPosition: 'center'
+    });
   }
 }

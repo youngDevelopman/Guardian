@@ -20,6 +20,7 @@ import { GatewayDetailsComponent } from './gateway-details/gateway-details.compo
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { GatewayDetailsHeaderComponent } from './gateway-details-header/gateway-details-header.component';
 
 @NgModule({
@@ -48,7 +49,8 @@ import { GatewayDetailsHeaderComponent } from './gateway-details-header/gateway-
     MatSidenavModule,
     MatFormFieldModule,
     MatInputModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
