@@ -19,7 +19,7 @@ export class GatewayComponent implements OnInit, AfterViewInit {
   gatewayId: string;
   gateway: ApiGatewayItem;
   selectedSegment: ApiGatewaySegment;
-
+  panelOpenState = false;
   constructor(
     private resourceService: ResourceService,
     private route: ActivatedRoute,
@@ -47,7 +47,7 @@ export class GatewayComponent implements OnInit, AfterViewInit {
   }
 
   showNode(node: ApiGatewaySegmentFlatNode) {
-    let foundNode: ApiGatewaySegment = this.getNodeFromFlattened(node.item.segmentId);
+    let foundNode: ApiGatewaySegment = this.getNodeById(node.item.segmentId);
     if(!isNullOrUndefined(foundNode)){
       this.selectedSegment = { ...foundNode };
       this.changeDetector.markForCheck();
@@ -55,7 +55,7 @@ export class GatewayComponent implements OnInit, AfterViewInit {
   }
 
   saveSettings(nodeSettings: ApiGatewaySegment){
-    let foundNode: ApiGatewaySegment = this.getNodeFromFlattened(nodeSettings.segmentId);
+    let foundNode: ApiGatewaySegment = this.getNodeById(nodeSettings.segmentId);
     foundNode.resourceName = nodeSettings.resourceName;
     foundNode.basePath = nodeSettings.basePath;
     foundNode.requiresAuthentication = nodeSettings.requiresAuthentication;
@@ -64,7 +64,7 @@ export class GatewayComponent implements OnInit, AfterViewInit {
     this.openSnackBar('Settings are saved', 'Close')
   }
 
-  getNodeFromFlattened(segmentId: string): ApiGatewaySegment {
+  getNodeById(segmentId: string): ApiGatewaySegment {
     var queue: ApiGatewaySegment[] = [];
     queue.push(...this.gateway.segments);
 

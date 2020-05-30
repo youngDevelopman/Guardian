@@ -5,6 +5,21 @@
     opened
     [fixedInViewport]="false"
   >
+  <mat-expansion-panel (opened)="panelOpenState = true"
+                       (closed)="panelOpenState = false">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Actions panel
+      </mat-panel-title>
+      <mat-panel-description>
+        Actions
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <p><button mat-raised-button color="primary">Add root segment</button></p>
+    <p>Current segment is {{selectedSegment?.resourceName}}</p>
+    <p><button mat-raised-button color="primary">Add chlid segment</button></p>
+    <p><button mat-raised-button color="warn">Delete segment</button></p>
+  </mat-expansion-panel>
     <gateway-tree-view
       [gatewaySegments]="gateway.segments"
       (nodeSelected)="showNode($event)"

@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
-import { ApiGatewaySegment } from '../interfaces/api-gateway-segment-interface';
+import { ApiGatewaySegment } from '../../interfaces/api-gateway-segment-interface';
 import {  FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlattener, MatTreeFlatDataSource } from '@angular/material/tree';
-import { ApiGatewaySegmentFlatNode } from '../interfaces/api-gateway-flat-node.interface';
+import { ApiGatewaySegmentFlatNode } from '../../interfaces/api-gateway-flat-node.interface';
 
 @Component({
   selector: 'gateway-tree-view',
