@@ -16,15 +16,13 @@ export class GatewayAddSegmentComponent implements OnInit {
       private fb: FormBuilder,
       private dialogRef: MatDialogRef<GatewayAddSegmentComponent>,
       @Inject(MAT_DIALOG_DATA) data) {
-
-      this.description = data.description;
   }
 
   ngOnInit() {
       this.form = this.fb.group({
-        resourceName: [[], [Validators.required]],
-        basePath: [[], [Validators.required]],
-        requiresAuthentication: [[], [Validators.required]]
+        resourceName: [, [Validators.required]],
+        basePath: [, [Validators.required]],
+        requiresAuthentication: [, [Validators.required]]
       });
   }
 
@@ -36,7 +34,7 @@ export class GatewayAddSegmentComponent implements OnInit {
       requiresAuthentication: segment.requiresAuthentication,
       childSegments: null,
     }
-    this.dialogRef.close(this.form.value);
+    this.dialogRef.close(segmentToAdd);
   }
 
   close() {

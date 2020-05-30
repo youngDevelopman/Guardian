@@ -4,6 +4,7 @@ import { ApiGatewayTableItem } from '../interfaces/api-gateway-table-item.interf
 import { map, filter, tap } from "rxjs/operators";
 import { Observable } from 'rxjs';
 import { ApiGatewayItem } from '../interfaces/api-gateway-item.interface';
+import { ApiGatewaySegment } from '../interfaces/api-gateway-segment-interface';
 @Injectable({
   providedIn: 'root'
 })
@@ -29,5 +30,10 @@ export class ResourceService {
   updateGateway(gateway: ApiGatewayItem): Observable<any>{
     console.log('update gateway', gateway)
     return this.http.post("https://localhost:5003/gateways", { gatewayToUpdate: gateway });
+  }
+
+  addRootSegment(gatewayId: string, gateway: ApiGatewaySegment): Observable<any>{
+    console.log('Add root segment', gateway, 'gateway id', gatewayId)
+    return this.http.post("https://localhost:5003/gateways/segment/root", { gatewayId: gatewayId, segment: gateway });
   }
 }

@@ -110,11 +110,15 @@ export class GatewayComponent implements OnInit, AfterViewInit {
 
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.data = {
-      id: 1,
-      title: 'Angular For Beginners'
-  };
 
-    this.dialog.open(GatewayAddSegmentComponent, dialogConfig);
+    const dialogRef = this.dialog.open(GatewayAddSegmentComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(
+      data => {
+        const segmentToAdd = data as ApiGatewaySegment 
+        console.log("Dialog output:", segmentToAdd); 
+        this.resourceService.addRootSegment(this.gateway.id, segmentToAdd).subscribe();
+      }
+    ); 
   }
 }

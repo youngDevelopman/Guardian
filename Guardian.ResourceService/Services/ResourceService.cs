@@ -1,5 +1,6 @@
 ﻿using Guardian.ResourceService.Models;
 using Guardian.Shared.Models;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -103,6 +104,9 @@ namespace Guardian.ResourceService.Services
 
         public async Task<Resource> AddRootSegment(AddRootSegmentRequest request)
         {
+            request.Segment.SegmentId = ObjectId.GenerateNewId().ToString();
+            request.Segment.ChildSegments = new List<ResourceSegment>();
+
             var filter = Builders<Resource>.Filter.Eq(x => x.Id, request.GatewayId);
             var update = Builders<Resource>.Update.Push<ResourceSegment>(x => x.Segments, request.Segment);
 
