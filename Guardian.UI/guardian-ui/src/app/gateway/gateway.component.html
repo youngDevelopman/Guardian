@@ -15,7 +15,7 @@
         Actions
       </mat-panel-description>
     </mat-expansion-panel-header>
-    <p><button mat-raised-button color="primary">Add root segment</button></p>
+    <p><button mat-raised-button color="primary" (click)="openDialog()">Add root segment</button></p>
     <ng-template [ngIf]="!isNullOrUndefined(selectedSegment)"><div>
       <p>Current segment is {{selectedSegment?.resourceName}}</p>
       <p><button mat-raised-button color="primary">Add chlid segment</button></p>

@@ -100,5 +100,15 @@ namespace Guardian.ResourceService.Services
 
             return true;
         }
+
+        public async Task<Resource> AddRootSegment(AddRootSegmentRequest request)
+        {
+            var filter = Builders<Resource>.Filter.Eq(x => x.Id, request.GatewayId);
+            var update = Builders<Resource>.Update.Push<ResourceSegment>(x => x.Segments, request.Segment);
+
+            await _resourceCollection.FindOneAndUpdateAsync(filter, update);
+            var result = await this.GetGateway(request.GatewayId);
+            return result.Gateway;
+        }
     }
 }

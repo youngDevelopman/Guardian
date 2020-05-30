@@ -1,0 +1,25 @@
+<h2 mat-dialog-title>Add new segment</h2>
+
+<mat-dialog-content [formGroup]="form">
+  
+    <mat-form-field>
+        <input matInput
+                placeholder="Resource name"
+               formControlName="resourceName">
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput
+                placeholder="Base path"
+               formControlName="basePath">
+    </mat-form-field>
+
+    <label>Requires Authentication:</label>
+        <mat-checkbox style="margin-left: 10px;" class="form-element" formControlName="requiresAuthentication">
+  </mat-checkbox>
+ 
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button style="margin-left: 10px;" class="mat-raised-button"(click)="close()">Close</button>
+    <button style="margin-left: 10px;" class="mat-raised-button mat-primary"(click)="save(form.value)">Save</button>
+</mat-dialog-actions>

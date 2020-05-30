@@ -44,5 +44,12 @@ namespace Guardian.ResourceService.Controllers
 
             return Ok();
         }
+        
+        [HttpPost("segment/root")]
+        public async Task<IActionResult> AddRootSegment(AddRootSegmentRequest addRootSegmentRequest)
+        {
+            var result = await _resourceService.AddRootSegment(addRootSegmentRequest);
+            return Ok(result);
+        }
     }
 }

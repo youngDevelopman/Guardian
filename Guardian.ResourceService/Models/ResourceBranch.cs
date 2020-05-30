@@ -24,5 +24,10 @@ namespace Guardian.ResourceService.Models
 
         [BsonElement("childSegments")]
         public List<ResourceSegment> ChildSegments { get; set; }
+
+        public ResourceSegment()
+        {
+            this.SegmentId = ObjectId.GenerateNewId().ToString();
+        }
     }
 }
