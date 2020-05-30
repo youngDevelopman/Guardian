@@ -19,7 +19,7 @@ export class GatewayComponent implements OnInit, AfterViewInit {
   gatewayId: string;
   gateway: ApiGatewayItem;
   selectedSegment: ApiGatewaySegment;
-
+  panelOpenState = false;
   constructor(
     private resourceService: ResourceService,
     private route: ActivatedRoute,
