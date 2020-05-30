@@ -102,16 +102,17 @@ namespace Guardian.ResourceService.Services
             return true;
         }
 
-        public async Task<Resource> AddRootSegment(AddRootSegmentRequest request)
+        public async Task<Resource> AddRootSegment(string gatewayId, AddRootSegmentRequest request)
         {
             request.Segment.SegmentId = ObjectId.GenerateNewId().ToString();
             request.Segment.ChildSegments = new List<ResourceSegment>();
 
-            var filter = Builders<Resource>.Filter.Eq(x => x.Id, request.GatewayId);
+            var filter = Builders<Resource>.Filter.Eq(x => x.Id, gatewayId);
             var update = Builders<Resource>.Update.Push<ResourceSegment>(x => x.Segments, request.Segment);
 
             await _resourceCollection.FindOneAndUpdateAsync(filter, update);
-            var result = await this.GetGateway(request.GatewayId);
+            var result = await this.GetGateway(gatewayId);
+            
             return result.Gateway;
         }
     }
