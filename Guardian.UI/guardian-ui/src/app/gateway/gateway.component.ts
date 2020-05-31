@@ -14,6 +14,7 @@ import { isNull, isNullOrUndefined } from 'util';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { GatewayAddSegmentComponent } from './gateway-add-segment/gateway-add-segment.component';
+import { AddSegmentDialogOutputData } from '../interfaces/add-segment-dialog-output-data.interface';
 
 @Component({
   selector: 'gateway',
@@ -105,19 +106,37 @@ export class GatewayComponent implements OnInit, AfterViewInit {
     });
   }
 
-  openDialog() {
+  openDialog(isChildSegmentToAdd: boolean) {
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
 
+    if(isChildSegmentToAdd){
+      dialogConfig.data = {
+        isChildSegmentToAdd: isChildSegmentToAdd,
+        parentId: this.selectedSegment.segmentId
+      }
+    }
+    else{
+      dialogConfig.data = {
+        isChildSegmentToAdd: isChildSegmentToAdd,
+        parentId: null,
+      }
+    }
+
     const dialogRef = this.dialog.open(GatewayAddSegmentComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(
       data => {
-        const segmentToAdd = data as ApiGatewaySegment 
-        console.log("Dialog output:", segmentToAdd); 
-        this.resourceService.addRootSegment(this.gateway.id, segmentToAdd).subscribe();
+        const outputData = data as AddSegmentDialogOutputData
+        console.log("Dialog output:", outputData); 
+        if(outputData.isChildSegmentToAdd){
+          this.resourceService.addChildSegment(this.gateway.id, outputData.parentId, outputData.segment).subscribe();
+        }
+        else{
+          this.resourceService.addRootSegment(this.gateway.id, outputData.segment).subscribe();
+        }
       }
     ); 
   }

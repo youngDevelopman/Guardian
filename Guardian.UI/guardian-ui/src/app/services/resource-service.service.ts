@@ -36,4 +36,10 @@ export class ResourceService {
     console.log('Add root segment', segment, 'gateway id', gatewayId)
     return this.http.post(`https://localhost:5003/gateways/${gatewayId}/segments/root`, { segment: segment });
   }
+
+  addChildSegment(gatewayId: string, parentSegmentId: string, segment: ApiGatewaySegment): Observable<any>{
+    console.log('Add child segment', segment, 'gateway id', gatewayId);
+    return this.http.post(`https://localhost:5003/gateways/${gatewayId}/segments/child`, 
+      { parentSegmentId: parentSegmentId, segment: segment });
+  }
 }

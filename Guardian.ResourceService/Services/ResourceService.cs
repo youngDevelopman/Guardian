@@ -161,7 +161,11 @@ namespace Guardian.ResourceService.Services
 
             foreach(var segment in resourceSegment.ChildSegments)
             {
-                this.FindSegementById(segmentId, segment);
+                var result = this.FindSegementById(segmentId, segment);
+                if(result != null)
+                {
+                    return result;
+                }
             }
 
             return null;
