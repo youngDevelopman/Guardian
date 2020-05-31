@@ -15,10 +15,12 @@
         Actions
       </mat-panel-description>
     </mat-expansion-panel-header>
-    <p><button mat-raised-button color="primary">Add root segment</button></p>
-    <p>Current segment is {{selectedSegment?.resourceName}}</p>
-    <p><button mat-raised-button color="primary">Add chlid segment</button></p>
-    <p><button mat-raised-button color="warn">Delete segment</button></p>
+    <p><button mat-raised-button color="primary" (click)="openDialog(false)">Add root segment</button></p>
+    <ng-template [ngIf]="!isNullOrUndefined(selectedSegment)"><div>
+      <p>Current segment is {{selectedSegment?.resourceName}}</p>
+      <p><button mat-raised-button color="primary" (click)="openDialog(true)">Add chlid segment</button></p>
+      <p><button mat-raised-button color="warn">Delete segment</button></p></div>
+    </ng-template>
   </mat-expansion-panel>
     <gateway-tree-view
       [gatewaySegments]="gateway.segments"

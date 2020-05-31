@@ -1,5 +1,6 @@
 ﻿using Guardian.ResourceService.Models;
 using Guardian.Shared.Models;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -99,6 +100,75 @@ namespace Guardian.ResourceService.Services
             }
 
             return true;
+        }
+
+        public async Task<Resource> AddRootSegment(string gatewayId, AddRootSegmentRequest request)
+        {
+            request.Segment.SegmentId = ObjectId.GenerateNewId().ToString();
+            request.Segment.ChildSegments = new List<ResourceSegment>();
+
+            var filter = Builders<Resource>.Filter.Eq(x => x.Id, gatewayId);
+            var update = Builders<Resource>.Update.Push<ResourceSegment>(x => x.Segments, request.Segment);
+
+            await _resourceCollection.FindOneAndUpdateAsync(filter, update);
+            var result = await this.GetGateway(gatewayId);
+            
+            return result.Gateway;
+        }
+
+        public async Task<Resource> AddChildSegment(string gatewayId, AddChildSegmentRequest request)
+        {
+            request.Segment.SegmentId = ObjectId.GenerateNewId().ToString();
+            request.Segment.ChildSegments = new List<ResourceSegment>();
+
+            var response = await this.GetGateway(gatewayId);
+            var gateway = response.Gateway;
+
+            var segmentsToUpdate = this.AddSegmentToParent(request.ParentSegmentId, request.Segment, gateway.Segments);
+            gateway.Segments = segmentsToUpdate;
+
+            var updateGatewayRequest = new UpdateGatewayRequest()
+            {
+                GatewayToUpdate = gateway
+            };
+
+            await this.UpdateGateway(updateGatewayRequest);
+
+            return gateway;
+        }
+
+        private List<ResourceSegment> AddSegmentToParent(string parentId, ResourceSegment segmentToAdd, List<ResourceSegment> resourceSegments)
+        {
+            foreach (var rootSegment in resourceSegments) 
+            {
+                var segmentFound = this.FindSegementById(parentId, rootSegment);
+                if (segmentFound != null)
+                {
+                    segmentFound.ChildSegments.Add(segmentToAdd);
+                    break;
+                }
+            }
+
+            return resourceSegments;
+        }
+
+        private ResourceSegment FindSegementById(string segmentId, ResourceSegment resourceSegment)
+        {
+            if(resourceSegment.SegmentId == segmentId)
+            {
+                return resourceSegment;
+            }
+
+            foreach(var segment in resourceSegment.ChildSegments)
+            {
+                var result = this.FindSegementById(segmentId, segment);
+                if(result != null)
+                {
+                    return result;
+                }
+            }
+
+            return null;
         }
     }
 }

@@ -36,5 +36,9 @@ namespace Guardian.ResourceService.Services
         /// <param name="request">Request obj that contains information about source base path and relative path.</param>
         /// <returns></returns>
         Task<bool> UpdateGateway(UpdateGatewayRequest request);
+
+        Task<Resource> AddRootSegment(string gatewayId, AddRootSegmentRequest request);
+
+        Task<Resource> AddChildSegment(string gatewayId, AddChildSegmentRequest request);
     }
 }
