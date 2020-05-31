@@ -115,5 +115,56 @@ namespace Guardian.ResourceService.Services
             
             return result.Gateway;
         }
+
+        public async Task<Resource> AddChildSegment(string gatewayId, AddChildSegmentRequest request)
+        {
+            request.Segment.SegmentId = ObjectId.GenerateNewId().ToString();
+            request.Segment.ChildSegments = new List<ResourceSegment>();
+
+            var response = await this.GetGateway(gatewayId);
+            var gateway = response.Gateway;
+
+            var segmentsToUpdate = this.AddSegmentToParent(request.ParentSegmentId, request.Segment, gateway.Segments);
+            gateway.Segments = segmentsToUpdate;
+
+            var updateGatewayRequest = new UpdateGatewayRequest()
+            {
+                GatewayToUpdate = gateway
+            };
+
+            await this.UpdateGateway(updateGatewayRequest);
+
+            return gateway;
+        }
+
+        private List<ResourceSegment> AddSegmentToParent(string parentId, ResourceSegment segmentToAdd, List<ResourceSegment> resourceSegments)
+        {
+            foreach (var rootSegment in resourceSegments) 
+            {
+                var segmentFound = this.FindSegementById(parentId, rootSegment);
+                if (segmentFound != null)
+                {
+                    segmentFound.ChildSegments.Add(segmentToAdd);
+                    break;
+                }
+            }
+
+            return resourceSegments;
+        }
+
+        private ResourceSegment FindSegementById(string segmentId, ResourceSegment resourceSegment)
+        {
+            if(resourceSegment.SegmentId == segmentId)
+            {
+                return resourceSegment;
+            }
+
+            foreach(var segment in resourceSegment.ChildSegments)
+            {
+                this.FindSegementById(segmentId, segment);
+            }
+
+            return null;
+        }
     }
 }
