@@ -137,6 +137,24 @@ namespace Guardian.ResourceService.Services
             return gateway;
         }
 
+        public async Task<Resource> DeleteSegment(string gatewayId, string segmentId)
+        {
+            var response = await this.GetGateway(gatewayId);
+            var gateway = response.Gateway;
+
+            var segmentsToUpdate =  this.DeleteSegment(segmentId, gateway.Segments);
+            gateway.Segments = segmentsToUpdate;
+
+            var updateGatewayRequest = new UpdateGatewayRequest()
+            {
+                GatewayToUpdate = gateway
+            };
+
+            await this.UpdateGateway(updateGatewayRequest);
+
+            return gateway;
+        }
+
         private List<ResourceSegment> AddSegmentToParent(string parentId, ResourceSegment segmentToAdd, List<ResourceSegment> resourceSegments)
         {
             foreach (var rootSegment in resourceSegments) 
@@ -162,6 +180,40 @@ namespace Guardian.ResourceService.Services
             foreach(var segment in resourceSegment.ChildSegments)
             {
                 var result = this.FindSegementById(segmentId, segment);
+                if(result != null)
+                {
+                    return result;
+                }
+            }
+
+            return null;
+        }
+
+        private List<ResourceSegment> DeleteSegment(string segmentId, List<ResourceSegment> resourceSegments)
+        {
+            foreach (var rootSegment in resourceSegments)
+            {
+                var segmentFound = this.DeleteSegmentById(segmentId, rootSegment, resourceSegments);
+                if (segmentFound != null)
+                {
+                    break;
+                }
+            }
+
+            return resourceSegments;
+        }
+
+        private ResourceSegment DeleteSegmentById(string segmentId, ResourceSegment resourceSegment, List<ResourceSegment> parentSegments)
+        {
+            if(resourceSegment.SegmentId == segmentId)
+            {
+                parentSegments.RemoveAll(x => x.SegmentId == segmentId);
+                return resourceSegment;
+            }
+
+            foreach (var segment in resourceSegment.ChildSegments)
+            {
+                var result = this.DeleteSegmentById(segmentId, segment, resourceSegment.ChildSegments);
                 if(result != null)
                 {
                     return result;

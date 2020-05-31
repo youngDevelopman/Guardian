@@ -58,5 +58,12 @@ namespace Guardian.ResourceService.Controllers
             var result = await _resourceService.AddChildSegment(gatewayId, addChildSegmentRequest);
             return Ok(result);
         }
+
+        [HttpDelete("{gatewayId}/segments/{segmentId}")]
+        public async Task<IActionResult> DeleteSegment(string gatewayId, string segmentId)
+        {
+            var result = await _resourceService.DeleteSegment(gatewayId, segmentId);
+            return Ok(result);
+        }
     }
 }
