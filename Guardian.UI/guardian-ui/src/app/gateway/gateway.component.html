@@ -19,7 +19,7 @@
     <ng-template [ngIf]="!isNullOrUndefined(selectedSegment)"><div>
       <p>Current segment is {{selectedSegment?.resourceName}}</p>
       <p><button mat-raised-button color="primary" (click)="openDialog(true)">Add chlid segment</button></p>
-      <p><button mat-raised-button color="warn">Delete segment</button></p></div>
+      <p><button mat-raised-button color="warn" (click)="deleteSelectedSegment()">Delete segment</button></p></div>
     </ng-template>
   </mat-expansion-panel>
     <gateway-tree-view

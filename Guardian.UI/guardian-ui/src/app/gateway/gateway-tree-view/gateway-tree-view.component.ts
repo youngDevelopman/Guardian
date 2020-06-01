@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges} from '@angular/core';
 import { ApiGatewaySegment } from '../../interfaces/api-gateway-segment-interface';
 import {  FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlattener, MatTreeFlatDataSource } from '@angular/material/tree';
@@ -9,7 +9,7 @@ import { ApiGatewaySegmentFlatNode } from '../../interfaces/api-gateway-flat-nod
   templateUrl: './gateway-tree-view.component.html',
   styleUrls: ['./gateway-tree-view.component.css']
 })
-export class GatewayTreeViewComponent implements OnInit{
+export class GatewayTreeViewComponent implements OnInit, OnChanges{
   
   @Output() nodeSelected = new EventEmitter();
   @Input() gatewaySegments: ApiGatewaySegment[];
@@ -42,6 +42,9 @@ export class GatewayTreeViewComponent implements OnInit{
     this.dataSource.data = this.gatewaySegments;
   }
 
+  ngOnChanges(){
+    console.log('tree view on changes')
+  }
 
   hasChild = (_: number, node: ApiGatewaySegmentFlatNode) => node.expandable;
 
