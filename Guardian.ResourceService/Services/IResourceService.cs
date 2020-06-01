@@ -16,29 +16,16 @@ namespace Guardian.ResourceService.Services
         /// <returns></returns>
         Task<GetResourceResponse> GetResource(GetResourceRequest request);
 
-        /// <summary>
-        /// Generates proxy for given request
-        /// </summary>
-        /// <param name="request">Request obj that contains information about source base path and relative path.</param>
-        /// <returns></returns>
         Task<GetGatewaysResponse> GetGateways();
 
-        /// <summary>
-        /// Generates proxy for given request
-        /// </summary>
-        /// <param name="request">Request obj that contains information about source base path and relative path.</param>
-        /// <returns></returns>
         Task<GetGatewayResponse> GetGateway(string gatewayId);
 
-        /// <summary>
-        /// Generates proxy for given request
-        /// </summary>
-        /// <param name="request">Request obj that contains information about source base path and relative path.</param>
-        /// <returns></returns>
         Task<bool> UpdateGateway(UpdateGatewayRequest request);
 
         Task<Resource> AddRootSegment(string gatewayId, AddRootSegmentRequest request);
 
         Task<Resource> AddChildSegment(string gatewayId, AddChildSegmentRequest request);
+
+        Task<Resource> DeleteSegment(string gatewayId, string segmentId);
     }
 }

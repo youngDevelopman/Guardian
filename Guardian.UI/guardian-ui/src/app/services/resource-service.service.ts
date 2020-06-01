@@ -42,4 +42,9 @@ export class ResourceService {
     return this.http.post(`https://localhost:5003/gateways/${gatewayId}/segments/child`, 
       { parentSegmentId: parentSegmentId, segment: segment });
   }
+
+  deleteSegment(gatewayId: string, segmentId: string): Observable<any>{
+    console.log('Delete segment', segmentId, 'gateway id', gatewayId);
+    return this.http.delete(`https://localhost:5003/gateways/${gatewayId}/segments/${segmentId}`);
+  }
 }

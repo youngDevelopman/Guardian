@@ -75,6 +75,21 @@ export class GatewayComponent implements OnInit, AfterViewInit {
   addRootSegment(rootSegment: ApiGatewaySegment){
     this.gateway.segments.push(rootSegment);
     this.resourceService.updateGateway(this.gateway).subscribe();
+    location.reload();
+  }
+
+  deleteSelectedSegment(){
+
+    this.resourceService.deleteSegment(this.gateway.id, this.selectedSegment.segmentId)
+      .pipe(switchMap(_ => {
+        return this.resourceService.getGateway(this.gatewayId)
+      }))
+      .subscribe(gateway => {
+        this.gateway = gateway;
+        this.selectedSegment = null; 
+      })
+
+      location.reload();
   }
 
   getNodeById(segmentId: string): ApiGatewaySegment {
@@ -137,6 +152,7 @@ export class GatewayComponent implements OnInit, AfterViewInit {
         else{
           this.resourceService.addRootSegment(this.gateway.id, outputData.segment).subscribe();
         }
+        location.reload();
       }
     ); 
   }
