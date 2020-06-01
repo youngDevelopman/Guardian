@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Models\AddChildSegmentRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\AddGatewayRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\AddRootSegmentRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\GetGatewayResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\GetGatewaysResponse.cs" />

@@ -20,6 +20,8 @@ namespace Guardian.ResourceService.Services
 
         Task<GetGatewayResponse> GetGateway(string gatewayId);
 
+        Task AddGateway(AddGatewayRequest request);
+
         Task<bool> UpdateGateway(UpdateGatewayRequest request);
 
         Task<Resource> AddRootSegment(string gatewayId, AddRootSegmentRequest request);

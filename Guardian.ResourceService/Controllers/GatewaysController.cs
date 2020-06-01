@@ -33,6 +33,14 @@ namespace Guardian.ResourceService.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> AddGateway(AddGatewayRequest request)
+        {
+            await _resourceService.AddGateway(request);
+
+            return Ok();
+        }
+
+        [HttpPut]
         public async Task<IActionResult> UpdateGateway(UpdateGatewayRequest updateRequest)
         {
             var isModified = await _resourceService.UpdateGateway(updateRequest);
