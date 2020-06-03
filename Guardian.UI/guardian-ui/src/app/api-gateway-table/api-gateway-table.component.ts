@@ -4,6 +4,10 @@ import { ApiGatewayTableItem } from '../interfaces/api-gateway-table-item.interf
 import { MatTableDataSource } from '@angular/material/table';
 import { ResourceService } from '../services/resource-service.service';
 import { Router } from '@angular/router';
+import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
+import { AddGatewayComponentComponent } from '../add-gateway-component/add-gateway-component.component';
+import { ApiGatewayItem } from '../interfaces/api-gateway-item.interface';
+import { AddGatewayItem } from '../interfaces/add-gateway-item.interface';
 
 @Component({
   selector: 'api-gateway-table',
@@ -20,7 +24,7 @@ export class ApiGatewayTableComponent implements OnInit {
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  constructor(private resourceService: ResourceService, private router: Router){ }
+  constructor(private resourceService: ResourceService, private router: Router, private dialog: MatDialog){ }
 
   ngOnInit(): void {
     this.resourceService.getGateways()
@@ -29,6 +33,22 @@ export class ApiGatewayTableComponent implements OnInit {
           this.dataSource = new MatTableDataSource<ApiGatewayTableItem>(data);
           this.dataSource.paginator = this.paginator;
         });
+  }
+
+  openDialog() {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+
+
+    const dialogRef = this.dialog.open(AddGatewayComponentComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(
+      data => {
+        this.resourceService.addGateway(data as AddGatewayItem).subscribe();
+      }
+    ); 
   }
 }
 
