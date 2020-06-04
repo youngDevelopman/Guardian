@@ -33,6 +33,12 @@ export class ResourceService {
     return this.http.post("https://localhost:5003/gateways", { gatewayToAdd: gateway });
   }
 
+  deleteGateway(gatewayId: string): Observable<any>{
+    console.log('delete gateway', gatewayId)
+    return this.http.delete(`https://localhost:5003/gateways/${gatewayId}`);
+  }
+
+
   updateGateway(gateway: ApiGatewayItem): Observable<any>{
     console.log('update gateway', gateway)
     return this.http.put("https://localhost:5003/gateways", { gatewayToUpdate: gateway });

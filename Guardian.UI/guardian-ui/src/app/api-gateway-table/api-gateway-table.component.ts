@@ -9,6 +9,7 @@ import { AddGatewayComponentComponent } from './add-gateway-component/add-gatewa
 import { ApiGatewayItem } from '../interfaces/api-gateway-item.interface';
 import { AddGatewayItem } from '../interfaces/add-gateway-item.interface';
 import { DeleteConfirmComponent } from './delete-confirm/delete-confirm.component';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'api-gateway-table',
@@ -47,7 +48,9 @@ export class ApiGatewayTableComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(
       data => {
-        this.resourceService.addGateway(data as AddGatewayItem).subscribe();
+        if(!isNullOrUndefined(data)){
+          this.resourceService.addGateway(data as AddGatewayItem).subscribe();
+        }
       }
     ); 
   }
@@ -63,8 +66,10 @@ export class ApiGatewayTableComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(
       data => {
-        console.log('delete gateway data', data)
-        console.log('gateway id to delete', gatewayId)
+        const isDelete = data as boolean;
+        if(isDelete){
+          this.resourceService.deleteGateway(gatewayId).subscribe();
+        }
       }
     ); 
   }
