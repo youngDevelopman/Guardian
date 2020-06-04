@@ -29,5 +29,7 @@ namespace Guardian.ResourceService.Services
         Task<Resource> AddChildSegment(string gatewayId, AddChildSegmentRequest request);
 
         Task<Resource> DeleteSegment(string gatewayId, string segmentId);
+
+        Task<bool> DeleteGateway(string gatewayId);
     }
 }

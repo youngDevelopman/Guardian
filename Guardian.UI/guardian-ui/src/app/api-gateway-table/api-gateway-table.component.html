@@ -27,7 +27,7 @@
       <!-- Creation Date Column -->
       <ng-container matColumnDef="creationDate">
         <th mat-header-cell *matHeaderCellDef> Creation Date </th>
-        <td mat-cell *matCellDef="let element"> {{element.creationDate}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.creationDate | date:'medium'}} </td>
       </ng-container>
   
       <!-- Description Column -->
@@ -35,7 +35,24 @@
         <th mat-header-cell *matHeaderCellDef> Description </th>
         <td mat-cell *matCellDef="let element"> {{element.description}} </td>
       </ng-container>
-  
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let element">
+          <a mat-button>
+            <mat-icon aria-hidden="false" style="color: limegreen;" aria-label="Example home icon">
+              edit
+            </mat-icon>
+          </a>
+          <a mat-button (click)="openDeleteConfirmationDialog(element.gatewayId)">
+            <mat-icon aria-hidden="false" style="color: red;" aria-label="Example home icon">
+              delete
+            </mat-icon>  
+          </a>
+        </td>
+      </ng-container>
+
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
