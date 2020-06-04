@@ -19,7 +19,7 @@ import { AddGatewayItem } from '../interfaces/add-gateway-item.interface';
 })
 
 export class ApiGatewayTableComponent implements OnInit {
-  displayedColumns: string[] = ['name', 'gatewayId', 'creationDate', 'description'];
+  displayedColumns: string[] = ['name', 'gatewayId', 'creationDate', 'description', 'actions'];
   dataSource: MatTableDataSource<ApiGatewayTableItem>;
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;

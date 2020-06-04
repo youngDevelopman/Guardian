@@ -64,7 +64,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatSnackBarModule,
     MatExpansionModule,
     MatDialogModule,
-    MatSelectModule
+    MatSelectModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]
