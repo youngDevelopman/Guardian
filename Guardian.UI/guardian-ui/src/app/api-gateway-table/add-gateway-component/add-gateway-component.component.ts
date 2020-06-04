@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { AddGatewayItem } from '../interfaces/add-gateway-item.interface';
+import { AddGatewayItem } from '../../interfaces/add-gateway-item.interface';
 
 @Component({
   selector: 'app-add-gateway-component',

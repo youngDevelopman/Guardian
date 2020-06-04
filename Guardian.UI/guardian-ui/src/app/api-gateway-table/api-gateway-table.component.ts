@@ -5,9 +5,10 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ResourceService } from '../services/resource-service.service';
 import { Router } from '@angular/router';
 import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
-import { AddGatewayComponentComponent } from '../add-gateway-component/add-gateway-component.component';
+import { AddGatewayComponentComponent } from './add-gateway-component/add-gateway-component.component';
 import { ApiGatewayItem } from '../interfaces/api-gateway-item.interface';
 import { AddGatewayItem } from '../interfaces/add-gateway-item.interface';
+import { DeleteConfirmComponent } from './delete-confirm/delete-confirm.component';
 
 @Component({
   selector: 'api-gateway-table',
@@ -47,6 +48,23 @@ export class ApiGatewayTableComponent implements OnInit {
     dialogRef.afterClosed().subscribe(
       data => {
         this.resourceService.addGateway(data as AddGatewayItem).subscribe();
+      }
+    ); 
+  }
+
+  openDeleteConfirmationDialog(gatewayId: string) {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+
+
+    const dialogRef = this.dialog.open(DeleteConfirmComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(
+      data => {
+        console.log('delete gateway data', data)
+        console.log('gateway id to delete', gatewayId)
       }
     ); 
   }

@@ -40,8 +40,16 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef> Actions </th>
         <td mat-cell *matCellDef="let element">
-          <mat-icon aria-hidden="false" style="color: limegreen;" aria-label="Example home icon">edit</mat-icon>
-          <mat-icon aria-hidden="false" style="color: red;" aria-label="Example home icon">delete</mat-icon>  
+          <a mat-button>
+            <mat-icon aria-hidden="false" style="color: limegreen;" aria-label="Example home icon">
+              edit
+            </mat-icon>
+          </a>
+          <a mat-button (click)="openDeleteConfirmationDialog(element.gatewayId)">
+            <mat-icon aria-hidden="false" style="color: red;" aria-label="Example home icon">
+              delete
+            </mat-icon>  
+          </a>
         </td>
       </ng-container>
 
