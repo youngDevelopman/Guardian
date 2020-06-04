@@ -90,6 +90,15 @@ namespace Guardian.ResourceService.Services
             return resourceServiceResponse;
         }
 
+        public async Task AddGateway(AddGatewayRequest request)
+        {
+            request.GatewayToAdd.Id = ObjectId.GenerateNewId().ToString();
+            request.GatewayToAdd.CreationDate = DateTime.UtcNow;
+            request.GatewayToAdd.Segments = request.GatewayToAdd.Segments ?? new List<ResourceSegment>();
+
+            await _resourceCollection.InsertOneAsync(request.GatewayToAdd);
+        }
+
         public async Task<bool> UpdateGateway(UpdateGatewayRequest request)
         {
             var result = await _resourceCollection.ReplaceOneAsync(x => x.Id == request.GatewayToUpdate.Id, request.GatewayToUpdate);

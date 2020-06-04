@@ -1,0 +1,41 @@
+<h2 mat-dialog-title>Add new gateway</h2>
+
+<mat-dialog-content [formGroup]="form">
+  <mat-form-field>
+    <input matInput placeholder="Name" formControlName="name" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Pick user pool Id</mat-label>
+    <mat-select formControlName="userPoolId">
+      <mat-option *ngFor="let userPoolId of userPoolIds" [value]="userPoolId">
+        {{ userPoolId }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Description" formControlName="description" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Domain" formControlName="domain" />
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button
+    style="margin-left: 10px;"
+    class="mat-raised-button"
+    (click)="close()"
+  >
+    Close
+  </button>
+  <button
+    style="margin-left: 10px;"
+    class="mat-raised-button mat-primary"
+    (click)="save(form.value)"
+  >
+    Save
+  </button>
+</mat-dialog-actions>

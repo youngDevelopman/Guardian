@@ -25,6 +25,8 @@ import { MatExpansionModule, } from '@angular/material/expansion';
 import { MatDialogModule } from "@angular/material/dialog";
 import { GatewayDetailsHeaderComponent } from './gateway/gateway-details-header/gateway-details-header.component';
 import { GatewayAddSegmentComponent } from './gateway/gateway-add-segment/gateway-add-segment.component';
+import { AddGatewayComponentComponent } from './add-gateway-component/add-gateway-component.component';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -34,10 +36,12 @@ import { GatewayAddSegmentComponent } from './gateway/gateway-add-segment/gatewa
     GatewayTreeViewComponent,
     GatewayDetailsComponent,
     GatewayDetailsHeaderComponent,
-    GatewayAddSegmentComponent
+    GatewayAddSegmentComponent,
+    AddGatewayComponentComponent
   ],
   entryComponents:[
-    GatewayAddSegmentComponent
+    GatewayAddSegmentComponent,
+    AddGatewayComponentComponent
   ],
   imports: [
     BrowserModule,
@@ -59,7 +63,8 @@ import { GatewayAddSegmentComponent } from './gateway/gateway-add-segment/gatewa
     MatCheckboxModule,
     MatSnackBarModule,
     MatExpansionModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

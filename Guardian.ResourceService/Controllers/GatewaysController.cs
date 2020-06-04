@@ -2,6 +2,8 @@
 using Guardian.Shared.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
+using System;
 using System.Threading.Tasks;
 
 namespace Guardian.ResourceService.Controllers
@@ -33,6 +35,18 @@ namespace Guardian.ResourceService.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> AddGateway(AddGatewayRequest request)
+        {
+            request.GatewayToAdd.CreationDate = DateTime.Now;
+            request.GatewayToAdd.Id = ObjectId.GenerateNewId().ToString();
+            request.GatewayToAdd.Segments = new System.Collections.Generic.List<Models.ResourceSegment>();
+
+            await _resourceService.AddGateway(request);
+
+            return Ok();
+        }
+
+        [HttpPut]
         public async Task<IActionResult> UpdateGateway(UpdateGatewayRequest updateRequest)
         {
             var isModified = await _resourceService.UpdateGateway(updateRequest);
