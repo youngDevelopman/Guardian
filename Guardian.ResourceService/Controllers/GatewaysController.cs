@@ -58,6 +58,13 @@ namespace Guardian.ResourceService.Controllers
 
             return Ok();
         }
+
+        [HttpDelete("{gatewayId}")]
+        public async Task<IActionResult> DeleteGateway(string gatewayId)
+        {
+            var result = await _resourceService.DeleteGateway(gatewayId);
+            return Ok(result);
+        }
         
         [HttpPost("{gatewayId}/segments/root")]
         public async Task<IActionResult> AddRootSegment(string gatewayId, AddRootSegmentRequest addRootSegmentRequest)

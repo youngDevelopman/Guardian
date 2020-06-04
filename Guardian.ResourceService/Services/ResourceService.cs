@@ -146,6 +146,13 @@ namespace Guardian.ResourceService.Services
             return gateway;
         }
 
+        public async  Task<bool> DeleteGateway(string gatewayId)
+        {
+            var filter = Builders<Resource>.Filter.Eq(x => x.Id, gatewayId);
+            var result = await _resourceCollection.DeleteOneAsync(filter);
+            return result.IsAcknowledged;
+        }
+
         public async Task<Resource> DeleteSegment(string gatewayId, string segmentId)
         {
             var response = await this.GetGateway(gatewayId);
