@@ -3,4 +3,5 @@ export interface AddGatewayItem {
     name: string,
     creationDate: string,
     description: string,
+    domain: string
 }
