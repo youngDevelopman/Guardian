@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddGatewayComponentComponent } from './add-gateway-component.component';
+import { AddEditGatewayComponent } from './add-edit-gateway-component.component';
 
 describe('AddGatewayComponentComponent', () => {
-  let component: AddGatewayComponentComponent;
-  let fixture: ComponentFixture<AddGatewayComponentComponent>;
+  let component: AddEditGatewayComponent;
+  let fixture: ComponentFixture<AddEditGatewayComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddGatewayComponentComponent ]
+      declarations: [ AddEditGatewayComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AddGatewayComponentComponent);
+    fixture = TestBed.createComponent(AddEditGatewayComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

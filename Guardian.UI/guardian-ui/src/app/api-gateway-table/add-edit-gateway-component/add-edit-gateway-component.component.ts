@@ -6,18 +6,18 @@ import { ApiGatewayItem } from 'src/app/interfaces/api-gateway-item.interface';
 import { isNullOrUndefined } from 'util';
 
 @Component({
-  selector: 'app-add-gateway-component',
-  templateUrl: './add-gateway-component.component.html',
-  styleUrls: ['./add-gateway-component.component.css']
+  selector: 'add-edit-gateway-component',
+  templateUrl: './add-edit-gateway-component.component.html',
+  styleUrls: ['./add-edit-gateway-component.component.css']
 })
-export class AddGatewayComponentComponent implements OnInit {
+export class AddEditGatewayComponent implements OnInit {
   
   gateway: ApiGatewayItem;
   form: FormGroup;
 
   constructor(
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef<AddGatewayComponentComponent>,
+    private dialogRef: MatDialogRef<AddEditGatewayComponent>,
     @Inject(MAT_DIALOG_DATA) data) {
       console.log('data in dialog', data)
       if(!isNullOrUndefined(data)){

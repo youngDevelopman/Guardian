@@ -5,7 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ResourceService } from '../services/resource-service.service';
 import { Router } from '@angular/router';
 import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
-import { AddGatewayComponentComponent } from './add-gateway-component/add-gateway-component.component';
+import { AddEditGatewayComponent } from './add-edit-gateway-component/add-edit-gateway-component.component';
 import { ApiGatewayItem } from '../interfaces/api-gateway-item.interface';
 import { AddGatewayItem } from '../interfaces/add-gateway-item.interface';
 import { DeleteConfirmComponent } from './delete-confirm/delete-confirm.component';
@@ -49,7 +49,7 @@ export class ApiGatewayTableComponent implements OnInit {
     dialogConfig.autoFocus = true;
 
 
-    const dialogRef = this.dialog.open(AddGatewayComponentComponent, dialogConfig);
+    const dialogRef = this.dialog.open(AddEditGatewayComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(
       data => {
@@ -69,7 +69,7 @@ export class ApiGatewayTableComponent implements OnInit {
     this.resourceService.getGateway(gatewayToEditId)
       .subscribe(gateway => {
         dialogConfig.data = gateway;
-        const dialogRef = this.dialog.open(AddGatewayComponentComponent, dialogConfig);
+        const dialogRef = this.dialog.open(AddEditGatewayComponent, dialogConfig);
 
         dialogRef.afterClosed().subscribe(
           data => {
