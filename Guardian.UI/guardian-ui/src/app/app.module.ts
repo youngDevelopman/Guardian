@@ -27,7 +27,10 @@ import { GatewayDetailsHeaderComponent } from './gateway/gateway-details-header/
 import { GatewayAddSegmentComponent } from './gateway/gateway-add-segment/gateway-add-segment.component';
 import { AddEditGatewayComponent } from './api-gateway-table/add-edit-gateway-component/add-edit-gateway-component.component';
 import { MatSelectModule } from '@angular/material/select';
+import { MatCardModule } from '@angular/material/card';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { DeleteConfirmComponent } from './api-gateway-table/delete-confirm/delete-confirm.component';
+import { UserPoolSelectComponent } from './user-pool-select/user-pool-select.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +42,8 @@ import { DeleteConfirmComponent } from './api-gateway-table/delete-confirm/delet
     GatewayDetailsHeaderComponent,
     GatewayAddSegmentComponent,
     AddEditGatewayComponent,
-    DeleteConfirmComponent
+    DeleteConfirmComponent,
+    UserPoolSelectComponent
   ],
   entryComponents:[
     GatewayAddSegmentComponent,
@@ -68,7 +72,9 @@ import { DeleteConfirmComponent } from './api-gateway-table/delete-confirm/delet
     MatExpansionModule,
     MatDialogModule,
     MatSelectModule,
-    MatIconModule
+    MatIconModule,
+    MatCardModule,
+    MatGridListModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -27,6 +27,7 @@ namespace Guardian.AuthService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddDbContext<AuthorizationServiceDbContext>();
             services.AddSingleton<TokenManager>();
             services.AddScoped<IUserService, UserService>();
@@ -43,6 +44,12 @@ namespace Guardian.AuthService
             }
 
             app.UseHttpsRedirection();
+
+            app.UseCors(builder => {
+                builder.AllowAnyOrigin();
+                builder.AllowAnyMethod();
+                builder.AllowAnyHeader();
+            });
 
             app.UseRouting();
 

@@ -28,7 +28,7 @@ namespace Guardian.AuthService.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLogin user)
         {
-            User authenticatedUser = _userService.Authenticate(user.UserPoolId, user.Username, user.Password);
+            User authenticatedUser = await _userService.AuthenticateAsync(user.UserPoolId, user.Username, user.Password);
             if (authenticatedUser == null)
             {
                 return Unauthorized("Password, username or User pool Id is incorrect");
@@ -52,7 +52,7 @@ namespace Guardian.AuthService.Controllers
                 Username = user.Username
             };
 
-            _userService.CreateUser(userToAdd, password);
+            await _userService.CreateUserAsync(userToAdd, password);
             return Ok($"User {userToAdd.Username} has been added");
         }
 
@@ -61,7 +61,7 @@ namespace Guardian.AuthService.Controllers
         {
             bool isTokenValid = _tokenManager.ValidateToken(request.AccessToken, out Guid userId);
 
-            bool isBelongsToPool = _userService.IsUserBelongsToPool(userId, request.UserPoolId);
+            bool isBelongsToPool = await _userService.IsUserBelongsToPoolAsync(userId, request.UserPoolId);
 
             if (!isTokenValid || !isBelongsToPool)
             {
