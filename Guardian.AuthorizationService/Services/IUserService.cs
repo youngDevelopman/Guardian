@@ -1,14 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Guardian.AuthorizationService.Models;
 
 namespace Guardian.Services.AuthorizationService
 {
     public interface IUserService
     {
-        public User CreateUser(User user, string password);
+        Task<User> CreateUserAsync(User user, string password);
 
-        bool IsUserBelongsToPool(Guid userId, Guid userPoolId);
+        Task<bool> IsUserBelongsToPoolAsync(Guid userId, Guid userPoolId);
 
-        public User Authenticate(Guid userPoolId, string username, string password);
+        Task<User> AuthenticateAsync(Guid userPoolId, string username, string password);
+
+        Task<List<UserPool>> GetUserPoolsAsync();
     }
 }

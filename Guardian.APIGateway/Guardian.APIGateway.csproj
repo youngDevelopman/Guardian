@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Guardian.AuthorizationService\Guardian.AuthorizationService.csproj" />
     <ProjectReference Include="..\Guardian.ResourceService\Guardian.ResourceService.csproj" />
   </ItemGroup>
 

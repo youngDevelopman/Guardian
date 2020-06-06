@@ -12,6 +12,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\AddChildSegmentRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\AddGatewayRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\AddRootSegmentRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\AuthorizationService\Response\GetUserPoolsResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\AuthorizationService\UserPool.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\GetGatewayResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\GetGatewaysResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\GetResourceRequest.cs" />
@@ -21,5 +23,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\UpdateGatewayRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\UserForLogin.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\UserForRegister.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Models\AuthorizationService\Request\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Models\ResourceService\Request\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Models\ResourceService\Response\" />
   </ItemGroup>
 </Project>

@@ -1,7 +1,10 @@
 ﻿using Guardian.AuthorizationService;
 using Guardian.AuthorizationService.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Guardian.Services.AuthorizationService
 {
@@ -13,14 +16,14 @@ namespace Guardian.Services.AuthorizationService
             _context = context;
         }
 
-        public User Authenticate(Guid userPoolId, string username, string password)
+        public async Task<User> AuthenticateAsync(Guid userPoolId, string username, string password)
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                 return null;
 
             var userPool = _context.PoolUsers.Where(x => x.UserPoolId == userPoolId);
 
-            User user = userPool.SelectMany(x => _context.Users.Where(u => u.UserId == x.UserId && u.Username == username)).FirstOrDefault();
+            User user = await userPool.SelectMany(x => _context.Users.Where(u => u.UserId == x.UserId && u.Username == username)).FirstOrDefaultAsync();
             
             if (user == null)
                 return null;
@@ -36,12 +39,12 @@ namespace Guardian.Services.AuthorizationService
             return user;
         }
 
-        public User CreateUser(User user, string password)
+        public async Task<User> CreateUserAsync(User user, string password)
         {
             if(string.IsNullOrWhiteSpace(password))
                 throw new Exception("Password is required");
 
-            if (_context.Users.Any(x => x.Username == user.Username))
+            if (await _context.Users.AnyAsync(x => x.Username == user.Username))
                 throw new Exception("Username \"" + user.Username + "\" is already taken");
 
             string passwordHash, passwordSalt;
@@ -50,17 +53,17 @@ namespace Guardian.Services.AuthorizationService
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
 
-            _context.Users.Add(user);
-            _context.SaveChanges();
+            await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();
 
             return user;
         }
 
-        public bool IsUserBelongsToPool(Guid userId, Guid userPoolId)
+        public async Task<bool> IsUserBelongsToPoolAsync(Guid userId, Guid userPoolId)
         {
-            var user  = _context.PoolUsers
+            var user  = await _context.PoolUsers
                 .Where(u => u.UserId == userId && u.UserPoolId == userPoolId)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
             if(user == null)
             {
@@ -68,6 +71,12 @@ namespace Guardian.Services.AuthorizationService
             }
 
             return true;
+        }
+
+        public async Task<List<UserPool>> GetUserPoolsAsync()
+        {
+            var userPools = await _context.UserPool.ToListAsync();
+            return userPools;
         }
 
         private static void CreatePasswordHash(string password, out string passwordHash, out string passwordSalt)
