@@ -5,11 +5,16 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ResourceService } from '../services/resource-service.service';
 import { Router } from '@angular/router';
 import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
-import { AddGatewayComponentComponent } from './add-gateway-component/add-gateway-component.component';
+import { AddEditGatewayComponent } from './add-edit-gateway-component/add-edit-gateway-component.component';
 import { ApiGatewayItem } from '../interfaces/api-gateway-item.interface';
 import { AddGatewayItem } from '../interfaces/add-gateway-item.interface';
 import { DeleteConfirmComponent } from './delete-confirm/delete-confirm.component';
 import { isNullOrUndefined } from 'util';
+
+export enum Options {
+  Add,
+  Edit
+}
 
 @Component({
   selector: 'api-gateway-table',
@@ -19,8 +24,8 @@ import { isNullOrUndefined } from 'util';
     ResourceService
   ]
 })
-
 export class ApiGatewayTableComponent implements OnInit {
+  operationTypes = Options;
   displayedColumns: string[] = ['name', 'gatewayId', 'creationDate', 'description', 'actions'];
   dataSource: MatTableDataSource<ApiGatewayTableItem>;
 
@@ -37,14 +42,14 @@ export class ApiGatewayTableComponent implements OnInit {
         });
   }
 
-  openDialog() {
+  openAddGatewayDialog(options: Options) {
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
 
 
-    const dialogRef = this.dialog.open(AddGatewayComponentComponent, dialogConfig);
+    const dialogRef = this.dialog.open(AddEditGatewayComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(
       data => {
@@ -55,12 +60,43 @@ export class ApiGatewayTableComponent implements OnInit {
     ); 
   }
 
-  openDeleteConfirmationDialog(gatewayId: string) {
+  openEditGatewayDialog(options: Options,  gatewayToEditId: string) {
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
 
+    this.resourceService.getGateway(gatewayToEditId)
+      .subscribe(gateway => {
+        dialogConfig.data = gateway;
+        const dialogRef = this.dialog.open(AddEditGatewayComponent, dialogConfig);
+
+        dialogRef.afterClosed().subscribe(
+          data => {
+            if(!isNullOrUndefined(data)){
+              const dataToUpdate = data as AddGatewayItem;
+              const gatewayToUpdate: ApiGatewayItem = {
+                description: dataToUpdate.description,
+                domain: dataToUpdate.domain,
+                name: dataToUpdate.name,
+                userPoolId: dataToUpdate.userPoolId,
+                // Those values remain unchanged
+                creationDate: gateway.creationDate,
+                id: gateway.id,
+                segments: gateway.segments,
+              } 
+              this.resourceService.updateGateway(gatewayToUpdate).subscribe();
+            }
+          }
+        );
+      })
+  }
+
+  openDeleteConfirmationDialog(gatewayId: string) {
+    const dialogConfig = new MatDialogConfig();
+    
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
 
     const dialogRef = this.dialog.open(DeleteConfirmComponent, dialogConfig);
 

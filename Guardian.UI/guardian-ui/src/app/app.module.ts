@@ -25,7 +25,7 @@ import { MatExpansionModule, } from '@angular/material/expansion';
 import { MatDialogModule } from "@angular/material/dialog";
 import { GatewayDetailsHeaderComponent } from './gateway/gateway-details-header/gateway-details-header.component';
 import { GatewayAddSegmentComponent } from './gateway/gateway-add-segment/gateway-add-segment.component';
-import { AddGatewayComponentComponent } from './api-gateway-table/add-gateway-component/add-gateway-component.component';
+import { AddEditGatewayComponent } from './api-gateway-table/add-edit-gateway-component/add-edit-gateway-component.component';
 import { MatSelectModule } from '@angular/material/select';
 import { DeleteConfirmComponent } from './api-gateway-table/delete-confirm/delete-confirm.component';
 
@@ -38,12 +38,12 @@ import { DeleteConfirmComponent } from './api-gateway-table/delete-confirm/delet
     GatewayDetailsComponent,
     GatewayDetailsHeaderComponent,
     GatewayAddSegmentComponent,
-    AddGatewayComponentComponent,
+    AddEditGatewayComponent,
     DeleteConfirmComponent
   ],
   entryComponents:[
     GatewayAddSegmentComponent,
-    AddGatewayComponentComponent,
+    AddEditGatewayComponent,
     DeleteConfirmComponent
   ],
   imports: [
