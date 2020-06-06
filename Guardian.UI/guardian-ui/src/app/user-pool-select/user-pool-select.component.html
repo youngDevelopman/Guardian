@@ -1,0 +1,13 @@
+<p>user-pool-select works!</p>
+
+<mat-grid-list cols="3" rowHeight="10:4" [gutterSize]="'20px'">
+    <mat-grid-tile *ngFor="let userPool of userPools">
+        <mat-grid-tile-header>
+            <h3>USER POOL ID: {{ userPool.userPoolId }}</h3>
+        </mat-grid-tile-header>
+            <h3><a mat-raised-button href="/api-gateway">Go the the user pool {{ userPool.name }}</a></h3>
+        <mat-grid-tile-footer>
+        <h3> User pool name: {{ userPool.name }} </h3>
+        </mat-grid-tile-footer>
+    </mat-grid-tile>
+</mat-grid-list>
