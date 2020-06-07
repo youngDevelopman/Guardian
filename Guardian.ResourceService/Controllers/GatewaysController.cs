@@ -1,5 +1,8 @@
-﻿using Guardian.ResourceService.Services;
+﻿using AutoMapper;
+using Guardian.ResourceService.Models;
+using Guardian.ResourceService.Services;
 using Guardian.Shared.Models;
+using Guardian.Shared.Models.ResourceService.Request;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
@@ -13,9 +16,12 @@ namespace Guardian.ResourceService.Controllers
     public class GatewaysController : Controller
     {
         private readonly IResourceService _resourceService;
-        public GatewaysController(IResourceService resourceService)
+        private readonly IMapper _mapper;
+
+        public GatewaysController(IResourceService resourceService, IMapper mapper)
         {
             _resourceService = resourceService;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -37,11 +43,9 @@ namespace Guardian.ResourceService.Controllers
         [HttpPost]
         public async Task<IActionResult> AddGateway(AddGatewayRequest request)
         {
-            request.GatewayToAdd.CreationDate = DateTime.Now;
-            request.GatewayToAdd.Id = ObjectId.GenerateNewId().ToString();
-            request.GatewayToAdd.Segments = new System.Collections.Generic.List<Models.ResourceSegment>();
+            var resourceToAdd = _mapper.Map<Resource>(request.GatewayToAdd);
 
-            await _resourceService.AddGateway(request);
+            await _resourceService.AddGateway(resourceToAdd);
 
             return Ok();
         }

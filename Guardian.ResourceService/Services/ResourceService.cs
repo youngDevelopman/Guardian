@@ -1,5 +1,6 @@
 ﻿using Guardian.ResourceService.Models;
 using Guardian.Shared.Models;
+using Guardian.Shared.Models.ResourceService.Request;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
@@ -90,13 +91,9 @@ namespace Guardian.ResourceService.Services
             return resourceServiceResponse;
         }
 
-        public async Task AddGateway(AddGatewayRequest request)
+        public async Task AddGateway(Resource resource)
         {
-            request.GatewayToAdd.Id = ObjectId.GenerateNewId().ToString();
-            request.GatewayToAdd.CreationDate = DateTime.UtcNow;
-            request.GatewayToAdd.Segments = request.GatewayToAdd.Segments ?? new List<ResourceSegment>();
-
-            await _resourceCollection.InsertOneAsync(request.GatewayToAdd);
+            await _resourceCollection.InsertOneAsync(resource);
         }
 
         public async Task<bool> UpdateGateway(UpdateGatewayRequest request)
@@ -113,11 +110,11 @@ namespace Guardian.ResourceService.Services
 
         public async Task<Resource> AddRootSegment(string gatewayId, AddRootSegmentRequest request)
         {
-            request.Segment.SegmentId = ObjectId.GenerateNewId().ToString();
-            request.Segment.ChildSegments = new List<ResourceSegment>();
+            //request.Segment.SegmentId = ObjectId.GenerateNewId().ToString();
+            //request.Segment.ChildSegments = new List<ResourceSegment>();
 
             var filter = Builders<Resource>.Filter.Eq(x => x.Id, gatewayId);
-            var update = Builders<Resource>.Update.Push<ResourceSegment>(x => x.Segments, request.Segment);
+            var update = Builders<Resource>.Update.Push<ResourceSegment>(x => x.Segments, null); //request.Segment);
 
             await _resourceCollection.FindOneAndUpdateAsync(filter, update);
             var result = await this.GetGateway(gatewayId);
@@ -127,13 +124,13 @@ namespace Guardian.ResourceService.Services
 
         public async Task<Resource> AddChildSegment(string gatewayId, AddChildSegmentRequest request)
         {
-            request.Segment.SegmentId = ObjectId.GenerateNewId().ToString();
-            request.Segment.ChildSegments = new List<ResourceSegment>();
+            //request.Segment.SegmentId = ObjectId.GenerateNewId().ToString();
+            //request.Segment.ChildSegments = new List<ResourceSegment>();
 
             var response = await this.GetGateway(gatewayId);
             var gateway = response.Gateway;
 
-            var segmentsToUpdate = this.AddSegmentToParent(request.ParentSegmentId, request.Segment, gateway.Segments);
+            var segmentsToUpdate = this.AddSegmentToParent(request.ParentSegmentId,null /*request.Segment*/, gateway.Segments);
             gateway.Segments = segmentsToUpdate;
 
             var updateGatewayRequest = new UpdateGatewayRequest()

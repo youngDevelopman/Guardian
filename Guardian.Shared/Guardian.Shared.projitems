@@ -9,9 +9,11 @@
     <Import_RootNamespace>Guardian.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Models\AddChildSegmentRequest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\AddGatewayRequest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\AddRootSegmentRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ResourceService\AddResource.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ResourceService\AddResourceSegment.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ResourceService\Request\AddChildSegmentRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ResourceService\Request\AddGatewayRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ResourceService\Request\AddRootSegmentRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\AuthorizationService\Response\GetUserPoolsResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\AuthorizationService\UserPool.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\GetGatewayResponse.cs" />
@@ -19,6 +21,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\GetResourceRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\GetResourceResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\GatewayShortInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ResourceService\ResourceSegment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\TokenValidationRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\UpdateGatewayRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\UserForLogin.cs" />
