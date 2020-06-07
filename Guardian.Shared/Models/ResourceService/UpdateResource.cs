@@ -13,7 +13,5 @@ namespace Guardian.Shared.Models.ResourceService
         public string Description { get; set; }
 
         public string Domain { get; set; }
-
-        public List<UpdateResourceSegment> Segments { get; set; }
     }
 }

@@ -103,7 +103,6 @@ namespace Guardian.ResourceService.Services
             var update = Builders<Resource>.Update
                 .Set(x => x.UserPoolId, resource.UserPoolId)
                 .Set(x => x.Name, resource.Name)
-                .Set(x => x.Segments, resource.Segments)
                 .Set(x => x.Domain, resource.Domain)
                 .Set(x => x.Description, resource.Description);
 

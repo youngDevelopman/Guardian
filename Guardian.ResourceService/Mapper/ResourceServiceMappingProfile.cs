@@ -20,7 +20,8 @@ namespace Guardian.ResourceService.Mapper
                 .ForMember(dest => dest.CreationDate, opt => opt.MapFrom(x => DateTime.Now));
 
             CreateMap<UpdateResource, Resource>();
-            CreateMap<UpdateResourceSegment, ResourceSegment>();
+            CreateMap<UpdateResourceSegment, ResourceSegment>()
+                .ForMember(dest => dest.SegmentId, opt => opt.MapFrom(x => ObjectId.GenerateNewId().ToString()));
         }
     }
 }

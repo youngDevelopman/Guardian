@@ -11,7 +11,7 @@ namespace Guardian.ResourceService.Models
     {
         [BsonRepresentation(BsonType.ObjectId)]
         [BsonElement("segmentId")]
-        public string SegmentId { get; }
+        public string SegmentId { get; set; }
 
         [BsonElement("resourceName")]
         public string ResourceName { get; set; }
