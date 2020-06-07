@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Guardian.Shared.Models.ResourceService
 {
-    public class ResourceSegment
+    public class UpdateResourceSegment
     {
         public string SegmentId { get; set; }
 
@@ -14,6 +14,6 @@ namespace Guardian.Shared.Models.ResourceService
 
         public bool RequiresAuthentication { get; set; }
 
-        public List<ResourceSegment> ChildSegments { get; set; }
+        public List<UpdateResourceSegment> ChildSegments { get; set; }
     }
 }

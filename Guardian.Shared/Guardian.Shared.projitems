@@ -21,7 +21,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\GetResourceRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\GetResourceResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\GatewayShortInfo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\ResourceService\ResourceSegment.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ResourceService\UpdateResource.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ResourceService\UpdateResourceSegment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\TokenValidationRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\UpdateGatewayRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\UserForLogin.cs" />

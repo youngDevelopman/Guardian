@@ -50,10 +50,13 @@ namespace Guardian.ResourceService.Controllers
             return Ok();
         }
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateGateway(UpdateGatewayRequest updateRequest)
+        [HttpPut("{gatewayId}")]
+        public async Task<IActionResult> UpdateGateway(string gatewayId, UpdateGatewayRequest updateRequest)
         {
-            var isModified = await _resourceService.UpdateGateway(updateRequest);
+            var resourceToUpdate = _mapper.Map<Resource>(updateRequest.GatewayToUpdate);
+            resourceToUpdate.Id = gatewayId;
+
+            var isModified = await _resourceService.UpdateGateway(resourceToUpdate);
 
             if (!isModified)
             {

@@ -96,10 +96,18 @@ namespace Guardian.ResourceService.Services
             await _resourceCollection.InsertOneAsync(resource);
         }
 
-        public async Task<bool> UpdateGateway(UpdateGatewayRequest request)
+        public async Task<bool> UpdateGateway(Resource resource)
         {
-            var result = await _resourceCollection.ReplaceOneAsync(x => x.Id == request.GatewayToUpdate.Id, request.GatewayToUpdate);
-            
+            var filter = Builders<Resource>.Filter.Eq(x => x.Id, resource.Id);
+
+            var update = Builders<Resource>.Update
+                .Set(x => x.UserPoolId, resource.UserPoolId)
+                .Set(x => x.Name, resource.Name)
+                .Set(x => x.Segments, resource.Segments)
+                .Set(x => x.Domain, resource.Domain)
+                .Set(x => x.Description, resource.Description);
+
+            var result = await _resourceCollection.UpdateOneAsync(filter, update);
             if(!result.IsAcknowledged)
             {
                 return false;
@@ -138,7 +146,7 @@ namespace Guardian.ResourceService.Services
                 GatewayToUpdate = gateway
             };
 
-            await this.UpdateGateway(updateGatewayRequest);
+            //await this.UpdateGateway(updateGatewayRequest);
 
             return gateway;
         }
@@ -163,7 +171,7 @@ namespace Guardian.ResourceService.Services
                 GatewayToUpdate = gateway
             };
 
-            await this.UpdateGateway(updateGatewayRequest);
+            //await this.UpdateGateway(updateGatewayRequest);
 
             return gateway;
         }

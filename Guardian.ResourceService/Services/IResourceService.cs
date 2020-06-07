@@ -24,7 +24,7 @@ namespace Guardian.ResourceService.Services
         /// <returns></returns>
         Task AddGateway(Resource resource);
 
-        Task<bool> UpdateGateway(UpdateGatewayRequest request);
+        Task<bool> UpdateGateway(Resource request);
 
         Task<Resource> AddRootSegment(string gatewayId, AddRootSegmentRequest request);
 
