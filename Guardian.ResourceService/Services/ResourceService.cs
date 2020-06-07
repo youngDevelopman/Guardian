@@ -141,10 +141,10 @@ namespace Guardian.ResourceService.Services
             var segmentsToUpdate = this.AddSegmentToParent(request.ParentSegmentId,null /*request.Segment*/, gateway.Segments);
             gateway.Segments = segmentsToUpdate;
 
-            var updateGatewayRequest = new UpdateGatewayRequest()
-            {
-                GatewayToUpdate = gateway
-            };
+            //var updateGatewayRequest = new UpdateGatewayRequest()
+            //{
+            //    GatewayToUpdate = gateway
+            //};
 
             //await this.UpdateGateway(updateGatewayRequest);
 
@@ -166,10 +166,10 @@ namespace Guardian.ResourceService.Services
             var segmentsToUpdate =  this.DeleteSegment(segmentId, gateway.Segments);
             gateway.Segments = segmentsToUpdate;
 
-            var updateGatewayRequest = new UpdateGatewayRequest()
-            {
-                GatewayToUpdate = gateway
-            };
+            //var updateGatewayRequest = new UpdateGatewayRequest()
+            //{
+            //    GatewayToUpdate = gateway
+            //};
 
             //await this.UpdateGateway(updateGatewayRequest);
 
