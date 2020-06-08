@@ -42,7 +42,7 @@ export class ApiGatewayTableComponent implements OnInit {
         });
   }
 
-  openAddGatewayDialog(options: Options) {
+  openAddGatewayDialog() {
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;
@@ -60,7 +60,7 @@ export class ApiGatewayTableComponent implements OnInit {
     ); 
   }
 
-  openEditGatewayDialog(options: Options,  gatewayToEditId: string) {
+  openEditGatewayDialog(gatewayToEditId: string) {
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;
@@ -75,17 +75,13 @@ export class ApiGatewayTableComponent implements OnInit {
           data => {
             if(!isNullOrUndefined(data)){
               const dataToUpdate = data as AddGatewayItem;
-              const gatewayToUpdate: ApiGatewayItem = {
+              const gatewayToUpdate = {
                 description: dataToUpdate.description,
                 domain: dataToUpdate.domain,
                 name: dataToUpdate.name,
                 userPoolId: dataToUpdate.userPoolId,
-                // Those values remain unchanged
-                creationDate: gateway.creationDate,
-                id: gateway.id,
-                segments: gateway.segments,
               } 
-              this.resourceService.updateGateway(gatewayToUpdate).subscribe();
+              this.resourceService.updateGateway(gatewayToEditId, gatewayToUpdate).subscribe();
             }
           }
         );

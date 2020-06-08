@@ -13,6 +13,8 @@ namespace Guardian.ResourceService.Mapper
     {
         public ResourceServiceMappingProfile()
         {
+            CreateMap<Resource, GetResource>().ReverseMap();
+            CreateMap<ResourceSegment, GetSegment>().ReverseMap();
             // Add default values when adding a new resource
             CreateMap<AddResource, Resource>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(x => ObjectId.GenerateNewId().ToString()))
@@ -29,8 +31,6 @@ namespace Guardian.ResourceService.Mapper
 
             CreateMap<UpdateSegment, ResourceSegment>()
                 .ForMember(dest => dest.ChildSegments, opt => opt.MapFrom(x => new List<Models.ResourceSegment>()));
-
-            CreateMap<Resource, GetResource>();
         }
     }
 }

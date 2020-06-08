@@ -1,5 +1,5 @@
 <div class="inlline-two-elements">
-<button mat-flat-button color="accent" (click)="openAddGatewayDialog(operationTypes.Add)" style="margin-top: 20px;">Create Gateway</button>
+<button mat-flat-button color="accent" (click)="openAddGatewayDialog()" style="margin-top: 20px;">Create Gateway</button>
 
   <mat-form-field class="search-input">
     <mat-label>Search API</mat-label>
@@ -40,7 +40,7 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef> Edit/Delete Gateway </th>
         <td mat-cell *matCellDef="let element">
-          <a mat-button (click)="openEditGatewayDialog(operationTypes.Edit, element.gatewayId)">
+          <a mat-button (click)="openEditGatewayDialog(element.gatewayId)">
             <mat-icon aria-hidden="false" style="color: limegreen;" aria-label="Example home icon">
               edit
             </mat-icon>
