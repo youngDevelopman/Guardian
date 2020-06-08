@@ -54,26 +54,51 @@ export class ResourceService {
 
   addRootSegment(
     gatewayId: string,
-    segment: ApiGatewaySegment
+    segment: {
+      resourceName: string;
+      basePath: string;
+      requiresAuthentication: boolean;
+    }
   ): Observable<any> {
     console.log('Add root segment', segment, 'gateway id', gatewayId);
     return this.http.post(
       `https://localhost:5003/gateways/${gatewayId}/segments/root`,
-      { segment: segment }
+      { segmentToAdd: segment }
     );
   }
 
   addChildSegment(
     gatewayId: string,
     parentSegmentId: string,
-    segment: ApiGatewaySegment
+    segment: {
+      resourceName: string;
+      basePath: string;
+      requiresAuthentication: boolean;
+    }
   ): Observable<any> {
     console.log('Add child segment', segment, 'gateway id', gatewayId);
     return this.http.post(
-      `https://localhost:5003/gateways/${gatewayId}/segments/child`,
-      { parentSegmentId: parentSegmentId, segment: segment }
+      `https://localhost:5003/gateways/${gatewayId}/segments/child/${parentSegmentId}`,
+      { segmentToAdd: segment }
     );
   }
+
+  updateSegment(
+    gatewayId: string,
+    segmentId: string,
+    segment: {
+      resourceName: string;
+      basePath: string;
+      requiresAuthentication: boolean;
+    }
+  ): Observable<any> {
+    console.log('Update segment', segment, 'gateway id', gatewayId);
+    return this.http.put(
+      `https://localhost:5003/gateways/${gatewayId}/segments/${segmentId}`,
+      { segmentToUpdate: segment }
+    );
+  }
+
 
   deleteSegment(gatewayId: string, segmentId: string): Observable<any> {
     console.log('Delete segment', segmentId, 'gateway id', gatewayId);
