@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Guardian.Shared.Models
+namespace Guardian.Shared.Models.ResourceService.Response
 {
     public class GetGatewaysResponse
     {

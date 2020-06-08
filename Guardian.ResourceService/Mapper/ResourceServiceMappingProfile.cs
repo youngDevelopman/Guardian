@@ -29,6 +29,8 @@ namespace Guardian.ResourceService.Mapper
 
             CreateMap<UpdateSegment, ResourceSegment>()
                 .ForMember(dest => dest.ChildSegments, opt => opt.MapFrom(x => new List<Models.ResourceSegment>()));
+
+            CreateMap<Resource, GetResource>();
         }
     }
 }

@@ -2,7 +2,9 @@
 using Guardian.ResourceService.Models;
 using Guardian.ResourceService.Services;
 using Guardian.Shared.Models;
+using Guardian.Shared.Models.ResourceService;
 using Guardian.Shared.Models.ResourceService.Request;
+using Guardian.Shared.Models.ResourceService.Response;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
@@ -27,17 +29,28 @@ namespace Guardian.ResourceService.Controllers
         [HttpGet]
         public async Task<IActionResult> GetGateways()
         {
-            var resources = await _resourceService.GetGateways();
+            var gateways = await _resourceService.GetGateways();
 
-            return Ok(resources);
+            var response = new GetGatewaysResponse()
+            {
+                Gateways = gateways
+            };
+
+            return Ok(response);
         }
 
         [HttpGet("{gatewayId}")]
         public async Task<IActionResult> GetGateway(string gatewayId)
         {
             var gateway = await _resourceService.GetGateway(gatewayId);
+            var mappedGateway = _mapper.Map<GetResource>(gateway);
+            
+            var response = new GetGatewayResponse()
+            {
+                Gateway = mappedGateway
+            };
 
-            return Ok(gateway);
+            return Ok(response);
         }
 
         [HttpPost]

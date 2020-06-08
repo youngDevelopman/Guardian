@@ -21,7 +21,7 @@ namespace Guardian.ResourceService.Services
         /// </summary>
         /// <param name="gatewayId"></param>
         /// <returns></returns>
-        Task<GetGatewayResponse> GetGateway(string gatewayId);
+        Task<Resource> GetGateway(string gatewayId);
 
         /// <summary>
         /// Adds resource

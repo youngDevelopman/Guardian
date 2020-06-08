@@ -1,6 +1,7 @@
 ﻿using Guardian.ResourceService.Models;
 using Guardian.Shared.Models;
 using Guardian.Shared.Models.ResourceService.Request;
+using Guardian.Shared.Models.ResourceService.Response;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
@@ -37,7 +38,7 @@ namespace Guardian.ResourceService.Services
         }
 
         /// <inheritdoc/>
-        public async  Task<GetGatewayResponse> GetGateway(string gatewayId)
+        public async  Task<Resource> GetGateway(string gatewayId)
         {
             var filter = Builders<Resource>.Filter.Eq(x => x.Id, gatewayId);
             var findResult =  await _resourceCollection.FindAsync(filter);
@@ -49,12 +50,7 @@ namespace Guardian.ResourceService.Services
                 throw new Exception($"Gateway with {gatewayId} does not exist.");
             }
 
-            var response = new GetGatewayResponse()
-            {
-                Gateway = gateway,
-            };
-
-            return response;
+            return gateway;
         }
 
         /// <inheritdoc/>
@@ -108,16 +104,15 @@ namespace Guardian.ResourceService.Services
             var update = Builders<Resource>.Update.Push<ResourceSegment>(x => x.Segments, resource);
 
             await _resourceCollection.FindOneAndUpdateAsync(filter, update);
-            var result = await this.GetGateway(gatewayId);
+            var gateway = await this.GetGateway(gatewayId);
             
-            return result.Gateway;
+            return gateway;
         }
 
         /// <inheritdoc/>
         public async Task<Resource> AddChildSegment(string gatewayId, string parentSegmentId, ResourceSegment segment)
         {
-            var response = await this.GetGateway(gatewayId);
-            var gateway = response.Gateway;
+            var gateway = await this.GetGateway(gatewayId);
 
             var segmentsToUpdate = this.AddSegmentToParent(parentSegmentId, segment, gateway.Segments);
             gateway.Segments = segmentsToUpdate;
@@ -130,8 +125,7 @@ namespace Guardian.ResourceService.Services
         /// <inheritdoc/>
         public async Task<Resource> UpdateSegment(string gatewayId, ResourceSegment segment)
         {
-            var response = await this.GetGateway(gatewayId);
-            var gateway = response.Gateway;
+            var gateway = await this.GetGateway(gatewayId);
 
             var segmentsToUpdate = this.UpdateSegment(segment, gateway.Segments);
             await this.AddGatewaySegments(gatewayId, segmentsToUpdate);
@@ -150,8 +144,7 @@ namespace Guardian.ResourceService.Services
         /// <inheritdoc/>
         public async Task<Resource> DeleteSegment(string gatewayId, string segmentId)
         {
-            var response = await this.GetGateway(gatewayId);
-            var gateway = response.Gateway;
+            var gateway = await this.GetGateway(gatewayId);
 
             var segmentsToUpdate =  this.DeleteSegment(segmentId, gateway.Segments);
             gateway.Segments = segmentsToUpdate;
