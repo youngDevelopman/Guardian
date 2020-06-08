@@ -7,6 +7,7 @@ using Guardian.ResourceService.Models;
 using System;
 using Microsoft.AspNetCore.Http;
 using Guardian.Shared.Models;
+using Guardian.Shared.Models.AuthorizationService.Request;
 
 namespace Guardian.ResourceService.Controllers
 {

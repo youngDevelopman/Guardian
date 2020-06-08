@@ -1,5 +1,6 @@
 ﻿using Guardian.ResourceService.Models;
 using Guardian.Shared.Models;
+using Guardian.Shared.Models.ResourceService;
 using Guardian.Shared.Models.ResourceService.Request;
 using Guardian.Shared.Models.ResourceService.Response;
 using MongoDB.Bson;

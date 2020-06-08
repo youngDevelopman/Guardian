@@ -18,19 +18,19 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\ResourceService\Request\AddSegmentRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\AuthorizationService\Response\GetUserPoolsResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\AuthorizationService\UserPool.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\GetResourceRequest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\GetResourceResponse.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\GatewayShortInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\AuthorizationService\Request\GetResourceRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ResourceService\Response\GetResourceResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ResourceService\GatewayShortInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ResourceService\Request\UpdateSegmentRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ResourceService\Response\GetGatewayResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ResourceService\Response\GetGatewaysResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ResourceService\UpdateResource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ResourceService\UpdateResourceSegment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ResourceService\UpdateSegment.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\TokenValidationRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\AuthorizationService\Request\TokenValidationRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ResourceService\Request\UpdateGatewayRequest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\UserForLogin.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\UserForRegister.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\AuthorizationService\UserForLogin.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\AuthorizationService\UserForRegister.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\AuthorizationService\Request\" />

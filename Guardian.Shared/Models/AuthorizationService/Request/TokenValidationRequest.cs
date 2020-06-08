@@ -2,7 +2,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Guardian.Shared.Models
+namespace Guardian.Shared.Models.AuthorizationService.Request
 {
     public class TokenValidationRequest
     {

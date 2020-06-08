@@ -3,6 +3,8 @@ using Guardian.AuthorizationService.Models;
 using Guardian.Models.AuthorizationService;
 using Guardian.Services.AuthorizationService;
 using Guardian.Shared.Models;
+using Guardian.Shared.Models.AuthorizationService;
+using Guardian.Shared.Models.AuthorizationService.Request;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
