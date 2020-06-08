@@ -7,8 +7,6 @@ namespace Guardian.Shared.Models.ResourceService.Request
 {
     public class AddChildSegmentRequest
     {
-        public string ParentSegmentId { get; set; }
-
-        public AddResourceSegment Segment { get; set; }
+        public AddSegment Segment { get; set; }
     }
 }

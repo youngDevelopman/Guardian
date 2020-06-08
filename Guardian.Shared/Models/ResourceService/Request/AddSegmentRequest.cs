@@ -2,8 +2,8 @@
 
 namespace Guardian.Shared.Models.ResourceService.Request
 {
-    public class AddRootSegmentRequest
+    public class AddSegmentRequest
     {
-        public ResourceSegment SegmentToAdd { get; set; }
+        public AddSegment SegmentToAdd { get; set; }
     }
 }

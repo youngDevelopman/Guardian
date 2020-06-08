@@ -10,10 +10,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Models\ResourceService\AddResource.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\ResourceService\AddResourceSegment.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ResourceService\AddSegment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ResourceService\Request\AddChildSegmentRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ResourceService\Request\AddGatewayRequest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\ResourceService\Request\AddRootSegmentRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ResourceService\Request\AddSegmentRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\AuthorizationService\Response\GetUserPoolsResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\AuthorizationService\UserPool.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\GetGatewayResponse.cs" />
@@ -21,8 +21,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\GetResourceRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\GetResourceResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\GatewayShortInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ResourceService\Request\UpdateSegmentRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ResourceService\UpdateResource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ResourceService\UpdateResourceSegment.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ResourceService\UpdateSegment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\TokenValidationRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ResourceService\Request\UpdateGatewayRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\UserForLogin.cs" />
@@ -30,7 +32,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\AuthorizationService\Request\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Models\ResourceService\Request\" />
     <Folder Include="$(MSBuildThisFileDirectory)Models\ResourceService\Response\" />
   </ItemGroup>
 </Project>

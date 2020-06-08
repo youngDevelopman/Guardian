@@ -74,16 +74,28 @@ namespace Guardian.ResourceService.Controllers
         }
         
         [HttpPost("{gatewayId}/segments/root")]
-        public async Task<IActionResult> AddRootSegment(string gatewayId, AddRootSegmentRequest addRootSegmentRequest)
+        public async Task<IActionResult> AddRootSegment(string gatewayId, AddSegmentRequest addRootSegmentRequest)
         {
-            var result = await _resourceService.AddRootSegment(gatewayId, addRootSegmentRequest);
+            var rootSegmentToAdd = _mapper.Map<ResourceSegment>(addRootSegmentRequest.SegmentToAdd);
+            var result = await _resourceService.AddRootSegment(gatewayId, rootSegmentToAdd);
             return Ok(result);
         }
 
-        [HttpPost("{gatewayId}/segments/child")]
-        public async Task<IActionResult> AddChildSegment(string gatewayId, AddChildSegmentRequest addChildSegmentRequest)
+        [HttpPost("{gatewayId}/segments/child/{parentSegmentId}")]
+        public async Task<IActionResult> AddChildSegment(string gatewayId, string parentSegmentId, AddSegmentRequest addChildSegmentRequest)
         {
-            var result = await _resourceService.AddChildSegment(gatewayId, addChildSegmentRequest);
+            var childSegmentToAdd = _mapper.Map<ResourceSegment>(addChildSegmentRequest.SegmentToAdd);
+            var result = await _resourceService.AddChildSegment(gatewayId, parentSegmentId, childSegmentToAdd);
+            return Ok(result);
+        }
+
+
+        [HttpPut("{gatewayId}/segments/{segmentId}")]
+        public async Task<IActionResult> UpdateSegment(string gatewayId, string segmentId, UpdateSegmentRequest addChildSegmentRequest)
+        {
+            var segmentToUpdate = _mapper.Map<ResourceSegment>(addChildSegmentRequest.SegmentToUpdate);
+            segmentToUpdate.SegmentId = segmentId;
+            var result = await _resourceService.UpdateSegment(gatewayId, segmentToUpdate);
             return Ok(result);
         }
 

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Guardian.Shared.Models.ResourceService
 {
-    public class AddResourceSegment
+    public class UpdateSegment
     {
         public string ResourceName { get; set; }
 

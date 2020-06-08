@@ -115,13 +115,27 @@ namespace Guardian.ResourceService.Services
             return true;
         }
 
-        public async Task<Resource> AddRootSegment(string gatewayId, AddRootSegmentRequest request)
+        public async Task<bool> AddGatewaySegments(string gatewayId, List<ResourceSegment> segments)
         {
-            //request.Segment.SegmentId = ObjectId.GenerateNewId().ToString();
-            //request.Segment.ChildSegments = new List<ResourceSegment>();
+            var filter = Builders<Resource>.Filter.Eq(x => x.Id, gatewayId);
+
+            var update = Builders<Resource>.Update
+                .Set(x => x.Segments, segments);
+
+            var result = await _resourceCollection.UpdateOneAsync(filter, update);
+            if (!result.IsAcknowledged)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public async Task<Resource> AddRootSegment(string gatewayId, ResourceSegment resource)
+        {
 
             var filter = Builders<Resource>.Filter.Eq(x => x.Id, gatewayId);
-            var update = Builders<Resource>.Update.Push<ResourceSegment>(x => x.Segments, null); //request.Segment);
+            var update = Builders<Resource>.Update.Push<ResourceSegment>(x => x.Segments, resource);
 
             await _resourceCollection.FindOneAndUpdateAsync(filter, update);
             var result = await this.GetGateway(gatewayId);
@@ -129,23 +143,27 @@ namespace Guardian.ResourceService.Services
             return result.Gateway;
         }
 
-        public async Task<Resource> AddChildSegment(string gatewayId, AddChildSegmentRequest request)
+        public async Task<Resource> AddChildSegment(string gatewayId, string parentSegmentId, ResourceSegment segment)
         {
-            //request.Segment.SegmentId = ObjectId.GenerateNewId().ToString();
-            //request.Segment.ChildSegments = new List<ResourceSegment>();
-
             var response = await this.GetGateway(gatewayId);
             var gateway = response.Gateway;
 
-            var segmentsToUpdate = this.AddSegmentToParent(request.ParentSegmentId,null /*request.Segment*/, gateway.Segments);
+            var segmentsToUpdate = this.AddSegmentToParent(parentSegmentId, segment, gateway.Segments);
             gateway.Segments = segmentsToUpdate;
 
-            //var updateGatewayRequest = new UpdateGatewayRequest()
-            //{
-            //    GatewayToUpdate = gateway
-            //};
+            await this.AddGatewaySegments(gatewayId, segmentsToUpdate);
 
-            //await this.UpdateGateway(updateGatewayRequest);
+            return gateway;
+        }
+
+
+        public async Task<Resource> UpdateSegment(string gatewayId, ResourceSegment segment)
+        {
+            var response = await this.GetGateway(gatewayId);
+            var gateway = response.Gateway;
+
+            var segmentsToUpdate = this.UpdateSegment(segment, gateway.Segments);
+            await this.AddGatewaySegments(gatewayId, segmentsToUpdate);
 
             return gateway;
         }
@@ -173,6 +191,23 @@ namespace Guardian.ResourceService.Services
             //await this.UpdateGateway(updateGatewayRequest);
 
             return gateway;
+        }
+
+        private List<ResourceSegment> UpdateSegment(ResourceSegment segment, List<ResourceSegment> resourceSegments)
+        {
+            foreach (var resourceSegment in resourceSegments)
+            {
+                var segmentFound = this.FindSegementById(segment.SegmentId, resourceSegment);
+                if (segmentFound != null)
+                {
+                    segmentFound.BasePath = segment.BasePath;
+                    segmentFound.RequiresAuthentication = segment.RequiresAuthentication;
+                    segmentFound.ResourceName = segment.ResourceName;
+                    break;
+                }
+            }
+
+            return resourceSegments;
         }
 
         private List<ResourceSegment> AddSegmentToParent(string parentId, ResourceSegment segmentToAdd, List<ResourceSegment> resourceSegments)
