@@ -27,7 +27,16 @@ namespace Guardian.ResourceService.Services
         {
             var filter = Builders<Resource>.Filter.Empty;
             var projection = Builders<Resource>.Projection.Expression(p =>
-                new GatewayShortInfo { Name = p.Name, CreationDate = p.CreationDate, Description = p.Description, GatewayId = p.Id });
+                new GatewayShortInfo 
+                {
+                    Name = p.Name, 
+                    CreationDate = p.CreationDate, 
+                    Description = p.Description, 
+                    GatewayId = p.Id, 
+                    Domain = p.Domain,
+                    UserPoolId = p.UserPoolId
+                });
+
             var options = new FindOptions<Resource, GatewayShortInfo>();
             options.Projection = projection;
 

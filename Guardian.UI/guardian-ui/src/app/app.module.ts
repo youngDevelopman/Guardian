@@ -31,6 +31,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { DeleteConfirmComponent } from './api-gateway-table/delete-confirm/delete-confirm.component';
 import { UserPoolSelectComponent } from './user-pool-select/user-pool-select.component';
+import * as fromGateway from './store/gateway.reducer';
+import { StoreModule } from '@ngrx/store';
 
 @NgModule({
   declarations: [
@@ -75,6 +77,7 @@ import { UserPoolSelectComponent } from './user-pool-select/user-pool-select.com
     MatIconModule,
     MatCardModule,
     MatGridListModule,
+    StoreModule.forRoot({gateway: fromGateway.counterReducer})
   ],
   providers: [],
   bootstrap: [AppComponent]

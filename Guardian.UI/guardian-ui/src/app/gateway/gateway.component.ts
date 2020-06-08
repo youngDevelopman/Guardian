@@ -90,7 +90,7 @@ export class GatewayComponent implements OnInit, AfterViewInit {
 
   getNodeById(segmentId: string): ApiGatewaySegment {
     var queue: ApiGatewaySegment[] = [];
-    queue.push(...this.gateway.segments);
+    //queue.push(...this.gateway.segments);
 
     while (queue.length > 0) {
       let currentNode = queue.pop();

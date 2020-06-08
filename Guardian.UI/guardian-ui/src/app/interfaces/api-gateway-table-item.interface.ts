@@ -1,6 +1,6 @@
 export interface ApiGatewayTableItem {
     name: string;
-    gatewayId: number;
-    creationDate: number;
+    gatewayId: string;
+    creationDate: string;
     description: string;
 }

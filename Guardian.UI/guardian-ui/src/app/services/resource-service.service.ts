@@ -13,10 +13,10 @@ import { AddGatewayItem } from '../interfaces/add-gateway-item.interface';
 export class ResourceService {
   constructor(private http: HttpClient) {}
 
-  getGateways(): Observable<ApiGatewayTableItem[]> {
+  getGateways(): Observable<ApiGatewayItem[]> {
     return this.http
-      .get<ApiGatewayTableItem[]>('https://localhost:5003/gateways')
-      .pipe(map((response) => response['gateways'] as ApiGatewayTableItem[]));
+      .get<ApiGatewayItem[]>('https://localhost:5003/gateways')
+      .pipe(map((response) => response['gateways'] as ApiGatewayItem[]));
   }
 
   getGateway(gatewayId: string): Observable<ApiGatewayItem> {

@@ -7,5 +7,4 @@ export interface ApiGatewayItem {
     creationDate: string,
     description: string,
     domain: string,
-    segments: ApiGatewaySegment[]
 }
