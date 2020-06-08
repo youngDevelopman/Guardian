@@ -20,6 +20,23 @@ namespace Guardian.ResourceService.Services
             _resourceCollection = mongoDatabase.GetCollection<Resource>("resources");
         }
 
+        /// <inheritdoc/>
+        public async Task<List<GatewayShortInfo>> GetGateways()
+        {
+            var filter = Builders<Resource>.Filter.Empty;
+            var projection = Builders<Resource>.Projection.Expression(p =>
+                new GatewayShortInfo { Name = p.Name, CreationDate = p.CreationDate, Description = p.Description, GatewayId = p.Id });
+            var options = new FindOptions<Resource, GatewayShortInfo>();
+            options.Projection = projection;
+
+            var cursor = await _resourceCollection.FindAsync(filter, options);
+
+            var resourceList = await cursor.ToListAsync();
+
+            return resourceList;
+        }
+
+        /// <inheritdoc/>
         public async  Task<GetGatewayResponse> GetGateway(string gatewayId)
         {
             var filter = Builders<Resource>.Filter.Eq(x => x.Id, gatewayId);
@@ -40,62 +57,13 @@ namespace Guardian.ResourceService.Services
             return response;
         }
 
-        public async Task<GetGatewaysResponse> GetGateways()
-        {
-            var filter = Builders<Resource>.Filter.Empty;
-            var projection = Builders<Resource>.Projection.Expression(p => 
-                new GatewayShortInfo { Name = p.Name, CreationDate = p.CreationDate, Description = p.Description, GatewayId = p.Id });
-            var options = new FindOptions<Resource, GatewayShortInfo>();
-            options.Projection = projection;
-
-            var cursor = await _resourceCollection.FindAsync(filter, options);
-
-            var resourceList = await cursor.ToListAsync();
-
-            var response = new GetGatewaysResponse()
-            {
-                Gateways = resourceList
-            };
-
-            return response;
-        }
-
-        public async Task<GetResourceResponse> GetResource(GetResourceRequest request)
-        {
-            // Split user requested url by shashes into array of segments.
-            var segments = request.RelativePath.Split('/')
-                .Select(x => string.Concat('/', x))
-                .ToList();
-
-            var filter = Builders<Resource>.Filter.Eq(x => x.Domain, request.Domain);
-
-            var cursor = await _resourceCollection.FindAsync<Resource>(filter);
-
-            var resourceList = await cursor.ToListAsync();
-
-            var resource = resourceList.FirstOrDefault();
-            
-            var urlTreeSearch = new UrlTreeSearch();
-
-            Destination destination = urlTreeSearch.GenerateProxyDestination(resource.Segments, segments);
-
-            var resourceServiceResponse = new GetResourceResponse()
-            {
-                UserPoolId = Guid.NewGuid(),
-                IsAuthenticationRequired = destination.RequiresAuthentication,
-                IsProxyDefined = true,
-                SourceUrl = request.Domain + request.RelativePath,
-                ProxyUrl = destination.FullPath
-            };
-
-            return resourceServiceResponse;
-        }
-
+        /// <inheritdoc/>
         public async Task AddGateway(Resource resource)
         {
             await _resourceCollection.InsertOneAsync(resource);
         }
 
+        /// <inheritdoc/>
         public async Task<bool> UpdateGateway(Resource resource)
         {
             var filter = Builders<Resource>.Filter.Eq(x => x.Id, resource.Id);
@@ -115,6 +83,7 @@ namespace Guardian.ResourceService.Services
             return true;
         }
 
+        /// <inheritdoc/>
         public async Task<bool> AddGatewaySegments(string gatewayId, List<ResourceSegment> segments)
         {
             var filter = Builders<Resource>.Filter.Eq(x => x.Id, gatewayId);
@@ -131,6 +100,7 @@ namespace Guardian.ResourceService.Services
             return true;
         }
 
+        /// <inheritdoc/>
         public async Task<Resource> AddRootSegment(string gatewayId, ResourceSegment resource)
         {
 
@@ -143,6 +113,7 @@ namespace Guardian.ResourceService.Services
             return result.Gateway;
         }
 
+        /// <inheritdoc/>
         public async Task<Resource> AddChildSegment(string gatewayId, string parentSegmentId, ResourceSegment segment)
         {
             var response = await this.GetGateway(gatewayId);
@@ -156,7 +127,7 @@ namespace Guardian.ResourceService.Services
             return gateway;
         }
 
-
+        /// <inheritdoc/>
         public async Task<Resource> UpdateSegment(string gatewayId, ResourceSegment segment)
         {
             var response = await this.GetGateway(gatewayId);
@@ -168,6 +139,7 @@ namespace Guardian.ResourceService.Services
             return gateway;
         }
 
+        /// <inheritdoc/>
         public async  Task<bool> DeleteGateway(string gatewayId)
         {
             var filter = Builders<Resource>.Filter.Eq(x => x.Id, gatewayId);
@@ -175,6 +147,7 @@ namespace Guardian.ResourceService.Services
             return result.IsAcknowledged;
         }
 
+        /// <inheritdoc/>
         public async Task<Resource> DeleteSegment(string gatewayId, string segmentId)
         {
             var response = await this.GetGateway(gatewayId);
@@ -188,6 +161,16 @@ namespace Guardian.ResourceService.Services
             return gateway;
         }
 
+
+
+        /// <summary>
+        /// Loop throught every root segment and pass each to the FindSegementById function
+        /// If segment with certain id found then BasePath, RequiresAuthentication and ResourceName will be changed
+        /// to the correspondent values of segment
+        /// </summary>
+        /// <param name="segment">Segment to update.</param>
+        /// <param name="resourceSegments">List of segment to search within.</param>
+        /// <returns>List of resource segments with updated segment.</returns>
         private List<ResourceSegment> UpdateSegment(ResourceSegment segment, List<ResourceSegment> resourceSegments)
         {
             foreach (var resourceSegment in resourceSegments)
@@ -205,6 +188,15 @@ namespace Guardian.ResourceService.Services
             return resourceSegments;
         }
 
+        // Loop throught every root segment and pass each to the FindSegementById function
+        /// <summary>
+        /// Loop throught every root segment and pass each to the FindSegementById function along with parent id.
+        /// If segment with certain id found then segmentToAdd object will be added to the array object of parent id.
+        /// </summary>
+        /// <param name="parentId">Parent Id.</param>
+        /// <param name="segmentToAdd">Segment to add.</param>
+        /// <param name="resourceSegments">ist of segment to search within.</param>
+        /// <returns>List of resource segments with updated segment.</returns>
         private List<ResourceSegment> AddSegmentToParent(string parentId, ResourceSegment segmentToAdd, List<ResourceSegment> resourceSegments)
         {
             foreach (var rootSegment in resourceSegments) 
@@ -220,6 +212,12 @@ namespace Guardian.ResourceService.Services
             return resourceSegments;
         }
 
+        /// <summary>
+        /// Recursively searches for the segment with segment id equals to passed segment id. 
+        /// </summary>
+        /// <param name="segmentId">Segment Id.</param>
+        /// <param name="resourceSegment">Resource Segment to search within.</param>
+        /// <returns>Resource segment.</returns>
         private ResourceSegment FindSegementById(string segmentId, ResourceSegment resourceSegment)
         {
             if(resourceSegment.SegmentId == segmentId)
@@ -239,6 +237,13 @@ namespace Guardian.ResourceService.Services
             return null;
         }
 
+
+        /// <summary>
+        /// Loop throught every root segment and pass each segment to the DeleteSegmentById function
+        /// </summary>
+        /// <param name="segmentId">Segment id to search for.</param>
+        /// <param name="resourceSegments">List of resource segments.</param>
+        /// <returns>List of resource segments with deleted segmnent.</returns>
         private List<ResourceSegment> DeleteSegment(string segmentId, List<ResourceSegment> resourceSegments)
         {
             foreach (var rootSegment in resourceSegments)
@@ -253,6 +258,13 @@ namespace Guardian.ResourceService.Services
             return resourceSegments;
         }
 
+        /// <summary>
+        /// Recursively searches using DFS and deletes the segment. Also, Recursively passes the parent segments.
+        /// </summary>
+        /// <param name="segmentId">Segment id to look for.</param>
+        /// <param name="resourceSegment">Resource segment to search within.</param>
+        /// <param name="parentSegments">Parent Segments.</param>
+        /// <returns>Deleted resource segment.</returns>
         private ResourceSegment DeleteSegmentById(string segmentId, ResourceSegment resourceSegment, List<ResourceSegment> parentSegments)
         {
             if(resourceSegment.SegmentId == segmentId)

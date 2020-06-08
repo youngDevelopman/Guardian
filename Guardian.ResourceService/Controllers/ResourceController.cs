@@ -14,16 +14,16 @@ namespace Guardian.ResourceService.Controllers
     [Route("[controller]")]
     public class ResourcesController : ControllerBase
     {
-        private readonly IResourceService _resourceService;
-        public ResourcesController(IResourceService resourceService)
+        private readonly IProxyService _proxyService;
+        public ResourcesController(IProxyService proxyService)
         {
-            _resourceService = resourceService;
+            _proxyService = proxyService;
         }
 
         [HttpPost]
         public async Task<IActionResult> GetResource(GetResourceRequest request)
         {
-            var proxy = await _resourceService.GetResource(request);
+            var proxy = await _proxyService.GenerateProxy(request.Domain, request.RelativePath);
 
             if(proxy == null)
             {
