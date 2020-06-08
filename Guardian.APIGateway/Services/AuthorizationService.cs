@@ -1,4 +1,5 @@
 ﻿using Guardian.Shared.Models;
+using Guardian.Shared.Models.AuthorizationService.Request;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Text;

@@ -63,18 +63,14 @@ export class GatewayComponent implements OnInit, AfterViewInit {
   }
 
   saveSettings(nodeSettings: ApiGatewaySegment) {
-    let foundNode: ApiGatewaySegment = this.getNodeById(nodeSettings.segmentId);
-    foundNode.resourceName = nodeSettings.resourceName;
-    foundNode.basePath = nodeSettings.basePath;
-    foundNode.requiresAuthentication = nodeSettings.requiresAuthentication;
-    this.resourceService.updateGateway(this.gateway).subscribe();
-    this.selectedSegment = foundNode;
+    const segmentId = nodeSettings.segmentId;
+    const segmentToUpdate = {
+      resourceName: nodeSettings.resourceName,
+      basePath: nodeSettings.basePath,
+      requiresAuthentication: nodeSettings.requiresAuthentication
+    } 
+    this.resourceService.updateSegment(this.gatewayId,segmentId, segmentToUpdate).subscribe();
     this.openSnackBar('Settings are saved', 'Close');
-  }
-
-  addRootSegment(rootSegment: ApiGatewaySegment){
-    this.gateway.segments.push(rootSegment);
-    this.resourceService.updateGateway(this.gateway).subscribe();
     location.reload();
   }
 
@@ -145,12 +141,17 @@ export class GatewayComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe(
       data => {
         const outputData = data as AddSegmentDialogOutputData
-        console.log("Dialog output:", outputData); 
+        console.log("Dialog output:", outputData);
+        const segmentToAdd = {
+          resourceName: outputData.segment.resourceName,
+          basePath: outputData.segment.basePath,
+          requiresAuthentication: outputData.segment.requiresAuthentication
+        } 
         if(outputData.isChildSegmentToAdd){
-          this.resourceService.addChildSegment(this.gateway.id, outputData.parentId, outputData.segment).subscribe();
+          this.resourceService.addChildSegment(this.gateway.id, outputData.parentId, segmentToAdd).subscribe();
         }
         else{
-          this.resourceService.addRootSegment(this.gateway.id, outputData.segment).subscribe();
+          this.resourceService.addRootSegment(this.gateway.id, segmentToAdd).subscribe();
         }
         location.reload();
       }

@@ -1,5 +1,6 @@
 ﻿using Guardian.APIGateway.Services;
 using Guardian.Shared.Models;
+using Guardian.Shared.Models.AuthorizationService.Request;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Threading.Tasks;
